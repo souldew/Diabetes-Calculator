@@ -6,6 +6,7 @@ import { Heading } from "@chakra-ui/react";
 import { Container } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import Header from "./components/Header";
+import RestOfItems from "./components/RestOfItems";
 
 const pageTitle = "薬計算ツール";
 
@@ -13,6 +14,7 @@ export default function Page() {
   return (
     <>
       <Header title={pageTitle} />
+      <RestOfItems />
     </>
   );
 }
