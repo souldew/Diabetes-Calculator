@@ -1,5 +1,6 @@
 import { Box, Center, Container, Flex, Heading } from "@chakra-ui/react";
-
+import { Icon, SettingsIcon } from "@chakra-ui/icons";
+import DrawerSettings from "./DrawerSettings";
 type Props = {
   title: string;
 };
@@ -14,11 +15,10 @@ export default function Header({ title }: Props) {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Center>
-            <Heading as="h1" fontSize="2xl" cursor="pointer">
-              {title}
-            </Heading>
-          </Center>
+          <Heading as="h1" fontSize="2xl" cursor="pointer">
+            {title}
+          </Heading>
+          <DrawerSettings />
         </Flex>
       </Container>
     </Box>
