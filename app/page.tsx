@@ -1,25 +1,18 @@
 // app/page.tsx
-'use client'
-import { Link } from '@chakra-ui/next-js'
+"use client";
+import { Link } from "@chakra-ui/next-js";
+import { Input } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import Header from "./components/Header";
+
+const pageTitle = "薬計算ツール";
 
 export default function Page() {
   return (
     <>
-    <Link href='/about' color='blue.400' _hover={{ color: 'blue.500' }}>
-      About
-    </Link>
-    <br/>
-    <Link href='/me' color='blue.400' _hover={{ color: 'blue.500' }}>
-      Me
-    </Link>
-    <br/>
-    <Link href='/lunch' color='blue.400' _hover={{ color: 'blue.500' }}>
-      Lunch
-    </Link>
-    <br/>
-    <Link href='/dinner' color='blue.400' _hover={{ color: 'blue.500' }}>
-      Dinner
-    </Link>
+      <Header title={pageTitle} />
     </>
-  )
+  );
 }

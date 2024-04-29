@@ -17,11 +17,12 @@ type Item = {
 };
 
 type Props = {
-  data: Item[];
+  foo: Item[];
+  hoge: string;
 };
 
 
-  export default function MyTable({ data }: Props) {
+  export default function MyTable(data: Props) {
     return (
         <>
         <TableContainer>
@@ -36,7 +37,7 @@ type Props = {
     </Thead>
     <Tbody>
         {
-            data.map((item) => {
+            data.foo.map((item) => {
                 return (
                     <>
                         <Tr>
@@ -51,6 +52,7 @@ type Props = {
     </Tbody>
   </Table>
 </TableContainer>
+        <div>{data.hoge}</div>
         </>
     );
   }
