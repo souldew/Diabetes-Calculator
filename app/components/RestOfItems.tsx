@@ -3,7 +3,7 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
-import { PRESCRIPTION_ITEMS } from "../constants/Constants";
+import { INSULIN_NUMS, PRESCRIPTION_ITEMS } from "../constants/Constants";
 import {
   NumberInput,
   NumberInputField,
@@ -26,7 +26,7 @@ export default function RestOfItems() {
         </Heading>
       </Center>
       <SimpleGrid columns={2}>
-        {PRESCRIPTION_ITEMS.map((item) => {
+        {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS].map((item) => {
           return (
             <>
               <Text className={styles.paddingTop10px}>{item}</Text>

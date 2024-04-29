@@ -1,5 +1,5 @@
 import { Center, Heading } from "@chakra-ui/react";
-import { PRESCRIPTION_ITEMS } from "../constants/Constants";
+import { INSULIN_NUMS, PRESCRIPTION_ITEMS } from "../constants/Constants";
 import {
   Table,
   Thead,
@@ -38,7 +38,7 @@ export default function ResultTable({ title, columnsName }: Props) {
             </Tr>
           </Thead>
           <Tbody>
-            {PRESCRIPTION_ITEMS.map((item) => {
+            {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS].map((item) => {
               return (
                 <>
                   <Tr>
