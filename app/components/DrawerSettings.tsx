@@ -1,4 +1,4 @@
-import { Box, Center, Container, Flex, Heading } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import { Icon, SettingsIcon } from "@chakra-ui/icons";
 import {
   Drawer,
@@ -11,33 +11,16 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import React from "react";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
-import { Input } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
-import {
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-} from "@chakra-ui/react";
-import {
-  PRESCRIPTION_ITEMS,
-  INSULIN_NUMS,
-  INSULIN_UNITS,
-} from "../constants/Constants";
+import { NumberInput, NumberInputField } from "@chakra-ui/react";
+import { PRESCRIPTION_ITEMS, INSULIN_UNITS } from "../constants/Constants";
 import styles from "./DrawserSettings.module.css";
-
-// type Props = {
-//   title: string;
-// };
 
 export default function DrawerSettings() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
   const timePeriodProperties = ["朝", "昼", "夜"];
-  const properties = ["即効インスリン (単位)", "持続インスリン (単位)"];
 
   return (
     <>
@@ -50,7 +33,7 @@ export default function DrawerSettings() {
 
           <DrawerBody>
             <Heading>インスリン1日消費量</Heading>
-            {properties.map((property) => {
+            {INSULIN_UNITS.map((property) => {
               return (
                 <>
                   <Heading size="md">{property}</Heading>

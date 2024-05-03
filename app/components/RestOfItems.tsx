@@ -1,21 +1,9 @@
-import { Box, Center, Container, Flex, Heading } from "@chakra-ui/react";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Center, Heading } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
-import { Input } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { INSULIN_NUMS, PRESCRIPTION_ITEMS } from "../constants/Constants";
-import {
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-} from "@chakra-ui/react";
+import { NumberInput, NumberInputField } from "@chakra-ui/react";
 import styles from "./RestOfItems.module.css";
-
-type Props = {
-  title: string;
-};
 
 export default function RestOfItems() {
   return (
@@ -29,8 +17,8 @@ export default function RestOfItems() {
         {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS].map((item) => {
           return (
             <>
-              <Text className={styles.paddingTop10px}>{item}</Text>
-              <NumberInput className={styles.paddingTop10px}>
+              <Text className={styles.padding10px}>{item}</Text>
+              <NumberInput className={styles.padding10px}>
                 <NumberInputField></NumberInputField>
               </NumberInput>
             </>
