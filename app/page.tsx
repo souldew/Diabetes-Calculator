@@ -1,10 +1,5 @@
 // app/page.tsx
 "use client";
-import { Link } from "@chakra-ui/next-js";
-import { Input } from "@chakra-ui/react";
-import { Heading } from "@chakra-ui/react";
-import { Container } from "@chakra-ui/react";
-import { Box } from "@chakra-ui/react";
 import Header from "./components/Header";
 import RestOfItems from "./components/RestOfItems";
 import ResultTable from "./components/ResultTable";

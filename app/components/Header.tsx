@@ -1,6 +1,6 @@
-import { Box, Center, Container, Flex, Heading } from "@chakra-ui/react";
-import { Icon, SettingsIcon } from "@chakra-ui/icons";
+import { Box, Container, Flex, Heading } from "@chakra-ui/react";
 import DrawerSettings from "./DrawerSettings";
+
 type Props = {
   title: string;
 };
