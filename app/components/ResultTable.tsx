@@ -13,10 +13,15 @@ import {
 type Props = {
   title: string;
   columnsName: string[];
+  isCalculateDone: boolean;
 };
 
-export default function ResultTable({ title, columnsName }: Props) {
-  return (
+export default function ResultTable({
+  title,
+  columnsName,
+  isCalculateDone,
+}: Props) {
+  return isCalculateDone ? (
     <>
       <Center>
         <Heading as="h1" fontSize="2xl" cursor="pointer">
@@ -53,5 +58,7 @@ export default function ResultTable({ title, columnsName }: Props) {
         </Table>
       </TableContainer>
     </>
+  ) : (
+    <></>
   );
 }
