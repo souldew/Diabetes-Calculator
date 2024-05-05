@@ -34,14 +34,13 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
   const timePeriodProperties = ["朝", "昼", "夜"];
   const { calculateSettings, setCalculateSettings } = calculateStateSettings;
 
-  const consumeInsulinProperties2: ("morning" | "noon" | "night")[] = [
+  const timePeriodEnum: ("morning" | "noon" | "night")[] = [
     "morning",
     "noon",
     "night",
   ];
-  const consumeInsulinProperties3: ("fast" | "long")[] = ["fast", "long"];
 
-  const aaaaa: {
+  const insulinTypes: {
     unit: string;
     type: "fast" | "long";
   }[] = [
@@ -60,10 +59,10 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
 
           <DrawerBody>
             <Heading>インスリン1日消費量</Heading>
-            {aaaaa.map((key) => {
+            {insulinTypes.map((insulinType) => {
               return (
                 <>
-                  <Heading size="md">{key.unit}</Heading>
+                  <Heading size="md">{insulinType.unit}</Heading>
                   <SimpleGrid columns={3}>
                     {timePeriodProperties.map((p) => {
                       return (
@@ -72,19 +71,21 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                         </>
                       );
                     })}
-                    {consumeInsulinProperties2.map((key2) => {
+                    {timePeriodEnum.map((timePeriod) => {
                       return (
                         <>
                           <NumberInput
                             className={styles.padding10px}
                             value={
-                              calculateSettings.consume.insulin[key.type][key2]
+                              calculateSettings.consume.insulin[
+                                insulinType.type
+                              ][timePeriod]
                             }
                             onChange={(e) =>
                               setCalculateSettingsWrapper(
                                 calculateSettings,
                                 setCalculateSettings,
-                                `consume.insulin.${key.type}.${key2}`,
+                                `consume.insulin.${insulinType.type}.${timePeriod}`,
                                 e as unknown as number
                               )
                             }
