@@ -1,4 +1,4 @@
-import { Heading } from "@chakra-ui/react";
+import { Heading, IconButton } from "@chakra-ui/react";
 import { Icon, SettingsIcon } from "@chakra-ui/icons";
 import {
   Drawer,
@@ -73,7 +73,11 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
 
   return (
     <>
-      <Icon as={SettingsIcon} boxSize={6} onClick={onOpen} />
+      <IconButton
+        aria-label=""
+        icon={<SettingsIcon boxSize={6} />}
+        onClick={onOpen}
+      />
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={"full"}>
         <DrawerOverlay />
         <DrawerContent>
