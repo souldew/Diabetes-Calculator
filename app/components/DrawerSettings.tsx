@@ -17,10 +17,8 @@ import { Text } from "@chakra-ui/react";
 import { NumberInput, NumberInputField } from "@chakra-ui/react";
 import { PRESCRIPTION_ITEMS, INSULIN_UNITS } from "../constants/Constants";
 import styles from "./DrawserSettings.module.css";
-import { useState } from "react";
 import { CalculateSettings } from "./types/types";
 import { Dispatch, SetStateAction } from "react";
-import { Kranky } from "next/font/google";
 
 type Props = {
   calculateStateSettings: {
@@ -144,9 +142,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
 
             <Heading>1日使用量</Heading>
             <SimpleGrid columns={2}>
-              {/* {PRESCRIPTION_ITEMS.map((item) => { */}
               {recievedTypes.map((recievedType) => {
-                // console.log("aa" + recievedType.type);
                 return (
                   <>
                     <Text className={styles.padding10px}>
