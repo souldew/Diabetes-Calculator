@@ -48,6 +48,31 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
     { unit: INSULIN_UNITS[1], type: "long" },
   ];
 
+  const recievedTypes: {
+    prescription: string;
+    type: "alcohol" | "glucoseNeedle" | "LFS" | "insulinNeedle";
+  }[] = [
+    { prescription: PRESCRIPTION_ITEMS[0], type: "alcohol" },
+    { prescription: PRESCRIPTION_ITEMS[1], type: "glucoseNeedle" },
+    { prescription: PRESCRIPTION_ITEMS[2], type: "LFS" },
+    { prescription: PRESCRIPTION_ITEMS[3], type: "insulinNeedle" },
+  ];
+
+  const recievedMinumunUnitTypes: {
+    prescription: string;
+    type:
+      | "alcohol"
+      | "glucoseNeedle"
+      | "LFS"
+      | "insulinNeedle"
+      | "fastActingInsulin"
+      | "longActingInsulin";
+  }[] = [
+    ...recievedTypes,
+    { prescription: INSULIN_UNITS[0], type: "fastActingInsulin" },
+    { prescription: INSULIN_UNITS[1], type: "longActingInsulin" },
+  ];
+
   return (
     <>
       <Icon as={SettingsIcon} boxSize={6} onClick={onOpen} />
@@ -119,11 +144,26 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
 
             <Heading>1日使用量</Heading>
             <SimpleGrid columns={2}>
-              {PRESCRIPTION_ITEMS.map((item) => {
+              {/* {PRESCRIPTION_ITEMS.map((item) => { */}
+              {recievedTypes.map((recievedType) => {
+                // console.log("aa" + recievedType.type);
                 return (
                   <>
-                    <Text className={styles.padding10px}>{item}</Text>
-                    <NumberInput className={styles.padding10px}>
+                    <Text className={styles.padding10px}>
+                      {recievedType.prescription}
+                    </Text>
+                    <NumberInput
+                      className={styles.padding10px}
+                      value={calculateSettings.consume[recievedType.type]}
+                      onChange={(e) => {
+                        setCalculateSettingsWrapper(
+                          calculateSettings,
+                          setCalculateSettings,
+                          `consume.${recievedType.type}`,
+                          e as unknown as number
+                        );
+                      }}
+                    >
                       <NumberInputField></NumberInputField>
                     </NumberInput>
                   </>
@@ -141,11 +181,24 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
 
             <Heading>最小受け取り単位</Heading>
             <SimpleGrid columns={2}>
-              {[...PRESCRIPTION_ITEMS, ...INSULIN_UNITS].map((item) => {
+              {recievedMinumunUnitTypes.map((item) => {
                 return (
                   <>
-                    <Text className={styles.padding10px}>{item}</Text>
-                    <NumberInput className={styles.padding10px}>
+                    <Text className={styles.padding10px}>
+                      {item.prescription}
+                    </Text>
+                    <NumberInput
+                      className={styles.padding10px}
+                      value={calculateSettings.recieveMinimunUnit[item.type]}
+                      onChange={(e) => {
+                        setCalculateSettingsWrapper(
+                          calculateSettings,
+                          setCalculateSettings,
+                          `recieveMinimunUnit.${item.type}`,
+                          e as unknown as number
+                        );
+                      }}
+                    >
                       <NumberInputField></NumberInputField>
                     </NumberInput>
                   </>
@@ -173,7 +226,6 @@ const setCalculateSettingsWrapper = (
   value: number
 ) => {
   const path = key.split(".");
-
   try {
     switch (path[0]) {
       case "consume":
@@ -211,16 +263,27 @@ const setCalculateSettingsWrapper = (
             }
             break;
           case "alcohol":
-            break;
           case "glucoseNeedle":
-            break;
           case "LFS":
-            break;
-          case "insulinNeedles":
+          case "insulinNeedle":
+            setCalculateSettings({
+              ...calculateSettings,
+              consume: {
+                ...calculateSettings.consume,
+                [path[1]]: value,
+              },
+            });
             break;
         }
         break;
       case "recieveMinimunUnit":
+        setCalculateSettings({
+          ...calculateSettings,
+          [path[0]]: {
+            ...calculateSettings.recieveMinimunUnit,
+            [path[1]]: value,
+          },
+        });
         break;
     }
   } catch (e) {

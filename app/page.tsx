@@ -38,7 +38,7 @@ export default function Page() {
         alcohol: 0,
         glucoseNeedle: 0,
         LFS: 0,
-        insulinNeedles: 0,
+        insulinNeedle: 0,
       },
       recieveMinimunUnit: {
         alcohol: 0,

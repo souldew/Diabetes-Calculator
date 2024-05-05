@@ -16,7 +16,7 @@ export type CalculateSettings = {
     alcohol: number;
     glucoseNeedle: number;
     LFS: number;
-    insulinNeedles: number;
+    insulinNeedle: number;
   };
   recieveMinimunUnit: {
     alcohol: number;
