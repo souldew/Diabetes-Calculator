@@ -24,7 +24,7 @@ export default function Page() {
       consume: {
         insulin: {
           fast: {
-            morning: 0,
+            morning: 100,
             noon: 0,
             night: 0,
           },
@@ -78,7 +78,7 @@ export default function Page() {
       />
       <Button
         onClick={() => {
-          console.log(calculateSettings.consume.insulin.dust);
+          console.log(calculateSettings);
         }}
       >
         aa

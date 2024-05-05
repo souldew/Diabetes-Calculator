@@ -20,6 +20,7 @@ import styles from "./DrawserSettings.module.css";
 import { useState } from "react";
 import { CalculateSettings } from "./types/types";
 import { Dispatch, SetStateAction } from "react";
+import { Kranky } from "next/font/google";
 
 type Props = {
   calculateStateSettings: {
@@ -33,12 +34,20 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
   const timePeriodProperties = ["朝", "昼", "夜"];
   const { calculateSettings, setCalculateSettings } = calculateStateSettings;
 
-  const consumeInsulinProperties2: ("morning" | "noon" | "night")[] = ["morning", "noon", "night"];
+  const consumeInsulinProperties2: ("morning" | "noon" | "night")[] = [
+    "morning",
+    "noon",
+    "night",
+  ];
+  const consumeInsulinProperties3: ("fast" | "long")[] = ["fast", "long"];
 
-  const aaaaa = {
-    [INSULIN_UNITS[0]]: "fast",
-    [INSULIN_UNITS[1]]: "long",
-  };
+  const aaaaa: {
+    unit: string;
+    type: "fast" | "long";
+  }[] = [
+    { unit: INSULIN_UNITS[0], type: "fast" },
+    { unit: INSULIN_UNITS[1], type: "long" },
+  ];
 
   return (
     <>
@@ -51,10 +60,10 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
 
           <DrawerBody>
             <Heading>インスリン1日消費量</Heading>
-            {Object.entries(aaaaa).map(([key, value]) => {
+            {aaaaa.map((key) => {
               return (
                 <>
-                  <Heading size="md">{key}</Heading>
+                  <Heading size="md">{key.unit}</Heading>
                   <SimpleGrid columns={3}>
                     {timePeriodProperties.map((p) => {
                       return (
@@ -69,20 +78,16 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                           <NumberInput
                             className={styles.padding10px}
                             value={
-                              calculateSettings.consume.insulin.fast[key2]
+                              calculateSettings.consume.insulin[key.type][key2]
                             }
-                            onChange={(e) => {
-                              setCalculateSettings({
-                                ...calculateSettings,
-                                consume: {
-                                  ...calculateSettings.consume,
-                                  insulin: {
-                                    ...calculateSettings.consume.insulin,
-                                    [key2]: e as unknown as number,
-                                  },
-                                },
-                              });
-                            }}
+                            onChange={(e) =>
+                              setCalculateSettingsWrapper(
+                                calculateSettings,
+                                setCalculateSettings,
+                                `consume.insulin.${key.type}.${key2}`,
+                                e as unknown as number
+                              )
+                            }
                           >
                             <NumberInputField></NumberInputField>
                           </NumberInput>
@@ -99,18 +104,14 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
             <NumberInput
               className={styles.padding10px}
               value={calculateSettings.consume.insulin.dust}
-              onChange={(e) => {
-                setCalculateSettings({
-                  ...calculateSettings,
-                  consume: {
-                    ...calculateSettings.consume,
-                    insulin: {
-                      ...calculateSettings.consume.insulin,
-                      dust: e as unknown as number,
-                    },
-                  },
-                });
-              }}
+              onChange={(e) =>
+                setCalculateSettingsWrapper(
+                  calculateSettings,
+                  setCalculateSettings,
+                  "consume.insulin.dust",
+                  e as unknown as number
+                )
+              }
             >
               <NumberInputField></NumberInputField>
             </NumberInput>
@@ -163,3 +164,65 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
     </>
   );
 }
+
+const setCalculateSettingsWrapper = (
+  calculateSettings: CalculateSettings,
+  setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>,
+  key: string,
+  value: number
+) => {
+  const path = key.split(".");
+
+  try {
+    switch (path[0]) {
+      case "consume":
+        switch (path[1]) {
+          case "insulin":
+            switch (path[2]) {
+              case "fast":
+              case "long":
+                setCalculateSettings({
+                  ...calculateSettings,
+                  consume: {
+                    ...calculateSettings.consume,
+                    insulin: {
+                      ...calculateSettings.consume.insulin,
+                      [path[2]]: {
+                        ...calculateSettings.consume.insulin[path[2]],
+                        [path[3]]: value,
+                      },
+                    },
+                  },
+                });
+                break;
+              case "dust":
+                setCalculateSettings({
+                  ...calculateSettings,
+                  consume: {
+                    ...calculateSettings.consume,
+                    insulin: {
+                      ...calculateSettings.consume.insulin,
+                      dust: value,
+                    },
+                  },
+                });
+                break;
+            }
+            break;
+          case "alcohol":
+            break;
+          case "glucoseNeedle":
+            break;
+          case "LFS":
+            break;
+          case "insulinNeedles":
+            break;
+        }
+        break;
+      case "recieveMinimunUnit":
+        break;
+    }
+  } catch (e) {
+    console.error("error in setCalculateSettingsWrapper: ", e);
+  }
+};
