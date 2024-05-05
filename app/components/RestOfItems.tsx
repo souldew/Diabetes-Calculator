@@ -9,7 +9,7 @@ export default function RestOfItems() {
   return (
     <>
       <Center>
-        <Heading as="h1" fontSize="2xl" cursor="pointer">
+        <Heading as="h1" fontSize="2xl">
           残数
         </Heading>
       </Center>

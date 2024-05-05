@@ -8,11 +8,11 @@ import ResultTable from "./components/ResultTable";
 import { useState } from "react";
 
 import { CalculateSettings } from "./components/types/types";
-import { Button } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 
 const pageTitle = "薬計算ツール";
 const detailTitle = "詳細必要数";
-const detailColumns = ["最低必要数", "最低数+予備"];
+const detailColumns = ["必要数", "必要数+予備"];
 const recievedTitle = "もらう量";
 const recievedColumns = ["正確量", "概量"];
 
@@ -76,13 +76,15 @@ export default function Page() {
         columnsName={recievedColumns}
         isCalculateDone={isCalculateDone}
       />
-      <Button
-        onClick={() => {
-          console.log(calculateSettings);
-        }}
-      >
-        aa
-      </Button>
+      <Flex justify={"right"} mr={"3%"} my={"10px"}>
+        <Button
+          onClick={() => {
+            console.log(calculateSettings);
+          }}
+        >
+          aa
+        </Button>
+      </Flex>
     </>
   );
 }

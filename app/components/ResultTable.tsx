@@ -24,7 +24,7 @@ export default function ResultTable({
   return isCalculateDone ? (
     <>
       <Center>
-        <Heading as="h1" fontSize="2xl" cursor="pointer">
+        <Heading as="h1" fontSize="2xl">
           {title}
         </Heading>
       </Center>

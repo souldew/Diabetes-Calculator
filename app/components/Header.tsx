@@ -19,11 +19,11 @@ export default function Header({ title, calculateStateSettings }: Props) {
       <Container maxW="container.lg">
         <Flex
           as="header"
-          py="4"
+          py={2}
           justifyContent="space-between"
           alignItems="center"
         >
-          <Heading as="h1" fontSize="2xl" cursor="pointer">
+          <Heading as="h1" fontSize="2xl">
             {title}
           </Heading>
           <DrawerSettings calculateStateSettings={calculateStateSettings} />
