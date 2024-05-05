@@ -33,6 +33,8 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
   const timePeriodProperties = ["朝", "昼", "夜"];
   const { calculateSettings, setCalculateSettings } = calculateStateSettings;
 
+  const consumeInsulinProperties2: ("morning" | "noon" | "night")[] = ["morning", "noon", "night"];
+
   const aaaaa = {
     [INSULIN_UNITS[0]]: "fast",
     [INSULIN_UNITS[1]]: "long",
@@ -61,15 +63,13 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                         </>
                       );
                     })}
-                    {["morning", "noon", "night"].map((key2) => {
+                    {consumeInsulinProperties2.map((key2) => {
                       return (
                         <>
                           <NumberInput
                             className={styles.padding10px}
                             value={
-                              value == "fast"
-                                ? calculateSettings.consume.insulin.fast[key2]
-                                : calculateSettings.consume.insulin.long[key2]
+                              calculateSettings.consume.insulin.fast[key2]
                             }
                             onChange={(e) => {
                               setCalculateSettings({
