@@ -85,6 +85,25 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
           <DrawerHeader>設定</DrawerHeader>
 
           <DrawerBody>
+            <Heading>予備日数</Heading>
+            <NumberInput
+              p={"10px"}
+              min={0}
+              isValidCharacter={(v) => {
+                return /^[0-9]*$/.test(v);
+              }}
+              value={calculateSettings.reserveDays}
+              onChange={(e) => {
+                calculateStateSettings.calculateSettings.reserveDays =
+                  Number.isNaN(e) ? parseInt(e) : undefined;
+
+                calculateStateSettings.setCalculateSettings({
+                  ...calculateStateSettings.calculateSettings,
+                });
+              }}
+            >
+              <NumberInputField></NumberInputField>
+            </NumberInput>
             <Heading>インスリン1日消費量</Heading>
             {insulinTypes.map((insulinType) => {
               return (

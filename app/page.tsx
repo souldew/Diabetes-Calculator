@@ -48,6 +48,7 @@ export default function Page() {
         fastActingInsulin: 0,
         longActingInsulin: 0,
       },
+      reserveDays: 0,
     }
   );
 

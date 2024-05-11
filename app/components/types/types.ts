@@ -2,28 +2,29 @@ export type CalculateSettings = {
   consume: {
     insulin: {
       fast: {
-        morning: number;
-        noon: number;
-        night: number;
+        morning: number | undefined;
+        noon: number | undefined;
+        night: number | undefined;
       };
       long: {
-        morning: number;
-        noon: number;
-        night: number;
+        morning: number | undefined;
+        noon: number | undefined;
+        night: number | undefined;
       };
-      dust: number;
+      dust: number | undefined;
     };
-    alcohol: number;
-    glucoseNeedle: number;
-    LFS: number;
-    insulinNeedle: number;
+    alcohol: number | undefined;
+    glucoseNeedle: number | undefined;
+    LFS: number | undefined;
+    insulinNeedle: number | undefined;
   };
   recieveMinimunUnit: {
-    alcohol: number;
-    glucoseNeedle: number;
-    LFS: number;
-    insulinNeedle: number;
-    fastActingInsulin: number;
-    longActingInsulin: number;
+    alcohol: number | undefined;
+    glucoseNeedle: number | undefined;
+    LFS: number | undefined;
+    insulinNeedle: number | undefined;
+    fastActingInsulin: number | undefined;
+    longActingInsulin: number | undefined;
   };
+  reserveDays: number | undefined;
 };
