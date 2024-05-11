@@ -1,5 +1,5 @@
 import { Heading, IconButton } from "@chakra-ui/react";
-import { Icon, SettingsIcon } from "@chakra-ui/icons";
+import { SettingsIcon } from "@chakra-ui/icons";
 import {
   Drawer,
   DrawerBody,
@@ -14,11 +14,11 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
-import { NumberInput, NumberInputField } from "@chakra-ui/react";
 import { PRESCRIPTION_ITEMS, INSULIN_UNITS } from "../constants/Constants";
 import styles from "./DrawserSettings.module.css";
 import { CalculateSettings } from "./types/types";
 import { Dispatch, SetStateAction } from "react";
+import CreateNumberField from "./CreateNumberField";
 
 type Props = {
   calculateStateSettings: {
@@ -30,7 +30,6 @@ type Props = {
 export default function DrawerSettings({ calculateStateSettings }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const timePeriodProperties = ["朝", "昼", "夜"];
-  const { calculateSettings, setCalculateSettings } = calculateStateSettings;
 
   const timePeriodEnum: ("morning" | "noon" | "night")[] = [
     "morning",
@@ -86,114 +85,62 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
 
           <DrawerBody>
             <Heading>予備日数</Heading>
-            <NumberInput
-              p={"10px"}
-              min={0}
-              isValidCharacter={(v) => {
-                return /^[0-9]*$/.test(v);
-              }}
-              value={calculateSettings.reserveDays}
-              onChange={(e) => {
-                calculateStateSettings.calculateSettings.reserveDays =
-                  Number.isNaN(e) ? parseInt(e) : undefined;
-
-                calculateStateSettings.setCalculateSettings({
-                  ...calculateStateSettings.calculateSettings,
-                });
-              }}
-            >
-              <NumberInputField></NumberInputField>
-            </NumberInput>
+            <CreateNumberField
+              calculateStateSettings={calculateStateSettings}
+              name={"reserveDays"}
+            />
             <Heading>インスリン1日消費量</Heading>
             {insulinTypes.map((insulinType) => {
               return (
-                <>
+                <React.Fragment key={insulinType.type}>
                   <Heading size="md">{insulinType.unit}</Heading>
                   <SimpleGrid columns={3}>
                     {timePeriodProperties.map((p) => {
-                      return (
-                        <>
-                          <Text>{p}</Text>
-                        </>
-                      );
+                      return <Text key={p}>{p}</Text>;
                     })}
                     {timePeriodEnum.map((timePeriod) => {
                       return (
-                        <>
-                          <NumberInput
-                            className={styles.padding10px}
-                            value={
-                              calculateSettings.consume.insulin[
-                                insulinType.type
-                              ][timePeriod]
-                            }
-                            onChange={(e) =>
-                              setCalculateSettingsWrapper(
-                                calculateSettings,
-                                setCalculateSettings,
-                                `consume.insulin.${insulinType.type}.${timePeriod}`,
-                                e as unknown as number
-                              )
-                            }
-                          >
-                            <NumberInputField></NumberInputField>
-                          </NumberInput>
-                        </>
+                        <React.Fragment key={timePeriod}>
+                          <CreateNumberField
+                            calculateStateSettings={calculateStateSettings}
+                            name={`consume.insulin.${insulinType.type}.${timePeriod}`}
+                          />
+                        </React.Fragment>
                       );
                     })}
                   </SimpleGrid>
-                </>
+                </React.Fragment>
               );
             })}
             <Heading size="md" className={styles.padding10px}>
               捨てる量
             </Heading>
-            <NumberInput
-              className={styles.padding10px}
-              value={calculateSettings.consume.insulin.dust}
-              onChange={(e) =>
-                setCalculateSettingsWrapper(
-                  calculateSettings,
-                  setCalculateSettings,
-                  "consume.insulin.dust",
-                  e as unknown as number
-                )
-              }
-            >
-              <NumberInputField></NumberInputField>
-            </NumberInput>
+            <CreateNumberField
+              calculateStateSettings={calculateStateSettings}
+              name={`consume.insulin.dust`}
+            />
 
             <Heading>1日使用量</Heading>
             <SimpleGrid columns={2}>
               {recievedTypes.map((recievedType) => {
                 return (
-                  <>
+                  <React.Fragment key={recievedType.type}>
                     <Text className={styles.padding10px}>
                       {recievedType.prescription}
                     </Text>
-                    <NumberInput
-                      className={styles.padding10px}
-                      value={calculateSettings.consume[recievedType.type]}
-                      onChange={(e) => {
-                        setCalculateSettingsWrapper(
-                          calculateSettings,
-                          setCalculateSettings,
-                          `consume.${recievedType.type}`,
-                          e as unknown as number
-                        );
-                      }}
-                    >
-                      <NumberInputField></NumberInputField>
-                    </NumberInput>
-                  </>
+                    <CreateNumberField
+                      calculateStateSettings={calculateStateSettings}
+                      name={`consume.${recievedType.type}`}
+                    />
+                  </React.Fragment>
                 );
               })}
               {INSULIN_UNITS.map((item) => {
                 return (
-                  <>
+                  <React.Fragment key={item}>
                     <Text className={styles.padding10px}>{item}</Text>
                     <Text className={styles.padding10px}>0</Text>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </SimpleGrid>
@@ -202,25 +149,15 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
             <SimpleGrid columns={2}>
               {recievedMinumunUnitTypes.map((item) => {
                 return (
-                  <>
+                  <React.Fragment key={item.type}>
                     <Text className={styles.padding10px}>
                       {item.prescription}
                     </Text>
-                    <NumberInput
-                      className={styles.padding10px}
-                      value={calculateSettings.recieveMinimunUnit[item.type]}
-                      onChange={(e) => {
-                        setCalculateSettingsWrapper(
-                          calculateSettings,
-                          setCalculateSettings,
-                          `recieveMinimunUnit.${item.type}`,
-                          e as unknown as number
-                        );
-                      }}
-                    >
-                      <NumberInputField></NumberInputField>
-                    </NumberInput>
-                  </>
+                    <CreateNumberField
+                      calculateStateSettings={calculateStateSettings}
+                      name={`recieveMinimunUnit.${item.type}`}
+                    />
+                  </React.Fragment>
                 );
               })}
             </SimpleGrid>
@@ -237,75 +174,3 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
     </>
   );
 }
-
-const setCalculateSettingsWrapper = (
-  calculateSettings: CalculateSettings,
-  setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>,
-  key: string,
-  value: number
-) => {
-  const path = key.split(".");
-  try {
-    switch (path[0]) {
-      case "consume":
-        switch (path[1]) {
-          case "insulin":
-            switch (path[2]) {
-              case "fast":
-              case "long":
-                setCalculateSettings({
-                  ...calculateSettings,
-                  consume: {
-                    ...calculateSettings.consume,
-                    insulin: {
-                      ...calculateSettings.consume.insulin,
-                      [path[2]]: {
-                        ...calculateSettings.consume.insulin[path[2]],
-                        [path[3]]: value,
-                      },
-                    },
-                  },
-                });
-                break;
-              case "dust":
-                setCalculateSettings({
-                  ...calculateSettings,
-                  consume: {
-                    ...calculateSettings.consume,
-                    insulin: {
-                      ...calculateSettings.consume.insulin,
-                      dust: value,
-                    },
-                  },
-                });
-                break;
-            }
-            break;
-          case "alcohol":
-          case "glucoseNeedle":
-          case "LFS":
-          case "insulinNeedle":
-            setCalculateSettings({
-              ...calculateSettings,
-              consume: {
-                ...calculateSettings.consume,
-                [path[1]]: value,
-              },
-            });
-            break;
-        }
-        break;
-      case "recieveMinimunUnit":
-        setCalculateSettings({
-          ...calculateSettings,
-          [path[0]]: {
-            ...calculateSettings.recieveMinimunUnit,
-            [path[1]]: value,
-          },
-        });
-        break;
-    }
-  } catch (e) {
-    console.error("error in setCalculateSettingsWrapper: ", e);
-  }
-};

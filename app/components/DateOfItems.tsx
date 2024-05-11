@@ -7,19 +7,15 @@ export default function DateOfItems() {
   return (
     <Box mx={"10px"}>
       <SimpleGrid columns={2} spacing={"10px"}>
-        {datesProperites.map((property) => {
+        {datesProperites.map((property, index) => {
           return (
-            <>
-              <Text textAlign={"center"}>{property}</Text>
-            </>
+            <Text key={index} textAlign={"center"}>
+              {property}
+            </Text>
           );
         })}
-        {datesProperites.map((date) => {
-          return (
-            <>
-              <Input type="date"></Input>
-            </>
-          );
+        {datesProperites.map((date, index) => {
+          return <Input key={index} type="date"></Input>;
         })}
       </SimpleGrid>
     </Box>
