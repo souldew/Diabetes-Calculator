@@ -1,6 +1,5 @@
 import { NumberInput, NumberInputField } from "@chakra-ui/react";
 import { CalculateSettings } from "./types/types";
-import { babelIncludeRegexes } from "next/dist/build/webpack-config";
 import { Dispatch, SetStateAction } from "react";
 import {
   INSULIN_UNITS,
@@ -54,6 +53,7 @@ function handleInputChange(
   const input = Number.isNaN(e) ? "" : e;
   const path = name.split(".");
   switch (path[0]) {
+    // 消費量
     case "consume":
       switch (path[1]) {
         case "insulin":
@@ -75,11 +75,19 @@ function handleInputChange(
           break;
       }
       break;
+    // 最小受け取り単位
     case "recieveMinimunUnit":
       if (isRecieveUnitType(path[1])) {
         state[path[0]][path[1]] = input;
       }
       break;
+    // 残数
+    case "rest":
+      if (isRecieveUnitType(path[1])) {
+        state[path[0]][path[1]] = input;
+      }
+      break;
+    // 予備日数
     case "reserveDays":
       state[path[0]] = input;
       break;
@@ -93,6 +101,7 @@ function getSettingsValue(
 ): number | string | undefined {
   const path = name.split(".");
   switch (path[0]) {
+    // 消費量
     case "consume":
       switch (path[1]) {
         case "insulin":
@@ -113,11 +122,19 @@ function getSettingsValue(
           break;
       }
       break;
+    // 最小受け取り単位
     case "recieveMinimunUnit":
       if (isRecieveUnitType(path[1])) {
         return state[path[0]][path[1]];
       }
       break;
+    // 残数
+    case "rest":
+      if (isRecieveUnitType(path[1])) {
+        return state[path[0]][path[1]];
+      }
+      break;
+    // 予備日数
     case "reserveDays":
       return state[path[0]];
   }

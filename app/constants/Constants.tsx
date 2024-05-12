@@ -20,3 +20,8 @@ export const TIME_PERIODS = [
   { en: "noon", jp: "昼" },
   { en: "night", jp: "夜" },
 ] as const;
+
+export const DATE_PROPERTIES = [
+  { en: "today", jp: "通院日 (当日)" },
+  { en: "nextVisitDay", jp: "次回通院日" },
+] as const;
