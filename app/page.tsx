@@ -62,7 +62,7 @@ export default function Page() {
         }}
       />
       <RestOfItems />
-      <DateOfItems />
+      <DateOfItems key={0} />
       <CalcButton
         isCalculateDone={isCalculateDone}
         setIsCalculateDone={setIsCalculateDone}

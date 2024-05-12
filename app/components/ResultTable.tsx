@@ -9,6 +9,7 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
+import React from "react";
 
 type Props = {
   title: string;
@@ -35,9 +36,9 @@ export default function ResultTable({
               <Th></Th>
               {columnsName.map((column) => {
                 return (
-                  <>
-                    <Th isNumeric>{column}</Th>
-                  </>
+                  <Th key={column} isNumeric>
+                    {column}
+                  </Th>
                 );
               })}
             </Tr>
@@ -45,13 +46,13 @@ export default function ResultTable({
           <Tbody>
             {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS].map((item) => {
               return (
-                <>
+                <React.Fragment key={item.en}>
                   <Tr>
-                    <Td>{item}</Td>
+                    <Td>{item.jp}</Td>
                     <Td isNumeric>0</Td>
                     <Td isNumeric>0</Td>
                   </Tr>
-                </>
+                </React.Fragment>
               );
             })}
           </Tbody>
