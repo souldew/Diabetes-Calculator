@@ -1,10 +1,22 @@
 export const PRESCRIPTION_ITEMS = [
-  "アルコール",
-  "血糖針",
-  "LFSセンサー",
-  "インスリン用針",
-];
+  { en: "alcohol", jp: "アルコール" },
+  { en: "glucoseNeedle", jp: "血糖針" },
+  { en: "LFS", jp: "LFSセンサー" },
+  { en: "insulinNeedle", jp: "インスリン用針" },
+] as const;
 
-export const INSULIN_NUMS = ["即効インスリン (本)", "持続インスリン (本)"];
+export const INSULIN_NUMS = [
+  { en: "fastActingInsulin", jp: "即効インスリン (本)" },
+  { en: "longActingInsulin", jp: "持続インスリン (本)" },
+] as const;
 
-export const INSULIN_UNITS = ["即効インスリン (単位)", "持続インスリン (単位)"];
+export const INSULIN_UNITS = [
+  { en: "fastActingInsulin", jp: "即効インスリン (単位)", type: "fast" },
+  { en: "longActingInsulin", jp: "持続インスリン (単位)", type: "long" },
+] as const;
+
+export const TIME_PERIODS = [
+  { en: "morning", jp: "朝" },
+  { en: "noon", jp: "昼" },
+  { en: "night", jp: "夜" },
+] as const;

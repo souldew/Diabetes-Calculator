@@ -2,6 +2,11 @@ import { NumberInput, NumberInputField } from "@chakra-ui/react";
 import { CalculateSettings } from "./types/types";
 import { babelIncludeRegexes } from "next/dist/build/webpack-config";
 import { Dispatch, SetStateAction } from "react";
+import {
+  INSULIN_UNITS,
+  PRESCRIPTION_ITEMS,
+  TIME_PERIODS,
+} from "../constants/Constants";
 
 type Props = {
   calculateStateSettings: {
@@ -48,7 +53,6 @@ function handleInputChange(
 ) {
   const input = Number.isNaN(e) ? "" : e;
   const path = name.split(".");
-  console.log(name);
   switch (path[0]) {
     case "consume":
       switch (path[1]) {
@@ -78,10 +82,8 @@ function handleInputChange(
       break;
     case "reserveDays":
       state[path[0]] = input;
-      console.log("hoge");
       break;
   }
-  console.log(state);
   setState({ ...state });
 }
 
@@ -121,26 +123,19 @@ function getSettingsValue(
   }
 }
 
-const timePeriodLst = ["morning", "noon", "night"] as const;
+const timePeriodLst = TIME_PERIODS.map((p) => p.en);
 function isTimePeriodType(v: string): v is (typeof timePeriodLst)[number] {
   return timePeriodLst.includes(v as (typeof timePeriodLst)[number]);
 }
 
-const prescriptionLst = [
-  "alcohol",
-  "glucoseNeedle",
-  "LFS",
-  "insulinNeedle",
-] as const;
+const prescriptionLst = PRESCRIPTION_ITEMS.map((p) => p.en);
 function isPrescriptionType(v: string): v is (typeof prescriptionLst)[number] {
   return prescriptionLst.includes(v as (typeof prescriptionLst)[number]);
 }
 
-const recieveUnitLst = [
-  ...prescriptionLst,
-  "fastActingInsulin",
-  "longActingInsulin",
-] as const;
+const recieveUnitLst = [...PRESCRIPTION_ITEMS, ...INSULIN_UNITS].map(
+  (p) => p.en
+);
 function isRecieveUnitType(v: string): v is (typeof recieveUnitLst)[number] {
   return recieveUnitLst.includes(v as (typeof recieveUnitLst)[number]);
 }

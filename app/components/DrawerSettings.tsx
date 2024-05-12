@@ -14,7 +14,11 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
-import { PRESCRIPTION_ITEMS, INSULIN_UNITS } from "../constants/Constants";
+import {
+  PRESCRIPTION_ITEMS,
+  INSULIN_UNITS,
+  TIME_PERIODS,
+} from "../constants/Constants";
 import styles from "./DrawserSettings.module.css";
 import { CalculateSettings } from "./types/types";
 import { Dispatch, SetStateAction } from "react";
@@ -29,46 +33,6 @@ type Props = {
 
 export default function DrawerSettings({ calculateStateSettings }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const timePeriodProperties = ["朝", "昼", "夜"];
-
-  const timePeriodEnum: ("morning" | "noon" | "night")[] = [
-    "morning",
-    "noon",
-    "night",
-  ];
-
-  const insulinTypes: {
-    unit: string;
-    type: "fast" | "long";
-  }[] = [
-    { unit: INSULIN_UNITS[0], type: "fast" },
-    { unit: INSULIN_UNITS[1], type: "long" },
-  ];
-
-  const recievedTypes: {
-    prescription: string;
-    type: "alcohol" | "glucoseNeedle" | "LFS" | "insulinNeedle";
-  }[] = [
-    { prescription: PRESCRIPTION_ITEMS[0], type: "alcohol" },
-    { prescription: PRESCRIPTION_ITEMS[1], type: "glucoseNeedle" },
-    { prescription: PRESCRIPTION_ITEMS[2], type: "LFS" },
-    { prescription: PRESCRIPTION_ITEMS[3], type: "insulinNeedle" },
-  ];
-
-  const recievedMinumunUnitTypes: {
-    prescription: string;
-    type:
-      | "alcohol"
-      | "glucoseNeedle"
-      | "LFS"
-      | "insulinNeedle"
-      | "fastActingInsulin"
-      | "longActingInsulin";
-  }[] = [
-    ...recievedTypes,
-    { prescription: INSULIN_UNITS[0], type: "fastActingInsulin" },
-    { prescription: INSULIN_UNITS[1], type: "longActingInsulin" },
-  ];
 
   return (
     <>
@@ -90,20 +54,20 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
               name={"reserveDays"}
             />
             <Heading>インスリン1日消費量</Heading>
-            {insulinTypes.map((insulinType) => {
+            {INSULIN_UNITS.map((item) => {
               return (
-                <React.Fragment key={insulinType.type}>
-                  <Heading size="md">{insulinType.unit}</Heading>
+                <React.Fragment key={item.type}>
+                  <Heading size="md">{item.jp}</Heading>
                   <SimpleGrid columns={3}>
-                    {timePeriodProperties.map((p) => {
-                      return <Text key={p}>{p}</Text>;
+                    {TIME_PERIODS.map((timeI) => {
+                      return <Text key={timeI.en}>{timeI.jp}</Text>;
                     })}
-                    {timePeriodEnum.map((timePeriod) => {
+                    {TIME_PERIODS.map((time) => {
                       return (
-                        <React.Fragment key={timePeriod}>
+                        <React.Fragment key={time.en}>
                           <CreateNumberField
                             calculateStateSettings={calculateStateSettings}
-                            name={`consume.insulin.${insulinType.type}.${timePeriod}`}
+                            name={`consume.insulin.${item.type}.${time.en}`}
                           />
                         </React.Fragment>
                       );
@@ -112,7 +76,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                 </React.Fragment>
               );
             })}
-            <Heading size="md" className={styles.padding10px}>
+            <Heading size="md" padding={"10px"}>
               捨てる量
             </Heading>
             <CreateNumberField
@@ -122,24 +86,22 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
 
             <Heading>1日使用量</Heading>
             <SimpleGrid columns={2}>
-              {recievedTypes.map((recievedType) => {
+              {PRESCRIPTION_ITEMS.map((item) => {
                 return (
-                  <React.Fragment key={recievedType.type}>
-                    <Text className={styles.padding10px}>
-                      {recievedType.prescription}
-                    </Text>
+                  <React.Fragment key={item.en}>
+                    <Text padding={"10px"}>{item.jp}</Text>
                     <CreateNumberField
                       calculateStateSettings={calculateStateSettings}
-                      name={`consume.${recievedType.type}`}
+                      name={`consume.${item.en}`}
                     />
                   </React.Fragment>
                 );
               })}
               {INSULIN_UNITS.map((item) => {
                 return (
-                  <React.Fragment key={item}>
-                    <Text className={styles.padding10px}>{item}</Text>
-                    <Text className={styles.padding10px}>0</Text>
+                  <React.Fragment key={item.en}>
+                    <Text padding={"10px"}>{item.jp}</Text>
+                    <Text padding={"10px"}>0</Text>
                   </React.Fragment>
                 );
               })}
@@ -147,15 +109,13 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
 
             <Heading>最小受け取り単位</Heading>
             <SimpleGrid columns={2}>
-              {recievedMinumunUnitTypes.map((item) => {
+              {[...PRESCRIPTION_ITEMS, ...INSULIN_UNITS].map((item) => {
                 return (
-                  <React.Fragment key={item.type}>
-                    <Text className={styles.padding10px}>
-                      {item.prescription}
-                    </Text>
+                  <React.Fragment key={item.en}>
+                    <Text padding={"10px"}>{item.jp}</Text>
                     <CreateNumberField
                       calculateStateSettings={calculateStateSettings}
-                      name={`recieveMinimunUnit.${item.type}`}
+                      name={`recieveMinimunUnit.${item.en}`}
                     />
                   </React.Fragment>
                 );
@@ -167,7 +127,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
             <Button variant="outline" mr={3} onClick={onClose}>
               戻る
             </Button>
-            <Button colorScheme="blue">保存</Button>
+            {/* <Button colorScheme="blue">保存</Button> */}
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

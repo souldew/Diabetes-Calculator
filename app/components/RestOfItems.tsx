@@ -17,9 +17,9 @@ export default function RestOfItems() {
       <SimpleGrid columns={2}>
         {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS].map((item) => {
           return (
-            <React.Fragment key={item}>
-              <Text className={styles.padding10px}>{item}</Text>
-              <NumberInput className={styles.padding10px}>
+            <React.Fragment key={item.en}>
+              <Text padding={"10px"}>{item.jp}</Text>
+              <NumberInput padding={"10px"}>
                 <NumberInputField></NumberInputField>
               </NumberInput>
             </React.Fragment>
