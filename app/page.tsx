@@ -48,7 +48,19 @@ export default function Page() {
         fastActingInsulin: 0,
         longActingInsulin: 0,
       },
+      rest: {
+        alcohol: 0,
+        glucoseNeedle: 0,
+        LFS: 0,
+        insulinNeedle: 0,
+        fastActingInsulin: 0,
+        longActingInsulin: 0,
+      },
       reserveDays: 0,
+      date: {
+        today: new Date(),
+        nextVisitDay: new Date(),
+      },
     }
   );
 
@@ -61,8 +73,18 @@ export default function Page() {
           setCalculateSettings: setCalculateSettings,
         }}
       />
-      <RestOfItems />
-      <DateOfItems key={0} />
+      <RestOfItems
+        calculateStateSettings={{
+          calculateSettings: calculateSettings,
+          setCalculateSettings: setCalculateSettings,
+        }}
+      />
+      <DateOfItems
+        calculateStateSettings={{
+          calculateSettings: calculateSettings,
+          setCalculateSettings: setCalculateSettings,
+        }}
+      />
       <CalcButton
         isCalculateDone={isCalculateDone}
         setIsCalculateDone={setIsCalculateDone}
@@ -81,6 +103,14 @@ export default function Page() {
         <Button
           onClick={() => {
             console.log(calculateSettings);
+            // 日付計算
+            console.log(calculateSettings.date.today.getMonth() + 1);
+
+            let diff =
+              calculateSettings.date.nextVisitDay.getTime() -
+              calculateSettings.date.today.getTime();
+            diff = diff / (1000 * 60 * 60 * 24);
+            console.log(diff);
           }}
         >
           aa

@@ -19,7 +19,6 @@ import {
   INSULIN_UNITS,
   TIME_PERIODS,
 } from "../constants/Constants";
-import styles from "./DrawserSettings.module.css";
 import { CalculateSettings } from "./types/types";
 import { Dispatch, SetStateAction } from "react";
 import CreateNumberField from "./CreateNumberField";

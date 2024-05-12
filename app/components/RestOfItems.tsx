@@ -1,12 +1,19 @@
-import { Box, Center, Heading } from "@chakra-ui/react";
+import { Center, Heading } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { INSULIN_NUMS, PRESCRIPTION_ITEMS } from "../constants/Constants";
-import { NumberInput, NumberInputField } from "@chakra-ui/react";
-import styles from "./RestOfItems.module.css";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import CreateNumberField from "./CreateNumberField";
+import { CalculateSettings } from "./types/types";
 
-export default function RestOfItems() {
+type Props = {
+  calculateStateSettings: {
+    calculateSettings: CalculateSettings;
+    setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
+  };
+};
+
+export default function RestOfItems({ calculateStateSettings }: Props) {
   return (
     <>
       <Center>
@@ -19,9 +26,10 @@ export default function RestOfItems() {
           return (
             <React.Fragment key={item.en}>
               <Text padding={"10px"}>{item.jp}</Text>
-              <NumberInput padding={"10px"}>
-                <NumberInputField></NumberInputField>
-              </NumberInput>
+              <CreateNumberField
+                calculateStateSettings={calculateStateSettings}
+                name={`rest.${item.en}`}
+              />
             </React.Fragment>
           );
         })}
