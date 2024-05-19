@@ -5,6 +5,7 @@ import {
   INSULIN_DUSTS,
   INSULIN_UNITS,
   PRESCRIPTION_ITEMS,
+  LIBRE,
   TIME_PERIODS,
 } from "../constants/Constants";
 
@@ -83,6 +84,9 @@ function handleInputChange(
     case "rest":
       if (isRecieveUnitType(path[1])) {
         state[path[0]][path[1]] = input;
+      } else {
+        // Libre
+        state[path[0]].libre = input;
       }
       break;
     // 予備日数
@@ -129,6 +133,9 @@ function getSettingsValue(
     case "rest":
       if (isRecieveUnitType(path[1])) {
         return state[path[0]][path[1]];
+      } else {
+        // Libre
+        return state[path[0]].libre;
       }
       break;
     // 予備日数
@@ -142,7 +149,7 @@ function isTimePeriodType(v: string): v is (typeof timePeriodLst)[number] {
   return timePeriodLst.includes(v as (typeof timePeriodLst)[number]);
 }
 
-const prescriptionLst = PRESCRIPTION_ITEMS.map((p) => p.en);
+const prescriptionLst = [...PRESCRIPTION_ITEMS].map((p) => p.en);
 function isPrescriptionType(v: string): v is (typeof prescriptionLst)[number] {
   return prescriptionLst.includes(v as (typeof prescriptionLst)[number]);
 }

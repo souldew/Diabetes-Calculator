@@ -2,6 +2,7 @@ import { Center, Heading } from "@chakra-ui/react";
 import {
   INSULIN_NUMS,
   INSULIN_UNITS,
+  LIBRE,
   PRESCRIPTION_ITEMS,
 } from "../constants/Constants";
 import {
@@ -15,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
 import { Result } from "./types/types";
+import styles from "./ResultTable.module.css";
 
 type Props = {
   title: string;
@@ -43,7 +45,7 @@ export default function ResultTable({
         </Heading>
       </Center>
       <TableContainer>
-        <Table variant="simple">
+        <Table variant="striped">
           <Thead>
             <Tr>
               <Th></Th>
@@ -89,6 +91,14 @@ export default function ResultTable({
                 </React.Fragment>
               );
             })}
+            {!Number.isNaN(resultState.result.recieved.libre) && (
+              <Tr>
+                <Td>{LIBRE[0].jp}</Td>
+
+                <Td isNumeric>{resultState.result[columns[0]["en"]].libre}</Td>
+                <Td isNumeric>{resultState.result[columns[1]["en"]].libre}</Td>
+              </Tr>
+            )}
           </Tbody>
         </Table>
       </TableContainer>

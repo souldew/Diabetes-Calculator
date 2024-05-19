@@ -5,6 +5,8 @@ export const PRESCRIPTION_ITEMS = [
   { en: "insulinNeedle", jp: "インスリン用針" },
 ] as const;
 
+export const LIBRE = [{ en: "libre", jp: "Libre" }] as const;
+
 export const INSULIN_NUMS = [
   { en: "fastActingInsulin", jp: "即効インスリン (本)" },
   { en: "longActingInsulin", jp: "持続インスリン (本)" },

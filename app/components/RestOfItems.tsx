@@ -1,7 +1,11 @@
 import { Center, Heading } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
-import { INSULIN_NUMS, PRESCRIPTION_ITEMS } from "../constants/Constants";
+import {
+  INSULIN_NUMS,
+  PRESCRIPTION_ITEMS,
+  LIBRE,
+} from "../constants/Constants";
 import React, { Dispatch, SetStateAction } from "react";
 import CreateNumberField from "./CreateNumberField";
 import { CalculateSettings } from "./types/types";
@@ -22,7 +26,7 @@ export default function RestOfItems({ calculateStateSettings }: Props) {
         </Heading>
       </Center>
       <SimpleGrid columns={2}>
-        {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS].map((item) => {
+        {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS, ...LIBRE].map((item) => {
           return (
             <React.Fragment key={item.en}>
               <Text padding={"10px"}>{item.jp}</Text>
