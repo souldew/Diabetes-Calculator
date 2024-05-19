@@ -32,19 +32,17 @@ export default function Page() {
   const [calculateSettings, setCalculateSettings] = useState<CalculateSettings>(
     {
       consume: {
-        insulin: {
-          fast: {
-            morning: 12,
-            noon: 17,
-            night: 16,
-          },
-          long: {
-            morning: 0,
-            noon: 0,
-            night: 32,
-          },
-          dust: 1,
+        fastActingInsulin: {
+          morning: 12,
+          noon: 17,
+          night: 16,
         },
+        longActingInsulin: {
+          morning: 0,
+          noon: 0,
+          night: 32,
+        },
+        dustInsulin: 1,
         alcohol: 4,
         glucoseNeedle: 4,
         LFS: 4,
