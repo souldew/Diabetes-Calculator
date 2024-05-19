@@ -95,7 +95,6 @@ function handleInputChange(
       break;
   }
   setState({ ...state });
-  console.log("debug1");
   localStorage.setItem("calculateSettings", JSON.stringify(state));
 }
 

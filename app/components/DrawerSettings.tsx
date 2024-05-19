@@ -1,4 +1,9 @@
-import { Heading, IconButton } from "@chakra-ui/react";
+import {
+  Heading,
+  IconButton,
+  NumberInput,
+  NumberInputField,
+} from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import {
   Drawer,
@@ -10,7 +15,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
@@ -32,6 +37,14 @@ type Props = {
 
 export default function DrawerSettings({ calculateStateSettings }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [nextVisit, setNextVist] = useState("");
+
+  useEffect(() => {
+    const v = localStorage.getItem("nextVist");
+    if (v) {
+      setNextVist(v);
+    }
+  }, []);
 
   // 1日のインスリン使用量の計算
   const calcDayUseInsulin = (type: (typeof INSULIN_UNITS)[number]["en"]) => {
@@ -63,11 +76,6 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
           <DrawerHeader>設定</DrawerHeader>
 
           <DrawerBody>
-            <Heading>予備日数</Heading>
-            <CreateNumberField
-              calculateStateSettings={calculateStateSettings}
-              name={"reserveDays"}
-            />
             <Heading>インスリン1日消費量</Heading>
             {INSULIN_UNITS.map((item) => {
               return (
@@ -135,6 +143,24 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                   </React.Fragment>
                 );
               })}
+            </SimpleGrid>
+            <Heading>その他</Heading>
+            <SimpleGrid columns={2}>
+              <Text padding={"10px"}>次通院日までの日数</Text>
+              <NumberInput
+                p={"10px"}
+                min={0}
+                value={nextVisit}
+                isValidCharacter={(v) => {
+                  return /^[0-9]*$/.test(v);
+                }}
+                onChange={(e) => {
+                  localStorage.setItem("nextVist", e);
+                  setNextVist(e);
+                }}
+              >
+                <NumberInputField></NumberInputField>
+              </NumberInput>
             </SimpleGrid>
           </DrawerBody>
 

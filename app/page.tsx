@@ -78,17 +78,20 @@ export default function Page() {
   );
   useEffect(() => {
     const store = localStorage.getItem("calculateSettings");
+    const nextPeriod = localStorage.getItem("nextVist");
     if (store) {
+      let nextVisitDay = today;
+      if (nextPeriod) {
+        nextVisitDay = new Date(
+          today.getTime() + Number(nextPeriod) * 24 * 60 * 60 * 1000
+        );
+      }
       const input = JSON.parse(store);
       setCalculateSettings({
         ...JSON.parse(store),
         date: {
           today: today,
-          nextVisitDay: new Date(
-            new Date().getFullYear(),
-            new Date().getMonth() + 2,
-            new Date().getDate()
-          ),
+          nextVisitDay: nextVisitDay,
         },
       });
     }
