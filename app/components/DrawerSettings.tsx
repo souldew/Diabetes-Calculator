@@ -1,6 +1,5 @@
 import {
   Box,
-  Divider,
   Heading,
   IconButton,
   NumberInput,

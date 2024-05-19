@@ -2,7 +2,7 @@ import { Box, Input } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { CalculateSettings } from "./types/types";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { DATE_PROPERTIES } from "../constants/Constants";
 import CreateNumberField from "./CreateNumberField";
 

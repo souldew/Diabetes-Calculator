@@ -2,10 +2,8 @@ import { NumberInput, NumberInputField } from "@chakra-ui/react";
 import { CalculateSettings } from "./types/types";
 import { Dispatch, SetStateAction } from "react";
 import {
-  INSULIN_DUSTS,
   INSULIN_UNITS,
   PRESCRIPTION_ITEMS,
-  LIBRE,
   TIME_PERIODS,
 } from "../constants/Constants";
 

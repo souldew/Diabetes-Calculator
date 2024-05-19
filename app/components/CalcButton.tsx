@@ -8,7 +8,6 @@ import {
   TIME_PERIODS,
   DEFAULT_RESULT,
 } from "../constants/Constants";
-import ResultTable from "./ResultTable";
 
 type Props = {
   calculateSettings: CalculateSettings;
