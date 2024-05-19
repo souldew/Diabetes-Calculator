@@ -84,11 +84,9 @@ function calcMinimunRequiredDrug(
   INSULIN_UNITS.map((insulin) => {
     let allConsume = 0;
     TIME_PERIODS.map((period) => {
-      const consume = settings.consume.insulin[insulin.type][
-        period.en
-      ] as number;
+      const consume = settings.consume[insulin.en][period.en] as number;
       if (consume != 0) {
-        const dust = settings.consume.insulin.dust as number;
+        const dust = settings.consume.dustInsulin as number;
         allConsume += consume + dust;
       }
     });

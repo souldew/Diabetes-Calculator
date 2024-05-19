@@ -55,7 +55,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
             <Heading>インスリン1日消費量</Heading>
             {INSULIN_UNITS.map((item) => {
               return (
-                <React.Fragment key={item.type}>
+                <React.Fragment key={item.en}>
                   <Heading size="md">{item.jp}</Heading>
                   <SimpleGrid columns={3}>
                     {TIME_PERIODS.map((timeI) => {
@@ -66,7 +66,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                         <React.Fragment key={time.en}>
                           <CreateNumberField
                             calculateStateSettings={calculateStateSettings}
-                            name={`consume.insulin.${item.type}.${time.en}`}
+                            name={`consume.${item.en}.${time.en}`}
                           />
                         </React.Fragment>
                       );
@@ -80,7 +80,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
             </Heading>
             <CreateNumberField
               calculateStateSettings={calculateStateSettings}
-              name={`consume.insulin.dust`}
+              name={`consume.dustInsulin`}
             />
 
             <Heading>1日使用量</Heading>

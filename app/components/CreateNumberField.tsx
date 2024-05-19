@@ -2,6 +2,7 @@ import { NumberInput, NumberInputField } from "@chakra-ui/react";
 import { CalculateSettings } from "./types/types";
 import { Dispatch, SetStateAction } from "react";
 import {
+  INSULIN_DUSTS,
   INSULIN_UNITS,
   PRESCRIPTION_ITEMS,
   TIME_PERIODS,
@@ -56,18 +57,15 @@ function handleInputChange(
     // 消費量
     case "consume":
       switch (path[1]) {
-        case "insulin":
-          switch (path[2]) {
-            case "fast":
-            case "long":
-              if (isTimePeriodType(path[3])) {
-                state[path[0]][path[1]][path[2]][path[3]] = input;
-              }
-              break;
-            case "dust":
-              state[path[0]][path[1]][path[2]] = input;
-              break;
+        case "fastActingInsulin":
+        case "longActingInsulin":
+          if (isTimePeriodType(path[2])) {
+            state[path[0]][path[1]][path[2]] = input;
           }
+          break;
+        case "dustInsulin":
+          state[path[0]][path[1]] = input;
+          break;
         default:
           if (isPrescriptionType(path[1])) {
             state[path[0]][path[1]] = input;
@@ -104,17 +102,14 @@ function getSettingsValue(
     // 消費量
     case "consume":
       switch (path[1]) {
-        case "insulin":
-          switch (path[2]) {
-            case "fast":
-            case "long":
-              if (isTimePeriodType(path[3])) {
-                return state[path[0]][path[1]][path[2]][path[3]];
-              }
-              break;
-            case "dust":
-              return state[path[0]][path[1]][path[2]];
+        case "fastActingInsulin":
+        case "longActingInsulin":
+          if (isTimePeriodType(path[2])) {
+            return state[path[0]][path[1]][path[2]];
           }
+          break;
+        case "dustInsulin":
+          return state[path[0]][path[1]];
         default:
           if (isPrescriptionType(path[1])) {
             return state[path[0]][path[1]];

@@ -11,9 +11,11 @@ export const INSULIN_NUMS = [
 ] as const;
 
 export const INSULIN_UNITS = [
-  { en: "fastActingInsulin", jp: "即効インスリン (単位)", type: "fast" },
-  { en: "longActingInsulin", jp: "持続インスリン (単位)", type: "long" },
+  { en: "fastActingInsulin", jp: "即効インスリン (単位)" },
+  { en: "longActingInsulin", jp: "持続インスリン (単位)" },
 ] as const;
+
+export const INSULIN_DUSTS = [{ en: "dustInsulin", jp: "捨てる量" }] as const;
 
 export const TIME_PERIODS = [
   { en: "morning", jp: "朝" },

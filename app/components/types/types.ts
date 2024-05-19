@@ -1,19 +1,17 @@
 export type CalculateSettings = {
   // 1日消費量
   consume: {
-    insulin: {
-      fast: {
-        morning: number | string;
-        noon: number | string;
-        night: number | string;
-      };
-      long: {
-        morning: number | string;
-        noon: number | string;
-        night: number | string;
-      };
-      dust: number | string;
+    fastActingInsulin: {
+      morning: number | string;
+      noon: number | string;
+      night: number | string;
     };
+    longActingInsulin: {
+      morning: number | string;
+      noon: number | string;
+      night: number | string;
+    };
+    dustInsulin: number | string;
     alcohol: number | string;
     glucoseNeedle: number | string;
     LFS: number | string;
