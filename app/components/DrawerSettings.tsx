@@ -53,12 +53,13 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
   const calcDayUseInsulin = (type: (typeof INSULIN_UNITS)[number]["en"]) => {
     let allConsume = 0;
     TIME_PERIODS.map((period) => {
-      const consume = calculateStateSettings.calculateSettings.consume[type][
-        period.en
-      ] as number;
+      const consume = Number(
+        calculateStateSettings.calculateSettings.consume[type][period.en]
+      );
       if (consume != 0) {
-        const dust = calculateStateSettings.calculateSettings.consume
-          .dustInsulin as number;
+        const dust = Number(
+          calculateStateSettings.calculateSettings.consume.dustInsulin
+        );
         allConsume += consume + dust;
       }
     });

@@ -27,13 +27,13 @@ export default function DateOfItems({ calculateSettings, resultState }: Props) {
     let diffDays =
       settings.date.nextVisitDay.getTime() - settings.date.today.getTime();
     diffDays = Math.ceil(diffDays / (1000 * 60 * 60 * 24));
-    const reserveDays = settings.reserveDays as number;
+    const reserveDays = Number(settings.reserveDays);
 
     // インスリン以外の用品の計算
     PRESCRIPTION_ITEMS.map((item) => {
-      const consume = settings.consume[item.en] as number;
-      const unit = settings.recieveMinimunUnit[item.en] as number;
-      const rest = settings.rest[item.en] as number;
+      const consume = Number(settings.consume[item.en]);
+      const unit = Number(settings.recieveMinimunUnit[item.en]);
+      const rest = Number(settings.rest[item.en]);
 
       // 必要数 最低限
       let ans = diffDays * consume - rest;
@@ -69,14 +69,14 @@ export default function DateOfItems({ calculateSettings, resultState }: Props) {
     INSULIN_UNITS.map((insulin) => {
       let allConsume = 0;
       TIME_PERIODS.map((period) => {
-        const consume = settings.consume[insulin.en][period.en] as number;
+        const consume = Number(settings.consume[insulin.en][period.en]);
         if (consume != 0) {
-          const dust = settings.consume.dustInsulin as number;
+          const dust = Number(settings.consume.dustInsulin);
           allConsume += consume + dust;
         }
       });
-      const unit = settings.recieveMinimunUnit[insulin.en] as number;
-      const rest = settings.rest[insulin.en] as number;
+      const unit = Number(settings.recieveMinimunUnit[insulin.en]);
+      const rest = Number(settings.rest[insulin.en]);
 
       // 必要数 最低限
       const requiredNum = (diffDays * allConsume - rest * unit) / unit;

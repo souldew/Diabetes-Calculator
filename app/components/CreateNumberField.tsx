@@ -31,7 +31,7 @@ export default function createNumberField({
         isValidCharacter={(v) => {
           return /^[0-9]*$/.test(v);
         }}
-        onChange={(_, e) =>
+        onChange={(e) =>
           handleInputChange(
             calculateStateSettings.calculateSettings,
             calculateStateSettings.setCalculateSettings,
@@ -50,9 +50,8 @@ function handleInputChange(
   state: CalculateSettings,
   setState: Dispatch<SetStateAction<CalculateSettings>>,
   name: string,
-  e: number
+  input: string
 ) {
-  const input = Number.isNaN(e) ? "" : e;
   const path = name.split(".");
   switch (path[0]) {
     // 消費量
