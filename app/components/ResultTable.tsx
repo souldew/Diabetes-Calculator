@@ -1,5 +1,9 @@
 import { Center, Heading } from "@chakra-ui/react";
-import { INSULIN_NUMS, PRESCRIPTION_ITEMS } from "../constants/Constants";
+import {
+  INSULIN_NUMS,
+  INSULIN_UNITS,
+  PRESCRIPTION_ITEMS,
+} from "../constants/Constants";
 import {
   Table,
   Thead,
@@ -9,18 +13,27 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import { Result } from "./types/types";
 
 type Props = {
   title: string;
-  columnsName: string[];
+  columns: {
+    readonly en: keyof Result;
+    readonly jp: string;
+  }[];
   isCalculateDone: boolean;
+  resultState: {
+    result: Result;
+    setResult: Dispatch<SetStateAction<Result>>;
+  };
 };
 
 export default function ResultTable({
   title,
-  columnsName,
+  columns,
   isCalculateDone,
+  resultState,
 }: Props) {
   return isCalculateDone ? (
     <>
@@ -34,23 +47,44 @@ export default function ResultTable({
           <Thead>
             <Tr>
               <Th></Th>
-              {columnsName.map((column) => {
+              {columns.map((item) => {
                 return (
-                  <Th key={column} isNumeric>
-                    {column}
+                  <Th key={item.en} isNumeric>
+                    {item.jp}
                   </Th>
                 );
               })}
             </Tr>
           </Thead>
           <Tbody>
-            {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS].map((item) => {
+            {[...PRESCRIPTION_ITEMS].map((item) => {
               return (
                 <React.Fragment key={item.en}>
                   <Tr>
                     <Td>{item.jp}</Td>
-                    <Td isNumeric>0</Td>
-                    <Td isNumeric>0</Td>
+
+                    <Td isNumeric>
+                      {resultState.result[columns[0]["en"]][item.en]}
+                    </Td>
+                    <Td isNumeric>
+                      {resultState.result[columns[1]["en"]][item.en]}
+                    </Td>
+                  </Tr>
+                </React.Fragment>
+              );
+            })}
+            {[...INSULIN_NUMS].map((item) => {
+              return (
+                <React.Fragment key={item.en}>
+                  <Tr>
+                    <Td>{item.jp}</Td>
+
+                    <Td isNumeric>
+                      {resultState.result[columns[0]["en"]][item.en].toFixed(2)}
+                    </Td>
+                    <Td isNumeric>
+                      {resultState.result[columns[1]["en"]][item.en].toFixed(2)}
+                    </Td>
                   </Tr>
                 </React.Fragment>
               );
@@ -62,4 +96,10 @@ export default function ResultTable({
   ) : (
     <></>
   );
+}
+
+function getTableValue(state: Result, name: string) {
+  const path = name.split(".");
+  switch (path[0]) {
+  }
 }
