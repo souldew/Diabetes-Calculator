@@ -33,6 +33,22 @@ type Props = {
 export default function DrawerSettings({ calculateStateSettings }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // 1日のインスリン使用量の計算
+  const calcDayUseInsulin = (type: (typeof INSULIN_UNITS)[number]["en"]) => {
+    let allConsume = 0;
+    TIME_PERIODS.map((period) => {
+      const consume = calculateStateSettings.calculateSettings.consume[type][
+        period.en
+      ] as number;
+      if (consume != 0) {
+        const dust = calculateStateSettings.calculateSettings.consume
+          .dustInsulin as number;
+        allConsume += consume + dust;
+      }
+    });
+    return allConsume;
+  };
+
   return (
     <>
       <IconButton
@@ -100,7 +116,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                 return (
                   <React.Fragment key={item.en}>
                     <Text padding={"10px"}>{item.jp}</Text>
-                    <Text padding={"10px"}>0</Text>
+                    <Text padding={"10px"}>{calcDayUseInsulin(item.en)}</Text>
                   </React.Fragment>
                 );
               })}
