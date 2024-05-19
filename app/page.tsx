@@ -26,8 +26,6 @@ const recievedColumns: { readonly en: keyof Result; readonly jp: string }[] = [
 ];
 
 export default function Page() {
-  const [isCalculateDone, setIsCalculateDone] = useState(false);
-
   const today = new Date();
   const [calculateSettings, setCalculateSettings] = useState<CalculateSettings>(
     {
@@ -149,41 +147,21 @@ export default function Page() {
         }}
       />
       <CalcButton
-        isCalculateDone={isCalculateDone}
-        setIsCalculateDone={setIsCalculateDone}
         calculateSettings={calculateSettings}
         resultState={{ result: result, setResult: setResult }}
       />
       <ResultTable
         title={detailTitle}
         columns={detailColumns}
-        isCalculateDone={isCalculateDone}
         resultState={{ result: result, setResult: setResult }}
       />
       <Box my="3em"></Box>
       <ResultTable
         title={recievedTitle}
         columns={recievedColumns}
-        isCalculateDone={isCalculateDone}
         resultState={{ result: result, setResult: setResult }}
       />
-      <Flex justify={"right"} mr={"3%"} my={"10px"}>
-        <Button
-          onClick={() => {
-            console.log(calculateSettings);
-            // 日付計算
-            console.log(calculateSettings.date.today.getMonth() + 1);
-
-            let diff =
-              calculateSettings.date.nextVisitDay.getTime() -
-              calculateSettings.date.today.getTime();
-            diff = diff / (1000 * 60 * 60 * 24);
-            console.log(diff);
-          }}
-        >
-          aa
-        </Button>
-      </Flex>
+      <Box my="3em"></Box>
     </>
   );
 }

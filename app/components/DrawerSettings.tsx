@@ -1,4 +1,6 @@
 import {
+  Box,
+  Divider,
   Heading,
   IconButton,
   NumberInput,
@@ -27,6 +29,7 @@ import {
 import { CalculateSettings } from "./types/types";
 import { Dispatch, SetStateAction } from "react";
 import CreateNumberField from "./CreateNumberField";
+import SectionDividerComponent from "./SectionDividerComponent";
 
 type Props = {
   calculateStateSettings: {
@@ -82,17 +85,17 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                 <React.Fragment key={item.en}>
                   <Heading size="md">{item.jp}</Heading>
                   <SimpleGrid columns={3}>
-                    {TIME_PERIODS.map((timeI) => {
-                      return <Text key={timeI.en}>{timeI.jp}</Text>;
-                    })}
                     {TIME_PERIODS.map((time) => {
                       return (
-                        <React.Fragment key={time.en}>
+                        <Box key={time.en}>
+                          <Text key={time.en} textAlign={"center"} mt={"10px"}>
+                            {time.jp}
+                          </Text>
                           <CreateNumberField
                             calculateStateSettings={calculateStateSettings}
                             name={`consume.${item.en}.${time.en}`}
                           />
-                        </React.Fragment>
+                        </Box>
                       );
                     })}
                   </SimpleGrid>
@@ -106,13 +109,19 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
               calculateStateSettings={calculateStateSettings}
               name={`consume.dustInsulin`}
             />
-
+            <SectionDividerComponent />
             <Heading>1日使用量</Heading>
             <SimpleGrid columns={2}>
               {PRESCRIPTION_ITEMS.map((item) => {
                 return (
                   <React.Fragment key={item.en}>
-                    <Text padding={"10px"}>{item.jp}</Text>
+                    <Text
+                      padding={"10px"}
+                      display={"flex"}
+                      alignItems={"center"}
+                    >
+                      {item.jp}
+                    </Text>
                     <CreateNumberField
                       calculateStateSettings={calculateStateSettings}
                       name={`consume.${item.en}`}
@@ -124,18 +133,26 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                 return (
                   <React.Fragment key={item.en}>
                     <Text padding={"10px"}>{item.jp}</Text>
-                    <Text padding={"10px"}>{calcDayUseInsulin(item.en)}</Text>
+                    <Text padding={"10px"} ml={"1em"}>
+                      {calcDayUseInsulin(item.en)}
+                    </Text>
                   </React.Fragment>
                 );
               })}
             </SimpleGrid>
-
+            <SectionDividerComponent />
             <Heading>最小受け取り単位</Heading>
             <SimpleGrid columns={2}>
               {[...PRESCRIPTION_ITEMS, ...INSULIN_UNITS].map((item) => {
                 return (
                   <React.Fragment key={item.en}>
-                    <Text padding={"10px"}>{item.jp}</Text>
+                    <Text
+                      padding={"10px"}
+                      display={"flex"}
+                      alignItems={"center"}
+                    >
+                      {item.jp}
+                    </Text>
                     <CreateNumberField
                       calculateStateSettings={calculateStateSettings}
                       name={`recieveMinimunUnit.${item.en}`}
@@ -144,9 +161,12 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                 );
               })}
             </SimpleGrid>
+            <SectionDividerComponent />
             <Heading>その他</Heading>
             <SimpleGrid columns={2}>
-              <Text padding={"10px"}>次通院日までの日数</Text>
+              <Text padding={"10px"} display={"flex"} alignItems={"center"}>
+                次通院日までの日数
+              </Text>
               <NumberInput
                 p={"10px"}
                 min={0}

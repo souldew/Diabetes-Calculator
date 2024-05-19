@@ -29,7 +29,9 @@ export default function RestOfItems({ calculateStateSettings }: Props) {
         {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS, ...LIBRE].map((item) => {
           return (
             <React.Fragment key={item.en}>
-              <Text padding={"10px"}>{item.jp}</Text>
+              <Text padding={"10px"} display={"flex"} alignItems={"center"}>
+                {item.jp}
+              </Text>
               <CreateNumberField
                 calculateStateSettings={calculateStateSettings}
                 name={`rest.${item.en}`}

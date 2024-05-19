@@ -24,20 +24,14 @@ type Props = {
     readonly en: keyof Result;
     readonly jp: string;
   }[];
-  isCalculateDone: boolean;
   resultState: {
     result: Result;
     setResult: Dispatch<SetStateAction<Result>>;
   };
 };
 
-export default function ResultTable({
-  title,
-  columns,
-  isCalculateDone,
-  resultState,
-}: Props) {
-  return isCalculateDone ? (
+export default function ResultTable({ title, columns, resultState }: Props) {
+  return (
     <>
       <Center>
         <Heading as="h1" fontSize="2xl">
@@ -103,8 +97,6 @@ export default function ResultTable({
         </Table>
       </TableContainer>
     </>
-  ) : (
-    <></>
   );
 }
 

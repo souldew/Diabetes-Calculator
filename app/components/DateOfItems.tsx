@@ -25,10 +25,8 @@ export default function DateOfItems({ calculateStateSettings }: Props) {
       <SimpleGrid columns={2} spacing={"10px"}>
         {DATE_PROPERTIES.map((item) => {
           return (
-            <Box>
-              <Text key={item.en} textAlign={"center"}>
-                {item.jp}
-              </Text>
+            <Box key={item.en}>
+              <Text textAlign={"center"}>{item.jp}</Text>
               <Input
                 my={"10px"}
                 key={item.en}
