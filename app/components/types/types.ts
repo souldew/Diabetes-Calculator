@@ -45,3 +45,30 @@ export type CalculateSettings = {
     nextVisitDay: Date;
   };
 };
+
+export type Result = {
+  required: {
+    alcohol: number;
+    glucoseNeedle: number;
+    LFS: number;
+    insulinNeedle: number;
+    fastActingInsulin: number;
+    longActingInsulin: number;
+  };
+  plusSpared: {
+    alcohol: number;
+    glucoseNeedle: number;
+    LFS: number;
+    insulinNeedle: number;
+    fastActingInsulin: number;
+    longActingInsulin: number;
+  };
+  recieved: {
+    alcohol: number;
+    glucoseNeedle: number;
+    LFS: number;
+    insulinNeedle: number;
+    fastActingInsulin: number;
+    longActingInsulin: number;
+  };
+};
