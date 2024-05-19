@@ -1,3 +1,5 @@
+import { Result } from "../components/types/types";
+
 export const PRESCRIPTION_ITEMS = [
   { en: "alcohol", jp: "アルコール" },
   { en: "glucoseNeedle", jp: "血糖針" },
@@ -29,3 +31,33 @@ export const DATE_PROPERTIES = [
   { en: "today", jp: "通院日 (当日)" },
   { en: "nextVisitDay", jp: "次回通院日" },
 ] as const;
+
+export const DEFAULT_RESULT: Result = {
+  required: {
+    alcohol: 0,
+    glucoseNeedle: 0,
+    LFS: 0,
+    insulinNeedle: 0,
+    fastActingInsulin: 0,
+    longActingInsulin: 0,
+    libre: 0,
+  },
+  plusSpared: {
+    alcohol: 0,
+    glucoseNeedle: 0,
+    LFS: 0,
+    insulinNeedle: 0,
+    fastActingInsulin: 0,
+    longActingInsulin: 0,
+    libre: 0,
+  },
+  recieved: {
+    alcohol: 0,
+    glucoseNeedle: 0,
+    LFS: 0,
+    insulinNeedle: 0,
+    fastActingInsulin: 0,
+    longActingInsulin: 0,
+    libre: 0,
+  },
+} as const;

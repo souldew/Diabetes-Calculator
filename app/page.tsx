@@ -9,7 +9,11 @@ import { useEffect, useState } from "react";
 
 import { CalculateSettings, Result } from "./components/types/types";
 import { Box, Button, Divider, Flex } from "@chakra-ui/react";
-import { INSULIN_UNITS, PRESCRIPTION_ITEMS } from "./constants/Constants";
+import {
+  DEFAULT_RESULT,
+  INSULIN_UNITS,
+  PRESCRIPTION_ITEMS,
+} from "./constants/Constants";
 
 const pageTitle = "薬計算ツール";
 const detailTitle = "詳細必要数";
@@ -95,35 +99,9 @@ export default function Page() {
     }
   }, []);
 
-  const [result, setResult] = useState<Result>({
-    required: {
-      alcohol: 0,
-      glucoseNeedle: 0,
-      LFS: 0,
-      insulinNeedle: 0,
-      fastActingInsulin: 0,
-      longActingInsulin: 0,
-      libre: 0,
-    },
-    plusSpared: {
-      alcohol: 0,
-      glucoseNeedle: 0,
-      LFS: 0,
-      insulinNeedle: 0,
-      fastActingInsulin: 0,
-      longActingInsulin: 0,
-      libre: 0,
-    },
-    recieved: {
-      alcohol: 0,
-      glucoseNeedle: 0,
-      LFS: 0,
-      insulinNeedle: 0,
-      fastActingInsulin: 0,
-      longActingInsulin: 0,
-      libre: 0,
-    },
-  });
+  const [result, setResult] = useState<Result>(
+    JSON.parse(JSON.stringify(DEFAULT_RESULT))
+  );
 
   return (
     <>
@@ -161,7 +139,7 @@ export default function Page() {
         columns={recievedColumns}
         resultState={{ result: result, setResult: setResult }}
       />
-      <Box my="3em"></Box>
+      <Box my="20em"></Box>
     </>
   );
 }
