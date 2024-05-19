@@ -2,8 +2,9 @@ import { Box, Input } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { CalculateSettings } from "./types/types";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { DATE_PROPERTIES } from "../constants/Constants";
+import CreateNumberField from "./CreateNumberField";
 
 type Props = {
   calculateStateSettings: {
@@ -16,34 +17,49 @@ export default function DateOfItems({ calculateStateSettings }: Props) {
   const dates: { [key: string]: Date } =
     calculateStateSettings.calculateSettings.date;
 
+  // 日付関連の算出
+  const diffTimes = dates.nextVisitDay.getTime() - dates.today.getTime();
+  const diffDays = Math.ceil(diffTimes / (1000 * 60 * 60 * 24));
   return (
     <Box mx={"10px"}>
       <SimpleGrid columns={2} spacing={"10px"}>
         {DATE_PROPERTIES.map((item) => {
           return (
-            <Text key={item.en} textAlign={"center"}>
-              {item.jp}
-            </Text>
+            <Box>
+              <Text key={item.en} textAlign={"center"}>
+                {item.jp}
+              </Text>
+              <Input
+                my={"10px"}
+                key={item.en}
+                type="date"
+                value={getFormatDate(
+                  calculateStateSettings.calculateSettings.date[item.en]
+                )}
+                onChange={(e) => {
+                  calculateStateSettings.calculateSettings.date[item.en] =
+                    new Date(e.target.value);
+                  calculateStateSettings.setCalculateSettings({
+                    ...calculateStateSettings.calculateSettings,
+                  });
+                }}
+              ></Input>
+            </Box>
           );
         })}
-        {DATE_PROPERTIES.map((item) => {
-          return (
-            <Input
-              key={item.en}
-              type="date"
-              value={getFormatDate(
-                calculateStateSettings.calculateSettings.date[item.en]
-              )}
-              onChange={(e) => {
-                calculateStateSettings.calculateSettings.date[item.en] =
-                  new Date(e.target.value);
-                calculateStateSettings.setCalculateSettings({
-                  ...calculateStateSettings.calculateSettings,
-                });
-              }}
-            ></Input>
-          );
-        })}
+        <Box>
+          <Text textAlign={"center"}>薬の予備日数</Text>
+          <CreateNumberField
+            calculateStateSettings={calculateStateSettings}
+            name={"reserveDays"}
+          />
+        </Box>
+        <Box>
+          <Text textAlign={"center"}>次回通院日までの日数</Text>
+          <Text textAlign={"center"} mt={"15px"}>
+            {diffDays}日
+          </Text>
+        </Box>
       </SimpleGrid>
     </Box>
   );
