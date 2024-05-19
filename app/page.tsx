@@ -8,7 +8,7 @@ import ResultTable from "./components/ResultTable";
 import { useEffect, useState } from "react";
 
 import { CalculateSettings, Result } from "./components/types/types";
-import { Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex } from "@chakra-ui/react";
 import { INSULIN_UNITS, PRESCRIPTION_ITEMS } from "./constants/Constants";
 
 const pageTitle = "薬計算ツール";
@@ -63,6 +63,7 @@ export default function Page() {
         insulinNeedle: 56,
         fastActingInsulin: 3,
         longActingInsulin: 2,
+        libre: 0,
       },
       reserveDays: 7,
       date: {
@@ -101,6 +102,7 @@ export default function Page() {
       insulinNeedle: 0,
       fastActingInsulin: 0,
       longActingInsulin: 0,
+      libre: 0,
     },
     plusSpared: {
       alcohol: 0,
@@ -109,6 +111,7 @@ export default function Page() {
       insulinNeedle: 0,
       fastActingInsulin: 0,
       longActingInsulin: 0,
+      libre: 0,
     },
     recieved: {
       alcohol: 0,
@@ -117,6 +120,7 @@ export default function Page() {
       insulinNeedle: 0,
       fastActingInsulin: 0,
       longActingInsulin: 0,
+      libre: 0,
     },
   });
 
@@ -153,6 +157,7 @@ export default function Page() {
         isCalculateDone={isCalculateDone}
         resultState={{ result: result, setResult: setResult }}
       />
+      <Box my="3em"></Box>
       <ResultTable
         title={recievedTitle}
         columns={recievedColumns}

@@ -4,6 +4,7 @@ import { CalculateSettings, Result } from "./types/types";
 import {
   INSULIN_UNITS,
   PRESCRIPTION_ITEMS,
+  LIBRE,
   TIME_PERIODS,
 } from "../constants/Constants";
 import ResultTable from "./ResultTable";
@@ -29,6 +30,7 @@ export default function DateOfItems({
       <Button
         width={"60%"}
         margin={"15px 20%"}
+        colorScheme={"blue"}
         onClick={() => {
           setIsCalculateDone(!isCalculateDone);
           calcAllTable(
@@ -78,6 +80,25 @@ function calcMinimunRequiredDrug(
     // 概量
     ans = Math.floor((ans + unit - 1) / unit) * unit;
     result.recieved[item.en] = ans;
+  });
+  // Libreの計算
+  LIBRE.map((item) => {
+    const rest = settings.rest.libre;
+    if (rest !== "") {
+      // 設定されている場合
+      // 必要数 最低限
+      const requiredNum = Math.ceil(diffDays / 14) - Number(rest);
+      result.required[item.en] = requiredNum;
+      // 必要数+予備 正確量
+      const plusSparedNum =
+        Math.ceil((diffDays + reserveDays) / 14) - Number(rest);
+      result.plusSpared[item.en] = plusSparedNum;
+      result.recieved[item.en] = plusSparedNum;
+    } else {
+      result.required[item.en] = NaN;
+      result.plusSpared[item.en] = NaN;
+      result.recieved[item.en] = NaN;
+    }
   });
 
   // インスリンの計算

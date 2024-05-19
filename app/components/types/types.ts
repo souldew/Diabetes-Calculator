@@ -34,6 +34,7 @@ export type CalculateSettings = {
     insulinNeedle: number | string;
     fastActingInsulin: number | string;
     longActingInsulin: number | string;
+    libre: number | string;
   };
   // 予備日数
   reserveDays: number | string;
@@ -52,6 +53,7 @@ export type Result = {
     insulinNeedle: number;
     fastActingInsulin: number;
     longActingInsulin: number;
+    libre: number;
   };
   plusSpared: {
     alcohol: number;
@@ -60,6 +62,7 @@ export type Result = {
     insulinNeedle: number;
     fastActingInsulin: number;
     longActingInsulin: number;
+    libre: number;
   };
   recieved: {
     alcohol: number;
@@ -68,5 +71,6 @@ export type Result = {
     insulinNeedle: number;
     fastActingInsulin: number;
     longActingInsulin: number;
+    libre: number;
   };
 };
