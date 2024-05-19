@@ -5,7 +5,7 @@ import DateOfItems from "./components/DateOfItems";
 import Header from "./components/Header";
 import RestOfItems from "./components/RestOfItems";
 import ResultTable from "./components/ResultTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { CalculateSettings, Result } from "./components/types/types";
 import { Button, Flex } from "@chakra-ui/react";
@@ -75,6 +75,23 @@ export default function Page() {
       },
     }
   );
+  useEffect(() => {
+    const store = localStorage.getItem("calculateSettings");
+    if (store) {
+      const input = JSON.parse(store);
+      setCalculateSettings({
+        ...JSON.parse(store),
+        date: {
+          today: today,
+          nextVisitDay: new Date(
+            new Date().getFullYear(),
+            new Date().getMonth() + 2,
+            new Date().getDate()
+          ),
+        },
+      });
+    }
+  }, []);
 
   const [result, setResult] = useState<Result>({
     required: {
