@@ -2,7 +2,7 @@ import { Box, Input } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { CalculateSettings } from "./types/types";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { DATE_PROPERTIES } from "../constants/Constants";
 import CreateNumberField from "./CreateNumberField";
 
@@ -25,10 +25,8 @@ export default function DateOfItems({ calculateStateSettings }: Props) {
       <SimpleGrid columns={2} spacing={"10px"}>
         {DATE_PROPERTIES.map((item) => {
           return (
-            <Box>
-              <Text key={item.en} textAlign={"center"}>
-                {item.jp}
-              </Text>
+            <Box key={item.en}>
+              <Text textAlign={"center"}>{item.jp}</Text>
               <Input
                 my={"10px"}
                 key={item.en}

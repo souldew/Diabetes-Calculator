@@ -1,7 +1,6 @@
 import { Center, Heading } from "@chakra-ui/react";
 import {
   INSULIN_NUMS,
-  INSULIN_UNITS,
   LIBRE,
   PRESCRIPTION_ITEMS,
 } from "../constants/Constants";
@@ -16,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
 import { Result } from "./types/types";
-import styles from "./ResultTable.module.css";
 
 type Props = {
   title: string;
@@ -24,20 +22,14 @@ type Props = {
     readonly en: keyof Result;
     readonly jp: string;
   }[];
-  isCalculateDone: boolean;
   resultState: {
     result: Result;
     setResult: Dispatch<SetStateAction<Result>>;
   };
 };
 
-export default function ResultTable({
-  title,
-  columns,
-  isCalculateDone,
-  resultState,
-}: Props) {
-  return isCalculateDone ? (
+export default function ResultTable({ title, columns, resultState }: Props) {
+  return (
     <>
       <Center>
         <Heading as="h1" fontSize="2xl">
@@ -103,13 +95,5 @@ export default function ResultTable({
         </Table>
       </TableContainer>
     </>
-  ) : (
-    <></>
   );
-}
-
-function getTableValue(state: Result, name: string) {
-  const path = name.split(".");
-  switch (path[0]) {
-  }
 }

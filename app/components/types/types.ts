@@ -2,42 +2,42 @@ export type CalculateSettings = {
   // 1日消費量
   consume: {
     fastActingInsulin: {
-      morning: number | string;
-      noon: number | string;
-      night: number | string;
+      morning: string;
+      noon: string;
+      night: string;
     };
     longActingInsulin: {
-      morning: number | string;
-      noon: number | string;
-      night: number | string;
+      morning: string;
+      noon: string;
+      night: string;
     };
-    dustInsulin: number | string;
-    alcohol: number | string;
-    glucoseNeedle: number | string;
-    LFS: number | string;
-    insulinNeedle: number | string;
+    dustInsulin: string;
+    alcohol: string;
+    glucoseNeedle: string;
+    LFS: string;
+    insulinNeedle: string;
   };
   // 最小受け取り単位
   recieveMinimunUnit: {
-    alcohol: number | string;
-    glucoseNeedle: number | string;
-    LFS: number | string;
-    insulinNeedle: number | string;
-    fastActingInsulin: number | string;
-    longActingInsulin: number | string;
+    alcohol: string;
+    glucoseNeedle: string;
+    LFS: string;
+    insulinNeedle: string;
+    fastActingInsulin: string;
+    longActingInsulin: string;
   };
   // 残数
   rest: {
-    alcohol: number | string;
-    glucoseNeedle: number | string;
-    LFS: number | string;
-    insulinNeedle: number | string;
-    fastActingInsulin: number | string;
-    longActingInsulin: number | string;
-    libre: number | string;
+    alcohol: string;
+    glucoseNeedle: string;
+    LFS: string;
+    insulinNeedle: string;
+    fastActingInsulin: string;
+    longActingInsulin: string;
+    libre: string;
   };
   // 予備日数
-  reserveDays: number | string;
+  reserveDays: string;
   // 日付指定
   date: {
     today: Date;

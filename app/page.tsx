@@ -8,79 +8,76 @@ import ResultTable from "./components/ResultTable";
 import { useEffect, useState } from "react";
 
 import { CalculateSettings, Result } from "./components/types/types";
-import { Box, Button, Divider, Flex } from "@chakra-ui/react";
-import { INSULIN_UNITS, PRESCRIPTION_ITEMS } from "./constants/Constants";
+import { Box } from "@chakra-ui/react";
+import { DEFAULT_RESULT } from "./constants/Constants";
 
 const pageTitle = "薬計算ツール";
 const detailTitle = "詳細必要数";
-// const detailColumns = ["必要数", "必要数+予備"];
-const detailColumns: Array<{ en: keyof Result; jp: string }> = [
+const detailColumns: { readonly en: keyof Result; readonly jp: string }[] = [
   { en: "required", jp: "必要数" },
   { en: "plusSpared", jp: "必要数+予備" },
 ];
 const recievedTitle = "もらう量";
-// const recievedColumns = ["正確量", "概量"];
 const recievedColumns: { readonly en: keyof Result; readonly jp: string }[] = [
   { en: "plusSpared", jp: "正確量" },
   { en: "recieved", jp: "概量" },
 ];
 
 export default function Page() {
-  const [isCalculateDone, setIsCalculateDone] = useState(false);
-
-  const today = new Date();
   const [calculateSettings, setCalculateSettings] = useState<CalculateSettings>(
     {
       consume: {
         fastActingInsulin: {
-          morning: 12,
-          noon: 17,
-          night: 16,
+          morning: "0",
+          noon: "0",
+          night: "0",
         },
         longActingInsulin: {
-          morning: 0,
-          noon: 0,
-          night: 32,
+          morning: "0",
+          noon: "0",
+          night: "0",
         },
-        dustInsulin: 1,
-        alcohol: 4,
-        glucoseNeedle: 4,
-        LFS: 4,
-        insulinNeedle: 4,
+        dustInsulin: "1",
+        alcohol: "4",
+        glucoseNeedle: "4",
+        LFS: "4",
+        insulinNeedle: "4",
       },
       recieveMinimunUnit: {
-        alcohol: 10,
-        glucoseNeedle: 30,
-        LFS: 30,
-        insulinNeedle: 14,
-        fastActingInsulin: 300,
-        longActingInsulin: 450,
+        alcohol: "10",
+        glucoseNeedle: "30",
+        LFS: "30",
+        insulinNeedle: "14",
+        fastActingInsulin: "300",
+        longActingInsulin: "450",
       },
       rest: {
-        alcohol: 60,
-        glucoseNeedle: 150,
-        LFS: 90,
-        insulinNeedle: 56,
-        fastActingInsulin: 3,
-        longActingInsulin: 2,
-        libre: 0,
+        alcohol: "0",
+        glucoseNeedle: "0",
+        LFS: "0",
+        insulinNeedle: "0",
+        fastActingInsulin: "0",
+        longActingInsulin: "0",
+        libre: "0",
       },
-      reserveDays: 7,
+      reserveDays: "7",
       date: {
-        today: today,
-        nextVisitDay: new Date(
-          new Date().getFullYear(),
-          new Date().getMonth() + 2,
-          new Date().getDate()
-        ),
+        today: new Date(),
+        nextVisitDay: new Date(),
       },
     }
   );
+  const [result, setResult] = useState<Result>(
+    JSON.parse(JSON.stringify(DEFAULT_RESULT))
+  );
+
+  // 設定項目の読み込み
   useEffect(() => {
     const store = localStorage.getItem("calculateSettings");
     const nextPeriod = localStorage.getItem("nextVist");
     if (store) {
-      let nextVisitDay = today;
+      const today = new Date();
+      let nextVisitDay;
       if (nextPeriod) {
         nextVisitDay = new Date(
           today.getTime() + Number(nextPeriod) * 24 * 60 * 60 * 1000
@@ -96,36 +93,6 @@ export default function Page() {
       });
     }
   }, []);
-
-  const [result, setResult] = useState<Result>({
-    required: {
-      alcohol: 0,
-      glucoseNeedle: 0,
-      LFS: 0,
-      insulinNeedle: 0,
-      fastActingInsulin: 0,
-      longActingInsulin: 0,
-      libre: 0,
-    },
-    plusSpared: {
-      alcohol: 0,
-      glucoseNeedle: 0,
-      LFS: 0,
-      insulinNeedle: 0,
-      fastActingInsulin: 0,
-      longActingInsulin: 0,
-      libre: 0,
-    },
-    recieved: {
-      alcohol: 0,
-      glucoseNeedle: 0,
-      LFS: 0,
-      insulinNeedle: 0,
-      fastActingInsulin: 0,
-      longActingInsulin: 0,
-      libre: 0,
-    },
-  });
 
   return (
     <>
@@ -149,41 +116,21 @@ export default function Page() {
         }}
       />
       <CalcButton
-        isCalculateDone={isCalculateDone}
-        setIsCalculateDone={setIsCalculateDone}
         calculateSettings={calculateSettings}
         resultState={{ result: result, setResult: setResult }}
       />
       <ResultTable
         title={detailTitle}
         columns={detailColumns}
-        isCalculateDone={isCalculateDone}
         resultState={{ result: result, setResult: setResult }}
       />
       <Box my="3em"></Box>
       <ResultTable
         title={recievedTitle}
         columns={recievedColumns}
-        isCalculateDone={isCalculateDone}
         resultState={{ result: result, setResult: setResult }}
       />
-      <Flex justify={"right"} mr={"3%"} my={"10px"}>
-        <Button
-          onClick={() => {
-            console.log(calculateSettings);
-            // 日付計算
-            console.log(calculateSettings.date.today.getMonth() + 1);
-
-            let diff =
-              calculateSettings.date.nextVisitDay.getTime() -
-              calculateSettings.date.today.getTime();
-            diff = diff / (1000 * 60 * 60 * 24);
-            console.log(diff);
-          }}
-        >
-          aa
-        </Button>
-      </Flex>
+      <Box my="20em"></Box>
     </>
   );
 }
