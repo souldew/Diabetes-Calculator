@@ -26,9 +26,15 @@ type Props = {
     result: Result;
     setResult: Dispatch<SetStateAction<Result>>;
   };
+  checkedLibre: boolean;
 };
 
-export default function ResultTable({ title, columns, resultState }: Props) {
+export default function ResultTable({
+  title,
+  columns,
+  resultState,
+  checkedLibre,
+}: Props) {
   return (
     <>
       <Center>
@@ -83,7 +89,7 @@ export default function ResultTable({ title, columns, resultState }: Props) {
                 </React.Fragment>
               );
             })}
-            {!Number.isNaN(resultState.result.recieved.libre) && (
+            {checkedLibre && (
               <Tr>
                 <Td>{LIBRE[0].jp}</Td>
 

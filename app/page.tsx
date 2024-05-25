@@ -70,6 +70,7 @@ export default function Page() {
   const [result, setResult] = useState<Result>(
     JSON.parse(JSON.stringify(DEFAULT_RESULT))
   );
+  const [checkedLibre, setCheckedLibre] = useState(true);
 
   // 設定項目の読み込み
   useEffect(() => {
@@ -102,19 +103,26 @@ export default function Page() {
           calculateSettings: calculateSettings,
           setCalculateSettings: setCalculateSettings,
         }}
+        checkedLibreState={{
+          checkedLibre: checkedLibre,
+          setCheckedLibre: setCheckedLibre,
+        }}
       />
       <RestOfItems
         calculateStateSettings={{
           calculateSettings: calculateSettings,
           setCalculateSettings: setCalculateSettings,
         }}
+        checkedLibre={checkedLibre}
       />
+      <Box my="2em"></Box>
       <DateOfItems
         calculateStateSettings={{
           calculateSettings: calculateSettings,
           setCalculateSettings: setCalculateSettings,
         }}
       />
+      <Box my="1em"></Box>
       <CalcButton
         calculateSettings={calculateSettings}
         resultState={{ result: result, setResult: setResult }}
@@ -123,12 +131,14 @@ export default function Page() {
         title={detailTitle}
         columns={detailColumns}
         resultState={{ result: result, setResult: setResult }}
+        checkedLibre={checkedLibre}
       />
       <Box my="3em"></Box>
       <ResultTable
         title={recievedTitle}
         columns={recievedColumns}
         resultState={{ result: result, setResult: setResult }}
+        checkedLibre={checkedLibre}
       />
       <Box my="20em"></Box>
     </>

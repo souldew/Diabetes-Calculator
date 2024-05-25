@@ -11,9 +11,17 @@ type Props = {
     calculateSettings: CalculateSettings;
     setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
   };
+  checkedLibreState: {
+    checkedLibre: boolean;
+    setCheckedLibre: Dispatch<SetStateAction<boolean>>;
+  };
 };
 
-export default function Header({ title, calculateStateSettings }: Props) {
+export default function Header({
+  title,
+  calculateStateSettings,
+  checkedLibreState,
+}: Props) {
   return (
     <Box px={4} bgColor="gray.100">
       <Container maxW="container.lg">
@@ -26,7 +34,10 @@ export default function Header({ title, calculateStateSettings }: Props) {
           <Heading as="h1" fontSize="2xl">
             {title}
           </Heading>
-          <DrawerSettings calculateStateSettings={calculateStateSettings} />
+          <DrawerSettings
+            calculateStateSettings={calculateStateSettings}
+            checkedLibreState={checkedLibreState}
+          />
         </Flex>
       </Container>
     </Box>

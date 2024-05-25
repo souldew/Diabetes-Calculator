@@ -15,9 +15,17 @@ type Props = {
     calculateSettings: CalculateSettings;
     setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
   };
+  checkedLibre: boolean;
 };
 
-export default function RestOfItems({ calculateStateSettings }: Props) {
+export default function RestOfItems({
+  calculateStateSettings,
+  checkedLibre,
+}: Props) {
+  const prescriptionLst = checkedLibre
+    ? [...PRESCRIPTION_ITEMS, ...INSULIN_NUMS, ...LIBRE]
+    : [...PRESCRIPTION_ITEMS, ...INSULIN_NUMS];
+
   return (
     <>
       <Center>
@@ -26,7 +34,7 @@ export default function RestOfItems({ calculateStateSettings }: Props) {
         </Heading>
       </Center>
       <SimpleGrid columns={2}>
-        {[...PRESCRIPTION_ITEMS, ...INSULIN_NUMS, ...LIBRE].map((item) => {
+        {prescriptionLst.map((item) => {
           return (
             <React.Fragment key={item.en}>
               <Text padding={"10px"} display={"flex"} alignItems={"center"}>
