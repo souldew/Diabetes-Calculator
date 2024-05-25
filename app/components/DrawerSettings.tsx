@@ -1,5 +1,6 @@
 import {
   Box,
+  Checkbox,
   Heading,
   IconButton,
   NumberInput,
@@ -35,9 +36,16 @@ type Props = {
     calculateSettings: CalculateSettings;
     setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
   };
+  checkedLibreState: {
+    checkedLibre: boolean;
+    setCheckedLibre: Dispatch<SetStateAction<boolean>>;
+  };
 };
 
-export default function DrawerSettings({ calculateStateSettings }: Props) {
+export default function DrawerSettings({
+  calculateStateSettings,
+  checkedLibreState,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [nextVisit, setNextVist] = useState("");
 
@@ -79,11 +87,13 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
           <DrawerHeader>設定</DrawerHeader>
 
           <DrawerBody>
-            <Heading>インスリン1日消費量</Heading>
+            <Heading as={"h1"} fontSize={"2xl"} mb={"0.5em"}>
+              インスリン1日消費量
+            </Heading>
             {INSULIN_UNITS.map((item) => {
               return (
                 <React.Fragment key={item.en}>
-                  <Heading size="md">{item.jp}</Heading>
+                  <Heading fontSize={"lg"}>{item.jp}</Heading>
                   <SimpleGrid columns={3}>
                     {TIME_PERIODS.map((time) => {
                       return (
@@ -102,7 +112,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                 </React.Fragment>
               );
             })}
-            <Heading size="md" padding={"10px"}>
+            <Heading fontSize={"lg"} padding={"10px"}>
               捨てる量
             </Heading>
             <CreateNumberField
@@ -110,7 +120,9 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
               name={`consume.dustInsulin`}
             />
             <SectionDividerComponent />
-            <Heading>1日使用量</Heading>
+            <Heading as={"h1"} fontSize={"2xl"} mb={"0.5em"}>
+              1日使用量
+            </Heading>
             <SimpleGrid columns={2}>
               {PRESCRIPTION_ITEMS.map((item) => {
                 return (
@@ -141,7 +153,9 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
               })}
             </SimpleGrid>
             <SectionDividerComponent />
-            <Heading>最小受け取り単位</Heading>
+            <Heading as={"h1"} fontSize={"2xl"} mb={"0.5em"}>
+              最小受け取り単位
+            </Heading>
             <SimpleGrid columns={2}>
               {[...PRESCRIPTION_ITEMS, ...INSULIN_UNITS].map((item) => {
                 return (
@@ -162,10 +176,12 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
               })}
             </SimpleGrid>
             <SectionDividerComponent />
-            <Heading>その他</Heading>
+            <Heading as={"h1"} fontSize={"2xl"} mb={"0.5em"}>
+              その他
+            </Heading>
             <SimpleGrid columns={2}>
               <Text padding={"10px"} display={"flex"} alignItems={"center"}>
-                次通院日までの日数
+                次回までの基本日数
               </Text>
               <NumberInput
                 p={"10px"}
@@ -182,6 +198,15 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                 <NumberInputField></NumberInputField>
               </NumberInput>
             </SimpleGrid>
+            <Checkbox
+              isChecked={checkedLibreState.checkedLibre}
+              onChange={(e) => {
+                checkedLibreState.setCheckedLibre(e.target.checked);
+              }}
+              ml={"0.5em"}
+            >
+              Libreを項目に追加する
+            </Checkbox>
           </DrawerBody>
 
           <DrawerFooter>
