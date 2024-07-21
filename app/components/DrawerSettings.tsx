@@ -47,7 +47,7 @@ export default function DrawerSettings({
   checkedLibreState,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [nextVisit, setNextVist] = useState("");
+  const [nextVisit, setNextVist] = useState("0");
 
   useEffect(() => {
     const v = localStorage.getItem("nextVist");
@@ -202,6 +202,7 @@ export default function DrawerSettings({
               isChecked={checkedLibreState.checkedLibre}
               onChange={(e) => {
                 checkedLibreState.setCheckedLibre(e.target.checked);
+                localStorage.setItem("isLibre", String(e.target.checked));
               }}
               ml={"0.5em"}
             >
