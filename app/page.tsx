@@ -76,9 +76,11 @@ export default function Page() {
   useEffect(() => {
     const store = localStorage.getItem("calculateSettings");
     const nextPeriod = localStorage.getItem("nextVist");
+    setCheckedLibre(localStorage.getItem("isLibre") === "false" ? false : true);
+
     if (store) {
       const today = new Date();
-      let nextVisitDay;
+      let nextVisitDay = new Date();
       if (nextPeriod) {
         nextVisitDay = new Date(
           today.getTime() + Number(nextPeriod) * 24 * 60 * 60 * 1000
