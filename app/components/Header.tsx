@@ -1,7 +1,7 @@
 import { Box, Container, Flex, Heading } from "@chakra-ui/react";
 import DrawerSettings from "./DrawerSettings";
 
-import { CalculateSettings } from "./types/types";
+import { CalculateSettings } from "../types/types";
 
 import { Dispatch, SetStateAction } from "react";
 

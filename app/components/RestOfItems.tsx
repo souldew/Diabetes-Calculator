@@ -7,8 +7,8 @@ import {
   LIBRE,
 } from "../constants/Constants";
 import React, { Dispatch, SetStateAction } from "react";
-import CreateNumberField from "./CreateNumberField";
-import { CalculateSettings } from "./types/types";
+import CreateNumberField from "./PositiveIntegerInput";
+import { CalculateSettings } from "../types/types";
 
 type Props = {
   calculateStateSettings: {

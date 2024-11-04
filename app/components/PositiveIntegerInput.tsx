@@ -1,5 +1,5 @@
 import { NumberInput, NumberInputField } from "@chakra-ui/react";
-import { CalculateSettings } from "./types/types";
+import { CalculateSettings } from "../types/types";
 import { Dispatch, SetStateAction } from "react";
 import {
   INSULIN_UNITS,
@@ -15,7 +15,7 @@ type Props = {
   name: string;
 };
 
-export default function createNumberField({
+export default function PositiveIntegerInput({
   calculateStateSettings,
   name,
 }: Props) {

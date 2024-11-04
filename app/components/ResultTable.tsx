@@ -14,7 +14,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
-import { Result } from "./types/types";
+import { Result } from "../types/types";
 
 type Props = {
   title: string;

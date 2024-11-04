@@ -7,7 +7,7 @@ import RestOfItems from "./components/RestOfItems";
 import ResultTable from "./components/ResultTable";
 import { useEffect, useState } from "react";
 
-import { CalculateSettings, Result } from "./components/types/types";
+import { CalculateSettings, Result } from "./types/types";
 import { Box } from "@chakra-ui/react";
 import { DEFAULT_RESULT } from "./constants/Constants";
 
