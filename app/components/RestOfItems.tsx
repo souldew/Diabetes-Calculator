@@ -5,26 +5,36 @@ import {
   INSULIN_NUMS,
   PRESCRIPTION_ITEMS,
   LIBRE,
+  Property,
 } from "../constants/Constants";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CreateNumberField from "./PositiveIntegerInput";
 import { CalculateSettings } from "../types/types";
+import useCheckBoxLocalStorage from "../hook/useCheckBoxLocalStorage";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 type Props = {
   calculateStateSettings: {
     calculateSettings: CalculateSettings;
     setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
   };
-  checkedLibre: boolean;
 };
 
-export default function RestOfItems({
-  calculateStateSettings,
-  checkedLibre,
-}: Props) {
-  const prescriptionLst = checkedLibre
-    ? [...PRESCRIPTION_ITEMS, ...INSULIN_NUMS, ...LIBRE]
-    : [...PRESCRIPTION_ITEMS, ...INSULIN_NUMS];
+export default function RestOfItems({ calculateStateSettings }: Props) {
+  const isLibre = useSelector((state: RootState) => state.config.isLibre);
+  const [prescriptionLst, setPrescriptionLst] = useState<Property[]>([
+    ...PRESCRIPTION_ITEMS,
+    ...INSULIN_NUMS,
+  ]);
+  useEffect(() => {
+    console.log("RestOfItems called");
+    if (isLibre) {
+      setPrescriptionLst([...PRESCRIPTION_ITEMS, ...INSULIN_NUMS, ...LIBRE]);
+    } else {
+      setPrescriptionLst([...PRESCRIPTION_ITEMS, ...INSULIN_NUMS]);
+    }
+  }, [isLibre]);
 
   return (
     <>

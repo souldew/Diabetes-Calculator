@@ -1,4 +1,4 @@
-import { Center, Heading } from "@chakra-ui/react";
+import { Center, Heading, useCheckbox } from "@chakra-ui/react";
 import {
   INSULIN_NUMS,
   LIBRE,
@@ -14,7 +14,10 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
-import { Result } from "../types/types";
+import { InsulinType, PrescriptionType, Result } from "../types/types";
+import useCheckBoxLocalStorage from "../hook/useCheckBoxLocalStorage";
+import { RootState } from "../store/store";
+import { useSelector } from "react-redux";
 
 type Props = {
   title: string;
@@ -26,15 +29,11 @@ type Props = {
     result: Result;
     setResult: Dispatch<SetStateAction<Result>>;
   };
-  checkedLibre: boolean;
 };
 
-export default function ResultTable({
-  title,
-  columns,
-  resultState,
-  checkedLibre,
-}: Props) {
+export default function ResultTable({ title, columns, resultState }: Props) {
+  const isLibre = useSelector((state: RootState) => state.config.isLibre);
+  console.log("isLibre value in ResultTable:", isLibre);
   return (
     <>
       <Center>
@@ -58,38 +57,40 @@ export default function ResultTable({
           </Thead>
           <Tbody>
             {[...PRESCRIPTION_ITEMS].map((item) => {
+              const en = item.en as PrescriptionType;
               return (
-                <React.Fragment key={item.en}>
+                <React.Fragment key={en}>
                   <Tr>
                     <Td>{item.jp}</Td>
 
                     <Td isNumeric>
-                      {resultState.result[columns[0]["en"]][item.en]}
+                      {resultState.result[columns[0]["en"]][en]}
                     </Td>
                     <Td isNumeric>
-                      {resultState.result[columns[1]["en"]][item.en]}
+                      {resultState.result[columns[1]["en"]][en]}
                     </Td>
                   </Tr>
                 </React.Fragment>
               );
             })}
             {[...INSULIN_NUMS].map((item) => {
+              const en = item.en as InsulinType;
               return (
                 <React.Fragment key={item.en}>
                   <Tr>
                     <Td>{item.jp}</Td>
 
                     <Td isNumeric>
-                      {resultState.result[columns[0]["en"]][item.en].toFixed(2)}
+                      {resultState.result[columns[0]["en"]][en].toFixed(2)}
                     </Td>
                     <Td isNumeric>
-                      {resultState.result[columns[1]["en"]][item.en].toFixed(2)}
+                      {resultState.result[columns[1]["en"]][en].toFixed(2)}
                     </Td>
                   </Tr>
                 </React.Fragment>
               );
             })}
-            {checkedLibre && (
+            {isLibre && (
               <Tr>
                 <Td>{LIBRE[0].jp}</Td>
 

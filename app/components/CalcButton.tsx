@@ -1,6 +1,12 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import { CalculateSettings, Result } from "../types/types";
+import {
+  CalculateSettings,
+  InsulinType,
+  PrescriptionType,
+  Result,
+  TimePried,
+} from "../types/types";
 import {
   INSULIN_UNITS,
   PRESCRIPTION_ITEMS,
@@ -39,64 +45,66 @@ export default function DateOfItems({ calculateSettings, resultState }: Props) {
 
       // インスリン以外の用品の計算
       PRESCRIPTION_ITEMS.map((item) => {
-        const consume = stringToNumber(settings.consume[item.en]);
-        const unit = stringToNumber(settings.recieveMinimunUnit[item.en]);
-        const rest = stringToNumber(settings.rest[item.en]);
+        const en = item.en as PrescriptionType;
+        const consume = stringToNumber(settings.consume[en]);
+        const unit = stringToNumber(settings.recieveMinimunUnit[en]);
+        const rest = stringToNumber(settings.rest[en]);
 
         // 必要数 最低限
         let ans = diffDays * consume - rest;
-        result.required[item.en] = ans;
+        result.required[en] = ans;
         // 必要数+予備 正確量
         ans += reserveDays * consume;
-        result.plusSpared[item.en] = ans;
+        result.plusSpared[en] = ans;
         // 概量
         ans = Math.floor((ans + unit - 1) / unit) * unit;
-        result.recieved[item.en] = ans;
+        result.recieved[en] = ans;
       });
       // Libreの計算
       LIBRE.map((item) => {
+        const en = item.en as "libre";
         const rest = settings.rest.libre;
         if (rest !== "") {
           // 設定されている場合
           // 必要数 最低限
           const requiredNum = Math.ceil(diffDays / 14) - stringToNumber(rest);
-          result.required[item.en] = requiredNum;
+          result.required[en] = requiredNum;
           // 必要数+予備 正確量
           const plusSparedNum =
             Math.ceil((diffDays + reserveDays) / 14) - stringToNumber(rest);
-          result.plusSpared[item.en] = plusSparedNum;
-          result.recieved[item.en] = plusSparedNum;
+          result.plusSpared[en] = plusSparedNum;
+          result.recieved[en] = plusSparedNum;
         } else {
-          result.required[item.en] = NaN;
-          result.plusSpared[item.en] = NaN;
-          result.recieved[item.en] = NaN;
+          result.required[en] = NaN;
+          result.plusSpared[en] = NaN;
+          result.recieved[en] = NaN;
         }
       });
 
       // インスリンの計算
       INSULIN_UNITS.map((insulin) => {
+        const insulinEn = insulin.en as InsulinType;
         let allConsume = 0;
         TIME_PERIODS.map((period) => {
-          const consume = stringToNumber(
-            settings.consume[insulin.en][period.en]
-          );
+          const periodEn = period.en as keyof TimePried;
+          const consume = stringToNumber(settings.consume[insulinEn][periodEn]);
           if (consume != 0) {
             const dust = stringToNumber(settings.consume.dustInsulin);
             allConsume += consume + dust;
           }
         });
-        const unit = stringToNumber(settings.recieveMinimunUnit[insulin.en]);
-        const rest = stringToNumber(settings.rest[insulin.en]);
+        const unit = stringToNumber(settings.recieveMinimunUnit[insulinEn]);
+        const rest = stringToNumber(settings.rest[insulinEn]);
 
         // 必要数 最低限
         const requiredNum = (diffDays * allConsume - rest * unit) / unit;
-        result.required[insulin.en] = requiredNum;
+        result.required[insulinEn] = requiredNum;
         // 必要数+予備 正確量
         const plusSparedNum = requiredNum + (reserveDays * allConsume) / unit;
-        result.plusSpared[insulin.en] = plusSparedNum;
+        result.plusSpared[insulinEn] = plusSparedNum;
         // 概量
         const recievedNum = Math.ceil(plusSparedNum);
-        result.recieved[insulin.en] = recievedNum;
+        result.recieved[insulinEn] = recievedNum;
       });
     } catch (e) {
       toast({

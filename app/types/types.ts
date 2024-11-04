@@ -1,11 +1,20 @@
+export type TimePried = {
+  morning: string;
+  noon: string;
+  night: string;
+};
+
+export type InsulinType = "fastActingInsulin" | "longActingInsulin";
+export type PrescriptionType =
+  | "alcohol"
+  | "glucoseNeedle"
+  | "LFS"
+  | "insulinNeedle";
+
 export type CalculateSettings = {
   // 1日消費量
   consume: {
-    fastActingInsulin: {
-      morning: string;
-      noon: string;
-      night: string;
-    };
+    fastActingInsulin: TimePried;
     longActingInsulin: {
       morning: string;
       noon: string;

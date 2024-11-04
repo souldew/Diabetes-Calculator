@@ -5,6 +5,7 @@ import {
   IconButton,
   NumberInput,
   NumberInputField,
+  StatHelpText,
 } from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import {
@@ -26,28 +27,31 @@ import {
   INSULIN_UNITS,
   TIME_PERIODS,
 } from "../constants/Constants";
-import { CalculateSettings } from "../types/types";
+import { CalculateSettings, InsulinType, TimePried } from "../types/types";
 import { Dispatch, SetStateAction } from "react";
 import CreateNumberField from "./PositiveIntegerInput";
 import SectionDivider from "./SectionDivider";
+import useCheckBoxLocalStorage from "../hook/useCheckBoxLocalStorage";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { setIsLibre } from "../store/configSlice";
 
 type Props = {
   calculateStateSettings: {
     calculateSettings: CalculateSettings;
     setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
   };
-  checkedLibreState: {
-    checkedLibre: boolean;
-    setCheckedLibre: Dispatch<SetStateAction<boolean>>;
-  };
 };
 
-export default function DrawerSettings({
-  calculateStateSettings,
-  checkedLibreState,
-}: Props) {
+export default function DrawerSettings({ calculateStateSettings }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [nextVisit, setNextVist] = useState<string>("0");
+  const isLibre = useSelector((state: RootState) => state.config.isLibre);
+  const dispatch = useDispatch();
+
+  const handleIsLibre = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setIsLibre(event.target.checked));
+  };
 
   useEffect(() => {
     const v = localStorage.getItem("nextVist");
@@ -55,13 +59,17 @@ export default function DrawerSettings({
       setNextVist(v);
     }
   }, []);
+  calculateStateSettings.calculateSettings.consume.longActingInsulin.night;
 
   // 1日のインスリン使用量の計算
-  const calcDayUseInsulin = (type: (typeof INSULIN_UNITS)[number]["en"]) => {
+  const calcDayUseInsulin = (
+    type: "fastActingInsulin" | "longActingInsulin"
+  ) => {
     let allConsume = 0;
     TIME_PERIODS.map((period) => {
+      const time = period.en as keyof TimePried;
       const consume = Number(
-        calculateStateSettings.calculateSettings.consume[type][period.en]
+        calculateStateSettings.calculateSettings.consume[type][time]
       );
       if (consume != 0) {
         const dust = Number(
@@ -146,7 +154,7 @@ export default function DrawerSettings({
                   <React.Fragment key={item.en}>
                     <Text padding={"10px"}>{item.jp}</Text>
                     <Text padding={"10px"} ml={"1em"}>
-                      {calcDayUseInsulin(item.en)}
+                      {calcDayUseInsulin(item.en as InsulinType)}
                     </Text>
                   </React.Fragment>
                 );
@@ -198,14 +206,7 @@ export default function DrawerSettings({
                 <NumberInputField></NumberInputField>
               </NumberInput>
             </SimpleGrid>
-            <Checkbox
-              isChecked={checkedLibreState.checkedLibre}
-              onChange={(e) => {
-                checkedLibreState.setCheckedLibre(e.target.checked);
-                localStorage.setItem("isLibre", String(e.target.checked));
-              }}
-              ml={"0.5em"}
-            >
+            <Checkbox isChecked={isLibre} onChange={handleIsLibre} ml={"0.5em"}>
               Libreを項目に追加する
             </Checkbox>
           </DrawerBody>

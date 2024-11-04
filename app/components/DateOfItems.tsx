@@ -24,6 +24,7 @@ export default function DateOfItems({ calculateStateSettings }: Props) {
     <Box mx={"10px"}>
       <SimpleGrid columns={2} spacing={"10px"}>
         {DATE_PROPERTIES.map((item) => {
+          const itemEn = item.en as "today" | "nextVisitDay";
           return (
             <Box key={item.en}>
               <Text textAlign={"center"}>{item.jp}</Text>
@@ -32,10 +33,10 @@ export default function DateOfItems({ calculateStateSettings }: Props) {
                 key={item.en}
                 type="date"
                 value={getFormatDate(
-                  calculateStateSettings.calculateSettings.date[item.en]
+                  calculateStateSettings.calculateSettings.date[itemEn]
                 )}
                 onChange={(e) => {
-                  calculateStateSettings.calculateSettings.date[item.en] =
+                  calculateStateSettings.calculateSettings.date[itemEn] =
                     new Date(e.target.value);
                   calculateStateSettings.setCalculateSettings({
                     ...calculateStateSettings.calculateSettings,

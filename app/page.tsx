@@ -70,13 +70,11 @@ export default function Page() {
   const [result, setResult] = useState<Result>(
     JSON.parse(JSON.stringify(DEFAULT_RESULT))
   );
-  const [checkedLibre, setCheckedLibre] = useState(true);
 
   // 設定項目の読み込み
   useEffect(() => {
     const store = localStorage.getItem("calculateSettings");
     const nextPeriod = localStorage.getItem("nextVist");
-    setCheckedLibre(localStorage.getItem("isLibre") === "false" ? false : true);
 
     if (store) {
       const today = new Date();
@@ -105,17 +103,12 @@ export default function Page() {
           calculateSettings: calculateSettings,
           setCalculateSettings: setCalculateSettings,
         }}
-        checkedLibreState={{
-          checkedLibre: checkedLibre,
-          setCheckedLibre: setCheckedLibre,
-        }}
       />
       <RestOfItems
         calculateStateSettings={{
           calculateSettings: calculateSettings,
           setCalculateSettings: setCalculateSettings,
         }}
-        checkedLibre={checkedLibre}
       />
       <Box my="2em"></Box>
       <DateOfItems
@@ -133,14 +126,12 @@ export default function Page() {
         title={detailTitle}
         columns={detailColumns}
         resultState={{ result: result, setResult: setResult }}
-        checkedLibre={checkedLibre}
       />
       <Box my="3em"></Box>
       <ResultTable
         title={recievedTitle}
         columns={recievedColumns}
         resultState={{ result: result, setResult: setResult }}
-        checkedLibre={checkedLibre}
       />
       <Box my="20em"></Box>
     </>
