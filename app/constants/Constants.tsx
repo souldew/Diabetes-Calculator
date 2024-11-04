@@ -1,4 +1,4 @@
-import { Result } from "../components/types/types";
+import { Result } from "../types/types";
 
 export const PRESCRIPTION_ITEMS = [
   { en: "alcohol", jp: "アルコール" },

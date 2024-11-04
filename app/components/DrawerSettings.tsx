@@ -26,10 +26,10 @@ import {
   INSULIN_UNITS,
   TIME_PERIODS,
 } from "../constants/Constants";
-import { CalculateSettings } from "./types/types";
+import { CalculateSettings } from "../types/types";
 import { Dispatch, SetStateAction } from "react";
-import CreateNumberField from "./CreateNumberField";
-import SectionDividerComponent from "./SectionDividerComponent";
+import CreateNumberField from "./PositiveIntegerInput";
+import SectionDivider from "./SectionDivider";
 
 type Props = {
   calculateStateSettings: {
@@ -47,7 +47,7 @@ export default function DrawerSettings({
   checkedLibreState,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [nextVisit, setNextVist] = useState("0");
+  const [nextVisit, setNextVist] = useState<string>("0");
 
   useEffect(() => {
     const v = localStorage.getItem("nextVist");
@@ -119,7 +119,7 @@ export default function DrawerSettings({
               calculateStateSettings={calculateStateSettings}
               name={`consume.dustInsulin`}
             />
-            <SectionDividerComponent />
+            <SectionDivider />
             <Heading as={"h1"} fontSize={"2xl"} mb={"0.5em"}>
               1日使用量
             </Heading>
@@ -152,7 +152,7 @@ export default function DrawerSettings({
                 );
               })}
             </SimpleGrid>
-            <SectionDividerComponent />
+            <SectionDivider />
             <Heading as={"h1"} fontSize={"2xl"} mb={"0.5em"}>
               最小受け取り単位
             </Heading>
@@ -175,7 +175,7 @@ export default function DrawerSettings({
                 );
               })}
             </SimpleGrid>
-            <SectionDividerComponent />
+            <SectionDivider />
             <Heading as={"h1"} fontSize={"2xl"} mb={"0.5em"}>
               その他
             </Heading>

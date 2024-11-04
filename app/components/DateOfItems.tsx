@@ -1,10 +1,10 @@
 import { Box, Input } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
-import { CalculateSettings } from "./types/types";
+import { CalculateSettings } from "../types/types";
 import { Dispatch, SetStateAction } from "react";
 import { DATE_PROPERTIES } from "../constants/Constants";
-import CreateNumberField from "./CreateNumberField";
+import PositiveIntegerInput from "./PositiveIntegerInput";
 
 type Props = {
   calculateStateSettings: {
@@ -47,7 +47,7 @@ export default function DateOfItems({ calculateStateSettings }: Props) {
         })}
         <Box>
           <Text textAlign={"center"}>薬の予備日数</Text>
-          <CreateNumberField
+          <PositiveIntegerInput
             calculateStateSettings={calculateStateSettings}
             name={"reserveDays"}
           />

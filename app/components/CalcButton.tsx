@@ -1,6 +1,6 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import { CalculateSettings, Result } from "./types/types";
+import { CalculateSettings, Result } from "../types/types";
 import {
   INSULIN_UNITS,
   PRESCRIPTION_ITEMS,
