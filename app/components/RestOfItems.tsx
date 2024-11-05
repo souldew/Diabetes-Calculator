@@ -10,7 +10,6 @@ import {
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CreateNumberField from "./PositiveIntegerInput";
 import { CalculateSettings } from "../types/types";
-import useCheckBoxLocalStorage from "../hook/useCheckBoxLocalStorage";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 
@@ -28,7 +27,6 @@ export default function RestOfItems({ calculateStateSettings }: Props) {
     ...INSULIN_NUMS,
   ]);
   useEffect(() => {
-    console.log("RestOfItems called");
     if (isLibre) {
       setPrescriptionLst([...PRESCRIPTION_ITEMS, ...INSULIN_NUMS, ...LIBRE]);
     } else {

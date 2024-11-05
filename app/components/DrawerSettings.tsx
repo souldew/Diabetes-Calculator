@@ -5,7 +5,6 @@ import {
   IconButton,
   NumberInput,
   NumberInputField,
-  StatHelpText,
 } from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import {
@@ -31,7 +30,6 @@ import { CalculateSettings, InsulinType, TimePried } from "../types/types";
 import { Dispatch, SetStateAction } from "react";
 import CreateNumberField from "./PositiveIntegerInput";
 import SectionDivider from "./SectionDivider";
-import useCheckBoxLocalStorage from "../hook/useCheckBoxLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { setIsLibre } from "../store/configSlice";

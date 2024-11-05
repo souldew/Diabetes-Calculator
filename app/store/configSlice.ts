@@ -1,3 +1,4 @@
+"use client";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Payload = {
@@ -8,16 +9,9 @@ type ConfigState = {
   isLibre: boolean | undefined;
 };
 
-const getInitial = () => {
-  const storedValue = localStorage.getItem("isLibre");
-  let isLibre = false;
-  if (storedValue == "true") {
-    isLibre = true;
-  }
-  return { isLibre };
+const initialConfigState: ConfigState = {
+  isLibre: undefined,
 };
-
-const initialConfigState: ConfigState = getInitial();
 
 export const configSlice = createSlice({
   name: "configSlice",
@@ -27,7 +21,11 @@ export const configSlice = createSlice({
       state.isLibre = action.payload;
       localStorage.setItem("isLibre", JSON.stringify(action.payload));
     },
+    initializeConfig: (state) => {
+      const storedValue = localStorage.getItem("isLibre");
+      state.isLibre = storedValue === "true";
+    },
   },
 });
 
-export const { setIsLibre } = configSlice.actions;
+export const { setIsLibre, initializeConfig } = configSlice.actions;

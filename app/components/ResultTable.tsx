@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
 import { InsulinType, PrescriptionType, Result } from "../types/types";
-import useCheckBoxLocalStorage from "../hook/useCheckBoxLocalStorage";
 import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
 
@@ -33,7 +32,6 @@ type Props = {
 
 export default function ResultTable({ title, columns, resultState }: Props) {
   const isLibre = useSelector((state: RootState) => state.config.isLibre);
-  console.log("isLibre value in ResultTable:", isLibre);
   return (
     <>
       <Center>
