@@ -6,10 +6,13 @@ import Header from "./components/Header";
 import RestOfItems from "./components/RestOfItems";
 import ResultTable from "./components/ResultTable";
 import { useEffect, useState } from "react";
+import { addDays, format } from "date-fns";
 
 import { CalculateSettings, Result } from "./types/types";
 import { Box } from "@chakra-ui/react";
 import { DEFAULT_RESULT } from "./constants/Constants";
+import { RootState } from "./store/store";
+import { useSelector } from "react-redux";
 
 const pageTitle = "薬計算ツール";
 const detailTitle = "詳細必要数";
@@ -24,6 +27,13 @@ const recievedColumns: { readonly en: keyof Result; readonly jp: string }[] = [
 ];
 
 export default function Page() {
+  const [today, setToday] = useState<Date>(new Date());
+  const [nextVisitDay, setNextVisitDay] = useState<Date | undefined>();
+  const nextVisit = useSelector((state: RootState) => state.config.nextVisit);
+
+  useEffect(() => {
+    setNextVisitDay(addDays(today, Number(nextVisit)));
+  }, []);
   const [calculateSettings, setCalculateSettings] = useState<CalculateSettings>(
     {
       consume: {
@@ -74,7 +84,7 @@ export default function Page() {
   // 設定項目の読み込み
   useEffect(() => {
     const store = localStorage.getItem("calculateSettings");
-    const nextPeriod = localStorage.getItem("nextVist");
+    const nextPeriod = localStorage.getItem("nextVisit");
 
     if (store) {
       const today = new Date();
@@ -119,8 +129,8 @@ export default function Page() {
       />
       <Box my="1em"></Box>
       <CalcButton
-        calculateSettings={calculateSettings}
-        resultState={{ result: result, setResult: setResult }}
+        calculateSettings={calculateSettings} // 引数
+        resultState={{ result: result, setResult: setResult }} // 結果格納をする変数
       />
       <ResultTable
         title={detailTitle}

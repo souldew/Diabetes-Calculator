@@ -17,7 +17,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
@@ -32,7 +32,7 @@ import CreateNumberField from "./PositiveIntegerInput";
 import SectionDivider from "./SectionDivider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { setIsLibre } from "../store/configSlice";
+import { setIsLibre, setNextVist } from "../store/configSlice";
 
 type Props = {
   calculateStateSettings: {
@@ -43,20 +43,19 @@ type Props = {
 
 export default function DrawerSettings({ calculateStateSettings }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [nextVisit, setNextVist] = useState<string>("0");
-  const isLibre = useSelector((state: RootState) => state.config.isLibre);
+  const { isLibre, nextVisit } = useSelector(
+    (state: RootState) => state.config
+  );
   const dispatch = useDispatch();
 
   const handleIsLibre = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setIsLibre(event.target.checked));
   };
 
-  useEffect(() => {
-    const v = localStorage.getItem("nextVist");
-    if (v) {
-      setNextVist(v);
-    }
-  }, []);
+  const handleNextVist = (str: string) => {
+    dispatch(setNextVist(str));
+  };
+
   calculateStateSettings.calculateSettings.consume.longActingInsulin.night;
 
   // 1日のインスリン使用量の計算
@@ -196,10 +195,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                 isValidCharacter={(v) => {
                   return /^[0-9]*$/.test(v);
                 }}
-                onChange={(e) => {
-                  localStorage.setItem("nextVist", e);
-                  setNextVist(e);
-                }}
+                onChange={handleNextVist}
               >
                 <NumberInputField></NumberInputField>
               </NumberInput>

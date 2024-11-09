@@ -1,10 +1,13 @@
-import { Box, Input } from "@chakra-ui/react";
+import { Box, Input, NumberInput, NumberInputField } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { CalculateSettings } from "../types/types";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DATE_PROPERTIES } from "../constants/Constants";
 import PositiveIntegerInput from "./PositiveIntegerInput";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { setReserveDays } from "../store/configSlice";
 
 type Props = {
   calculateStateSettings: {
@@ -14,6 +17,17 @@ type Props = {
 };
 
 export default function DateOfItems({ calculateStateSettings }: Props) {
+  const { reserveDays } = useSelector((state: RootState) => state.config);
+  const dispatch = useDispatch();
+  const today = useState<Date>(new Date());
+
+  const handleReserveDays = (str: string) => {
+    dispatch(setReserveDays(str));
+  };
+
+  const verifyInput = (str: string) => {
+    return /^\d*$/.test(str);
+  };
   const dates: { [key: string]: Date } =
     calculateStateSettings.calculateSettings.date;
 
@@ -47,11 +61,20 @@ export default function DateOfItems({ calculateStateSettings }: Props) {
           );
         })}
         <Box>
+          {/* TODO: PositiveIntegerInputをNumberInputに置き換え */}
           <Text textAlign={"center"}>薬の予備日数</Text>
-          <PositiveIntegerInput
+          <NumberInput
+            p={"10px"}
+            value={reserveDays}
+            isValidCharacter={verifyInput}
+            onChange={handleReserveDays}
+          >
+            <NumberInputField></NumberInputField>
+          </NumberInput>
+          {/* <PositiveIntegerInput
             calculateStateSettings={calculateStateSettings}
             name={"reserveDays"}
-          />
+          /> */}
         </Box>
         <Box>
           <Text textAlign={"center"}>次回通院日までの日数</Text>

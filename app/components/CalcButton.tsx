@@ -30,7 +30,7 @@ const stringToNumber = (input: string) => {
   return Number(input);
 };
 
-export default function DateOfItems({ calculateSettings, resultState }: Props) {
+export default function CalcButton({ calculateSettings, resultState }: Props) {
   const toast = useToast();
   const settings = calculateSettings;
   const result = resultState.result;
