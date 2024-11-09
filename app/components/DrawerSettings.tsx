@@ -118,7 +118,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
               );
             })}
             <Heading fontSize={"lg"} padding={"10px"}>
-              捨てる量
+              空打ち量
             </Heading>
             <CreateNumberField
               calculateStateSettings={calculateStateSettings}

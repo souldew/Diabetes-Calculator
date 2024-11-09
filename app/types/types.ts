@@ -45,13 +45,6 @@ export type CalculateSettings = {
     longActingInsulin: string;
     libre: string;
   };
-  // 予備日数
-  reserveDays: string;
-  // 日付指定
-  date: {
-    today: Date;
-    nextVisitDay: Date;
-  };
 };
 
 export type Result = {

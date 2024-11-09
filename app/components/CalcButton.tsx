@@ -14,6 +14,9 @@ import {
   TIME_PERIODS,
   DEFAULT_RESULT,
 } from "../constants/Constants";
+import { differenceInDays } from "date-fns";
+import { RootState } from "../store/store";
+import { useSelector } from "react-redux";
 
 type Props = {
   calculateSettings: CalculateSettings;
@@ -21,6 +24,8 @@ type Props = {
     result: Result;
     setResult: Dispatch<SetStateAction<Result>>;
   };
+  today: Date;
+  nextVisitDay: Date;
 };
 
 const stringToNumber = (input: string) => {
@@ -30,7 +35,15 @@ const stringToNumber = (input: string) => {
   return Number(input);
 };
 
-export default function CalcButton({ calculateSettings, resultState }: Props) {
+export default function CalcButton({
+  calculateSettings,
+  resultState,
+  today,
+  nextVisitDay,
+}: Props) {
+  const reserveDays = useSelector((state: RootState) =>
+    Number(state.config.reserveDays)
+  );
   const toast = useToast();
   const settings = calculateSettings;
   const result = resultState.result;
@@ -38,10 +51,8 @@ export default function CalcButton({ calculateSettings, resultState }: Props) {
   const handleCalcButton = () => {
     try {
       // 日付関連の算出
-      let diffDays =
-        settings.date.nextVisitDay.getTime() - settings.date.today.getTime();
-      diffDays = Math.ceil(diffDays / (1000 * 60 * 60 * 24));
-      const reserveDays = stringToNumber(settings.reserveDays);
+      let diffDays = differenceInDays(nextVisitDay, today);
+      console.log(reserveDays);
 
       // インスリン以外の用品の計算
       PRESCRIPTION_ITEMS.map((item) => {

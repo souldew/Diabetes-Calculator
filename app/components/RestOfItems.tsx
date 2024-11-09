@@ -8,7 +8,7 @@ import {
   Property,
 } from "../constants/Constants";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import CreateNumberField from "./PositiveIntegerInput";
+import PositiveIntegerInput from "./PositiveIntegerInput";
 import { CalculateSettings } from "../types/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
@@ -48,7 +48,7 @@ export default function RestOfItems({ calculateStateSettings }: Props) {
               <Text padding={"10px"} display={"flex"} alignItems={"center"}>
                 {item.jp}
               </Text>
-              <CreateNumberField
+              <PositiveIntegerInput
                 calculateStateSettings={calculateStateSettings}
                 name={`rest.${item.en}`}
               />

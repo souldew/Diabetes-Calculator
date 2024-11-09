@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import RestOfItems from "./components/RestOfItems";
 import ResultTable from "./components/ResultTable";
 import { useEffect, useState } from "react";
-import { addDays, format } from "date-fns";
+import { addDays } from "date-fns";
 
 import { CalculateSettings, Result } from "./types/types";
 import { Box } from "@chakra-ui/react";
@@ -28,12 +28,12 @@ const recievedColumns: { readonly en: keyof Result; readonly jp: string }[] = [
 
 export default function Page() {
   const [today, setToday] = useState<Date>(new Date());
-  const [nextVisitDay, setNextVisitDay] = useState<Date | undefined>();
+  const [nextVisitDay, setNextVisitDay] = useState<Date>(new Date());
   const nextVisit = useSelector((state: RootState) => state.config.nextVisit);
 
   useEffect(() => {
     setNextVisitDay(addDays(today, Number(nextVisit)));
-  }, []);
+  }, [today, nextVisit]);
   const [calculateSettings, setCalculateSettings] = useState<CalculateSettings>(
     {
       consume: {
@@ -69,11 +69,6 @@ export default function Page() {
         fastActingInsulin: "0",
         longActingInsulin: "0",
         libre: "0",
-      },
-      reserveDays: "7",
-      date: {
-        today: new Date(),
-        nextVisitDay: new Date(),
       },
     }
   );
@@ -122,15 +117,17 @@ export default function Page() {
       />
       <Box my="2em"></Box>
       <DateOfItems
-        calculateStateSettings={{
-          calculateSettings: calculateSettings,
-          setCalculateSettings: setCalculateSettings,
-        }}
+        today={today}
+        nextVisitDay={nextVisitDay}
+        setToday={setToday}
+        setNextVisitDay={setNextVisitDay}
       />
       <Box my="1em"></Box>
       <CalcButton
         calculateSettings={calculateSettings} // 引数
         resultState={{ result: result, setResult: setResult }} // 結果格納をする変数
+        today={today}
+        nextVisitDay={nextVisitDay}
       />
       <ResultTable
         title={detailTitle}

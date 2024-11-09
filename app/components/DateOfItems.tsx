@@ -1,65 +1,76 @@
 import { Box, Input, NumberInput, NumberInputField } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
-import { CalculateSettings } from "../types/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { DATE_PROPERTIES } from "../constants/Constants";
-import PositiveIntegerInput from "./PositiveIntegerInput";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { setReserveDays } from "../store/configSlice";
+import { differenceInDays, format, isValid } from "date-fns";
 
 type Props = {
-  calculateStateSettings: {
-    calculateSettings: CalculateSettings;
-    setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
-  };
+  today: Date;
+  nextVisitDay: Date;
+  setToday: Dispatch<SetStateAction<Date>>;
+  setNextVisitDay: Dispatch<SetStateAction<Date>>;
 };
 
-export default function DateOfItems({ calculateStateSettings }: Props) {
+export default function DateOfItems({
+  today,
+  nextVisitDay,
+  setToday,
+  setNextVisitDay,
+}: Props) {
   const { reserveDays } = useSelector((state: RootState) => state.config);
   const dispatch = useDispatch();
-  const today = useState<Date>(new Date());
+  const [diffDays, setDiffDays] = useState<String>();
 
   const handleReserveDays = (str: string) => {
     dispatch(setReserveDays(str));
   };
 
+  const handleToday = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = new Date(event.target.value);
+    if (isValid(input)) {
+      setToday(input);
+    }
+  };
+
+  const handleNextVisitDay = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = new Date(event.target.value);
+    if (isValid(input)) {
+      setNextVisitDay(input);
+    }
+  };
+
   const verifyInput = (str: string) => {
     return /^\d*$/.test(str);
   };
-  const dates: { [key: string]: Date } =
-    calculateStateSettings.calculateSettings.date;
 
-  // 日付関連の算出
-  const diffTimes = dates.nextVisitDay.getTime() - dates.today.getTime();
-  const diffDays = Math.ceil(diffTimes / (1000 * 60 * 60 * 24));
+  useEffect(() => {
+    setDiffDays(String(differenceInDays(nextVisitDay, today)));
+  }, [today, nextVisitDay]);
+
   return (
     <Box mx={"10px"}>
       <SimpleGrid columns={2} spacing={"10px"}>
-        {DATE_PROPERTIES.map((item) => {
-          const itemEn = item.en as "today" | "nextVisitDay";
-          return (
-            <Box key={item.en}>
-              <Text textAlign={"center"}>{item.jp}</Text>
-              <Input
-                my={"10px"}
-                key={item.en}
-                type="date"
-                value={getFormatDate(
-                  calculateStateSettings.calculateSettings.date[itemEn]
-                )}
-                onChange={(e) => {
-                  calculateStateSettings.calculateSettings.date[itemEn] =
-                    new Date(e.target.value);
-                  calculateStateSettings.setCalculateSettings({
-                    ...calculateStateSettings.calculateSettings,
-                  });
-                }}
-              ></Input>
-            </Box>
-          );
-        })}
+        <Box>
+          <Text textAlign={"center"}>通院日 (当日)</Text>
+          <Input
+            m={"10px"}
+            type="date"
+            value={format(today, "yyyy-MM-dd")}
+            onChange={handleToday}
+          />
+        </Box>
+        <Box>
+          <Text textAlign={"center"}>次回通院日</Text>
+          <Input
+            m={"10px"}
+            type="date"
+            value={format(nextVisitDay, "yyyy-MM-dd")}
+            onChange={handleNextVisitDay}
+          />
+        </Box>
         <Box>
           {/* TODO: PositiveIntegerInputをNumberInputに置き換え */}
           <Text textAlign={"center"}>薬の予備日数</Text>
@@ -85,11 +96,4 @@ export default function DateOfItems({ calculateStateSettings }: Props) {
       </SimpleGrid>
     </Box>
   );
-}
-
-function getFormatDate(date: Date) {
-  const year = date.getFullYear();
-  const month = ("0" + (date.getMonth() + 1)).slice(-2);
-  const day = ("0" + date.getDate()).slice(-2);
-  return `${year}-${month}-${day}`;
 }

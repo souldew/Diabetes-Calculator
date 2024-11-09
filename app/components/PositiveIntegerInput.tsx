@@ -90,10 +90,6 @@ function handleInputChange(
         state[path[0]].libre = input;
       }
       break;
-    // 予備日数
-    case "reserveDays":
-      state[path[0]] = input;
-      break;
   }
   setState({ ...state });
   localStorage.setItem("calculateSettings", JSON.stringify(state));
@@ -141,10 +137,6 @@ function getSettingsValue(
         // Libre
         return state[path[0]].libre;
       }
-      break;
-    // 予備日数
-    case "reserveDays":
-      return state[path[0]];
   }
 }
 
