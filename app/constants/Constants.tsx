@@ -1,7 +1,9 @@
-import { Result } from "../types/types";
+import { TimeOfDay } from "../store/insulinSlice";
+import { MedicineState } from "../store/medicineSlice";
+import { InsulinType, Result } from "../types/types";
 
 export type Property = {
-  en: string;
+  en: keyof MedicineState;
   jp: string;
 };
 
@@ -14,27 +16,25 @@ export const PRESCRIPTION_ITEMS: Property[] = [
 
 export const LIBRE: Property[] = [{ en: "libre", jp: "Libre" }] as const;
 
-export const INSULIN_NUMS: Property[] = [
+export const INSULIN_NUMS: { en: InsulinType; jp: string }[] = [
   { en: "fastActingInsulin", jp: "即効インスリン (本)" },
   { en: "longActingInsulin", jp: "持続インスリン (本)" },
 ] as const;
 
-export const INSULIN_UNITS: Property[] = [
+export const INSULIN_UNITS: { en: InsulinType; jp: string }[] = [
   { en: "fastActingInsulin", jp: "即効インスリン (単位)" },
   { en: "longActingInsulin", jp: "持続インスリン (単位)" },
 ] as const;
 
-export const INSULIN_DUSTS: Property[] = [
-  { en: "dustInsulin", jp: "捨てる量" },
-] as const;
+export const INSULIN_DUSTS = [{ en: "dustInsulin", jp: "捨てる量" }] as const;
 
-export const TIME_PERIODS: Property[] = [
+export const TIME_PERIODS: { en: TimeOfDay; jp: string }[] = [
   { en: "morning", jp: "朝" },
   { en: "noon", jp: "昼" },
   { en: "night", jp: "夜" },
 ];
 
-export const DATE_PROPERTIES: Property[] = [
+export const DATE_PROPERTIES = [
   { en: "today", jp: "通院日 (当日)" },
   { en: "nextVisitDay", jp: "次回通院日" },
 ] as const;

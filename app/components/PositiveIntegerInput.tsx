@@ -8,23 +8,16 @@ import {
 } from "../constants/Constants";
 
 type Props = {
-  calculateStateSettings: {
-    calculateSettings: CalculateSettings;
-    setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
-  };
-  name: string;
+  key: string;
 };
 
-export default function PositiveIntegerInput({
-  calculateStateSettings,
-  name,
-}: Props) {
+export default function PositiveIntegerInput({ key }: Props) {
   return (
     <>
       <NumberInput
         p={"10px"}
         min={0}
-        name={name}
+        name={key}
         value={getSettingsValue(calculateStateSettings.calculateSettings, name)}
         isValidCharacter={(v) => {
           return /^[0-9]*$/.test(v);

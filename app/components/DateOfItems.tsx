@@ -1,11 +1,12 @@
 import { Box, Input, NumberInput, NumberInputField } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { setReserveDays } from "../store/configSlice";
 import { differenceInDays, format, isValid } from "date-fns";
+import { verifyPositiveNumericStr } from "../util/util";
 
 type Props = {
   today: Date;
@@ -24,9 +25,19 @@ export default function DateOfItems({
   const dispatch = useDispatch();
   const [diffDays, setDiffDays] = useState<String>();
 
-  const handleReserveDays = (str: string) => {
-    dispatch(setReserveDays(str));
+  const handleReserveDays = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
+    if (verifyPositiveNumericStr(event.target.value)) {
+      dispatch(setReserveDays(event.target.value));
+    }
   };
+
+  // const handleReserveDays = (event: string) => {
+  //   console.log(event);
+  //   if (verifyPositiveNumericStr(event)) {
+  //     dispatch(setReserveDays(event));
+  //   }
+  // };
 
   const handleToday = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = new Date(event.target.value);
@@ -40,10 +51,6 @@ export default function DateOfItems({
     if (isValid(input)) {
       setNextVisitDay(input);
     }
-  };
-
-  const verifyInput = (str: string) => {
-    return /^\d*$/.test(str);
   };
 
   useEffect(() => {
@@ -74,18 +81,9 @@ export default function DateOfItems({
         <Box>
           {/* TODO: PositiveIntegerInputをNumberInputに置き換え */}
           <Text textAlign={"center"}>薬の予備日数</Text>
-          <NumberInput
-            p={"10px"}
-            value={reserveDays}
-            isValidCharacter={verifyInput}
-            onChange={handleReserveDays}
-          >
-            <NumberInputField></NumberInputField>
+          <NumberInput p={"10px"} value={reserveDays}>
+            <NumberInputField onChange={handleReserveDays} />
           </NumberInput>
-          {/* <PositiveIntegerInput
-            calculateStateSettings={calculateStateSettings}
-            name={"reserveDays"}
-          /> */}
         </Box>
         <Box>
           <Text textAlign={"center"}>次回通院日までの日数</Text>

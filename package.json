@@ -28,6 +28,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.2",
     "framer-motion": "^11.3.31",
+    "lodash": "^4.17.21",
     "react-redux": "^9.1.2",
     "typescript": "^5"
   }

@@ -79,10 +79,10 @@ export default function ResultTable({ title, columns, resultState }: Props) {
                     <Td>{item.jp}</Td>
 
                     <Td isNumeric>
-                      {resultState.result[columns[0]["en"]][en].toFixed(2)}
+                      {/* {resultState.result[columns[0]["en"]][en].toFixed(2)} */}
                     </Td>
                     <Td isNumeric>
-                      {resultState.result[columns[1]["en"]][en].toFixed(2)}
+                      {/* {resultState.result[columns[1]["en"]][en].toFixed(2)} */}
                     </Td>
                   </Tr>
                 </React.Fragment>

@@ -17,7 +17,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
@@ -28,11 +28,17 @@ import {
 } from "../constants/Constants";
 import { CalculateSettings, InsulinType, TimePried } from "../types/types";
 import { Dispatch, SetStateAction } from "react";
-import CreateNumberField from "./PositiveIntegerInput";
 import SectionDivider from "./SectionDivider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { setIsLibre, setNextVist } from "../store/configSlice";
+import { verifyPositiveNumericStr } from "../util/util";
+import {
+  handleConsumeMedicine,
+  handleMinUnitMedicine,
+  MedicineState,
+} from "../store/medicineSlice";
+import { handleInsulin, timeOfDay } from "../store/insulinSlice";
 
 type Props = {
   calculateStateSettings: {
@@ -43,11 +49,20 @@ type Props = {
 
 export default function DrawerSettings({ calculateStateSettings }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // Redux
   const { isLibre, nextVisit } = useSelector(
     (state: RootState) => state.config
   );
+  const consumeMedicine = useSelector(
+    (state: RootState) => state.consumeMedicine
+  );
+  const minUnitMedicine = useSelector(
+    (state: RootState) => state.minUnitMedicine
+  );
+  const insulin = useSelector((state: RootState) => state.insulin);
   const dispatch = useDispatch();
 
+  // handling
   const handleIsLibre = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setIsLibre(event.target.checked));
   };
@@ -56,27 +71,55 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
     dispatch(setNextVist(str));
   };
 
-  calculateStateSettings.calculateSettings.consume.longActingInsulin.night;
-
-  // 1日のインスリン使用量の計算
-  const calcDayUseInsulin = (
-    type: "fastActingInsulin" | "longActingInsulin"
-  ) => {
-    let allConsume = 0;
-    TIME_PERIODS.map((period) => {
-      const time = period.en as keyof TimePried;
-      const consume = Number(
-        calculateStateSettings.calculateSettings.consume[type][time]
-      );
-      if (consume != 0) {
-        const dust = Number(
-          calculateStateSettings.calculateSettings.consume.dustInsulin
-        );
-        allConsume += consume + dust;
-      }
-    });
-    return allConsume;
+  const handleConsumeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (verifyPositiveNumericStr(event.target.value)) {
+      const key = event.target.name as keyof MedicineState;
+      const value: string = event.target.value;
+      dispatch(handleConsumeMedicine({ key, value }));
+    }
   };
+
+  const handleMinUnitEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (verifyPositiveNumericStr(event.target.value)) {
+      const key = event.target.name as keyof MedicineState;
+      const value: string = event.target.value;
+      dispatch(handleConsumeMedicine({ key, value }));
+    }
+  };
+
+  const handleInsulinEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (verifyPositiveNumericStr(event.target.value)) {
+      const key = event.target.name;
+      const value: string = event.target.value;
+      dispatch(handleInsulin({ key, value }));
+    }
+  };
+
+  // function
+  const calcAndDispatchConsume = (insulinType: InsulinType) => {
+    let allConsume = 0;
+    for (const time of timeOfDay) {
+      const consume = Number(insulin[insulinType][time]);
+      if (consume !== 0) {
+        allConsume += consume + Number(insulin["dust"]);
+      }
+    }
+    dispatch(
+      handleConsumeMedicine({
+        key: insulinType,
+        value: String(allConsume),
+      })
+    );
+  };
+
+  // useEffect
+  useEffect(() => {
+    calcAndDispatchConsume("fastActingInsulin");
+  }, [insulin.fastActingInsulin, insulin.dust]);
+
+  useEffect(() => {
+    calcAndDispatchConsume("longActingInsulin");
+  }, [insulin.longActingInsulin, insulin.dust]);
 
   return (
     <>
@@ -106,10 +149,20 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                           <Text key={time.en} textAlign={"center"} mt={"10px"}>
                             {time.jp}
                           </Text>
-                          <CreateNumberField
+                          <NumberInput
+                            p={"10px"}
+                            min={0}
+                            value={insulin[item.en][time.en]}
+                            name={`${item.en}.${time.en}`}
+                          >
+                            <NumberInputField
+                              onChange={handleInsulinEvent}
+                            ></NumberInputField>
+                          </NumberInput>
+                          {/* <CreateNumberField
                             calculateStateSettings={calculateStateSettings}
                             name={`consume.${item.en}.${time.en}`}
-                          />
+                          /> */}
                         </Box>
                       );
                     })}
@@ -120,10 +173,20 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
             <Heading fontSize={"lg"} padding={"10px"}>
               空打ち量
             </Heading>
-            <CreateNumberField
+            <NumberInput
+              p={"10px"}
+              min={0}
+              value={insulin["dust"]}
+              name={"dust"}
+            >
+              <NumberInputField
+                onChange={handleInsulinEvent}
+              ></NumberInputField>
+            </NumberInput>
+            {/* <CreateNumberField
               calculateStateSettings={calculateStateSettings}
               name={`consume.dustInsulin`}
-            />
+            /> */}
             <SectionDivider />
             <Heading as={"h1"} fontSize={"2xl"} mb={"0.5em"}>
               1日使用量
@@ -139,10 +202,16 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                     >
                       {item.jp}
                     </Text>
-                    <CreateNumberField
-                      calculateStateSettings={calculateStateSettings}
-                      name={`consume.${item.en}`}
-                    />
+                    <NumberInput
+                      p={"10px"}
+                      min={0}
+                      value={consumeMedicine[item.en]}
+                      name={item.en}
+                    >
+                      <NumberInputField
+                        onChange={handleConsumeEvent}
+                      ></NumberInputField>
+                    </NumberInput>
                   </React.Fragment>
                 );
               })}
@@ -151,7 +220,8 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                   <React.Fragment key={item.en}>
                     <Text padding={"10px"}>{item.jp}</Text>
                     <Text padding={"10px"} ml={"1em"}>
-                      {calcDayUseInsulin(item.en as InsulinType)}
+                      {/* {calcDayUseInsulin(item.en as InsulinType)} */}
+                      {consumeMedicine[item.en]}
                     </Text>
                   </React.Fragment>
                 );
@@ -172,10 +242,16 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                     >
                       {item.jp}
                     </Text>
-                    <CreateNumberField
-                      calculateStateSettings={calculateStateSettings}
-                      name={`recieveMinimunUnit.${item.en}`}
-                    />
+                    <NumberInput
+                      p={"10px"}
+                      min={0}
+                      value={minUnitMedicine[item.en]}
+                      name={item.en}
+                    >
+                      <NumberInputField
+                        onChange={handleMinUnitEvent}
+                      ></NumberInputField>
+                    </NumberInput>
                   </React.Fragment>
                 );
               })}

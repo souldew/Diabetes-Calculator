@@ -1,4 +1,9 @@
-import { Center, Heading } from "@chakra-ui/react";
+import {
+  Center,
+  Heading,
+  NumberInput,
+  NumberInputField,
+} from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import {
@@ -8,10 +13,12 @@ import {
   Property,
 } from "../constants/Constants";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import PositiveIntegerInput from "./PositiveIntegerInput";
 import { CalculateSettings } from "../types/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { handleRestMedicine, MedicineState } from "../store/medicineSlice";
+import { verifyPositiveNumericStr } from "../util/util";
+import { useDispatch } from "react-redux";
 
 type Props = {
   calculateStateSettings: {
@@ -22,10 +29,13 @@ type Props = {
 
 export default function RestOfItems({ calculateStateSettings }: Props) {
   const isLibre = useSelector((state: RootState) => state.config.isLibre);
+  const restMedicine = useSelector((state: RootState) => state.restMedicine);
+  const dispatch = useDispatch();
   const [prescriptionLst, setPrescriptionLst] = useState<Property[]>([
     ...PRESCRIPTION_ITEMS,
     ...INSULIN_NUMS,
   ]);
+
   useEffect(() => {
     if (isLibre) {
       setPrescriptionLst([...PRESCRIPTION_ITEMS, ...INSULIN_NUMS, ...LIBRE]);
@@ -33,6 +43,14 @@ export default function RestOfItems({ calculateStateSettings }: Props) {
       setPrescriptionLst([...PRESCRIPTION_ITEMS, ...INSULIN_NUMS]);
     }
   }, [isLibre]);
+
+  const handleRestEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (verifyPositiveNumericStr(event.target.value)) {
+      const key = event.target.name as keyof MedicineState;
+      const value: string = event.target.value;
+      dispatch(handleRestMedicine({ key, value }));
+    }
+  };
 
   return (
     <>
@@ -42,19 +60,27 @@ export default function RestOfItems({ calculateStateSettings }: Props) {
         </Heading>
       </Center>
       <SimpleGrid columns={2}>
-        {prescriptionLst.map((item) => {
-          return (
-            <React.Fragment key={item.en}>
-              <Text padding={"10px"} display={"flex"} alignItems={"center"}>
-                {item.jp}
-              </Text>
-              <PositiveIntegerInput
-                calculateStateSettings={calculateStateSettings}
-                name={`rest.${item.en}`}
-              />
-            </React.Fragment>
-          );
-        })}
+        {prescriptionLst.map(
+          (item: { en: keyof MedicineState; jp: string }) => {
+            return (
+              <React.Fragment key={item.en}>
+                <Text padding={"10px"} display={"flex"} alignItems={"center"}>
+                  {item.jp}
+                </Text>
+                <NumberInput
+                  p={"10px"}
+                  min={0}
+                  value={restMedicine[item.en]}
+                  name={item.en}
+                >
+                  <NumberInputField
+                    onChange={handleRestEvent}
+                  ></NumberInputField>
+                </NumberInput>
+              </React.Fragment>
+            );
+          }
+        )}
       </SimpleGrid>
     </>
   );
