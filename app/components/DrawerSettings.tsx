@@ -17,7 +17,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
@@ -26,28 +26,20 @@ import {
   INSULIN_UNITS,
   TIME_PERIODS,
 } from "../constants/Constants";
-import { CalculateSettings, InsulinType, TimePried } from "../types/types";
-import { Dispatch, SetStateAction } from "react";
+import { insulinTypes } from "../types/types";
 import SectionDivider from "./SectionDivider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { setIsLibre, setNextVist } from "../store/configSlice";
 import { verifyPositiveNumericStr } from "../util/util";
 import {
-  handleConsumeMedicine,
-  handleMinUnitMedicine,
+  updateConsumeMedicine,
+  updateMinUnitMedicine,
   MedicineState,
 } from "../store/medicineSlice";
-import { handleInsulin, timeOfDay } from "../store/insulinSlice";
+import { updateInsulin, timeOfDay } from "../store/insulinSlice";
 
-type Props = {
-  calculateStateSettings: {
-    calculateSettings: CalculateSettings;
-    setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
-  };
-};
-
-export default function DrawerSettings({ calculateStateSettings }: Props) {
+export default function DrawerSettings() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // Redux
   const { isLibre, nextVisit } = useSelector(
@@ -71,55 +63,53 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
     dispatch(setNextVist(str));
   };
 
-  const handleConsumeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleConsume = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (verifyPositiveNumericStr(event.target.value)) {
       const key = event.target.name as keyof MedicineState;
       const value: string = event.target.value;
-      dispatch(handleConsumeMedicine({ key, value }));
+      dispatch(updateConsumeMedicine({ key, value }));
     }
   };
 
-  const handleMinUnitEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMinUnit = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (verifyPositiveNumericStr(event.target.value)) {
       const key = event.target.name as keyof MedicineState;
       const value: string = event.target.value;
-      dispatch(handleConsumeMedicine({ key, value }));
+      dispatch(updateMinUnitMedicine({ key, value }));
     }
   };
 
-  const handleInsulinEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInsulin = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (verifyPositiveNumericStr(event.target.value)) {
       const key = event.target.name;
       const value: string = event.target.value;
-      dispatch(handleInsulin({ key, value }));
+      dispatch(updateInsulin({ key, value }));
     }
   };
 
   // function
-  const calcAndDispatchConsume = (insulinType: InsulinType) => {
-    let allConsume = 0;
-    for (const time of timeOfDay) {
-      const consume = Number(insulin[insulinType][time]);
-      if (consume !== 0) {
-        allConsume += consume + Number(insulin["dust"]);
+  const calcAndDispatchConsume = useCallback(() => {
+    for (const insulinType of insulinTypes) {
+      let allConsume = 0;
+      for (const time of timeOfDay) {
+        const consume = Number(insulin[insulinType][time]);
+        if (consume !== 0) {
+          allConsume += consume + Number(insulin["dust"]);
+        }
       }
+      dispatch(
+        updateConsumeMedicine({
+          key: insulinType,
+          value: String(allConsume),
+        })
+      );
     }
-    dispatch(
-      handleConsumeMedicine({
-        key: insulinType,
-        value: String(allConsume),
-      })
-    );
-  };
+  }, [insulin, dispatch]);
 
   // useEffect
   useEffect(() => {
-    calcAndDispatchConsume("fastActingInsulin");
-  }, [insulin.fastActingInsulin, insulin.dust]);
-
-  useEffect(() => {
-    calcAndDispatchConsume("longActingInsulin");
-  }, [insulin.longActingInsulin, insulin.dust]);
+    calcAndDispatchConsume();
+  }, [calcAndDispatchConsume]);
 
   return (
     <>
@@ -156,7 +146,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                             name={`${item.en}.${time.en}`}
                           >
                             <NumberInputField
-                              onChange={handleInsulinEvent}
+                              onChange={handleInsulin}
                             ></NumberInputField>
                           </NumberInput>
                           {/* <CreateNumberField
@@ -179,9 +169,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
               value={insulin["dust"]}
               name={"dust"}
             >
-              <NumberInputField
-                onChange={handleInsulinEvent}
-              ></NumberInputField>
+              <NumberInputField onChange={handleInsulin}></NumberInputField>
             </NumberInput>
             {/* <CreateNumberField
               calculateStateSettings={calculateStateSettings}
@@ -209,7 +197,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                       name={item.en}
                     >
                       <NumberInputField
-                        onChange={handleConsumeEvent}
+                        onChange={handleConsume}
                       ></NumberInputField>
                     </NumberInput>
                   </React.Fragment>
@@ -249,7 +237,7 @@ export default function DrawerSettings({ calculateStateSettings }: Props) {
                       name={item.en}
                     >
                       <NumberInputField
-                        onChange={handleMinUnitEvent}
+                        onChange={handleMinUnit}
                       ></NumberInputField>
                     </NumberInput>
                   </React.Fragment>

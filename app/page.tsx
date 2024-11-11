@@ -27,13 +27,12 @@ const recievedColumns: { readonly en: keyof Result; readonly jp: string }[] = [
 ];
 
 export default function Page() {
-  const [today, setToday] = useState<Date>(new Date());
-  const [nextVisitDay, setNextVisitDay] = useState<Date>(new Date());
   const nextVisit = useSelector((state: RootState) => state.config.nextVisit);
+  const [today, setToday] = useState<Date>(new Date());
+  const [nextVisitDay, setNextVisitDay] = useState<Date>(
+    addDays(today, Number(nextVisit))
+  );
 
-  useEffect(() => {
-    setNextVisitDay(addDays(today, Number(nextVisit)));
-  }, [today, nextVisit]);
   const [calculateSettings, setCalculateSettings] = useState<CalculateSettings>(
     {
       consume: {
@@ -102,19 +101,8 @@ export default function Page() {
 
   return (
     <>
-      <Header
-        title={pageTitle}
-        calculateStateSettings={{
-          calculateSettings: calculateSettings,
-          setCalculateSettings: setCalculateSettings,
-        }}
-      />
-      <RestOfItems
-        calculateStateSettings={{
-          calculateSettings: calculateSettings,
-          setCalculateSettings: setCalculateSettings,
-        }}
-      />
+      <Header title={pageTitle} />
+      <RestOfItems />
       <Box my="2em"></Box>
       <DateOfItems
         today={today}

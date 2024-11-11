@@ -16,18 +16,11 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CalculateSettings } from "../types/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { handleRestMedicine, MedicineState } from "../store/medicineSlice";
+import { updateRestMedicine, MedicineState } from "../store/medicineSlice";
 import { verifyPositiveNumericStr } from "../util/util";
 import { useDispatch } from "react-redux";
 
-type Props = {
-  calculateStateSettings: {
-    calculateSettings: CalculateSettings;
-    setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
-  };
-};
-
-export default function RestOfItems({ calculateStateSettings }: Props) {
+export default function RestOfItems() {
   const isLibre = useSelector((state: RootState) => state.config.isLibre);
   const restMedicine = useSelector((state: RootState) => state.restMedicine);
   const dispatch = useDispatch();
@@ -48,7 +41,7 @@ export default function RestOfItems({ calculateStateSettings }: Props) {
     if (verifyPositiveNumericStr(event.target.value)) {
       const key = event.target.name as keyof MedicineState;
       const value: string = event.target.value;
-      dispatch(handleRestMedicine({ key, value }));
+      dispatch(updateRestMedicine({ key, value }));
     }
   };
 

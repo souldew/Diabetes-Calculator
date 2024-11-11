@@ -47,7 +47,7 @@ const createMedicineSlice = (name: string) => {
     name: `${name}-${sliceSuffix}`,
     initialState: initialState,
     reducers: {
-      handleMedicine: (
+      updateMedicine: (
         state,
         action: PayloadAction<{ key: keyof MedicineState; value: string }>
       ) => {
@@ -81,16 +81,16 @@ export const minUnitMedicineSlice = createMedicineSlice("minUnit");
 export const restMedicineSlice = createMedicineSlice("rest");
 
 export const {
-  handleMedicine: handleConsumeMedicine,
+  updateMedicine: updateConsumeMedicine,
   initializeMedicine: initializeConsumeMedicine,
 } = consumeMedicineSlice.actions;
 
 export const {
-  handleMedicine: handleMinUnitMedicine,
+  updateMedicine: updateMinUnitMedicine,
   initializeMedicine: initializeMinUnitMedicine,
 } = minUnitMedicineSlice.actions;
 
 export const {
-  handleMedicine: handleRestMedicine,
+  updateMedicine: updateRestMedicine,
   initializeMedicine: initializeRestMedicine,
 } = restMedicineSlice.actions;

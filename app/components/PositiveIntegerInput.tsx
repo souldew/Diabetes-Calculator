@@ -14,7 +14,7 @@ type Props = {
 export default function PositiveIntegerInput({ key }: Props) {
   return (
     <>
-      <NumberInput
+      {/* <NumberInput
         p={"10px"}
         min={0}
         name={key}
@@ -32,7 +32,7 @@ export default function PositiveIntegerInput({ key }: Props) {
         }
       >
         <NumberInputField></NumberInputField>
-      </NumberInput>
+      </NumberInput> */}
     </>
   );
 }

@@ -1,19 +1,11 @@
 import { Box, Container, Flex, Heading } from "@chakra-ui/react";
 import DrawerSettings from "./DrawerSettings";
 
-import { CalculateSettings } from "../types/types";
-
-import { Dispatch, SetStateAction } from "react";
-
 type Props = {
   title: string;
-  calculateStateSettings: {
-    calculateSettings: CalculateSettings;
-    setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
-  };
 };
 
-export default function Header({ title, calculateStateSettings }: Props) {
+export default function Header({ title }: Props) {
   return (
     <Box px={4} bgColor="gray.100">
       <Container maxW="container.lg">
@@ -26,7 +18,7 @@ export default function Header({ title, calculateStateSettings }: Props) {
           <Heading as="h1" fontSize="2xl">
             {title}
           </Heading>
-          <DrawerSettings calculateStateSettings={calculateStateSettings} />
+          <DrawerSettings />
         </Flex>
       </Container>
     </Box>

@@ -26,7 +26,6 @@ export default function DateOfItems({
   const [diffDays, setDiffDays] = useState<String>();
 
   const handleReserveDays = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     if (verifyPositiveNumericStr(event.target.value)) {
       dispatch(setReserveDays(event.target.value));
     }

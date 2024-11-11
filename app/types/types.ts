@@ -4,7 +4,9 @@ export type TimePried = {
   night: string;
 };
 
-export type InsulinType = "fastActingInsulin" | "longActingInsulin";
+export const insulinTypes = ["fastActingInsulin", "longActingInsulin"] as const;
+
+export type InsulinType = (typeof insulinTypes)[number];
 export type PrescriptionType =
   | "alcohol"
   | "glucoseNeedle"
