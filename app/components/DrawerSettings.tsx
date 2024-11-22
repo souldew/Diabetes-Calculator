@@ -88,6 +88,7 @@ export default function DrawerSettings() {
   };
 
   // function
+  // 朝昼夜のインスリンが変更されたタイミングでMedicineStateのインスリン項目も更新する
   const calcAndDispatchConsume = useCallback(() => {
     for (const insulinType of insulinTypes) {
       let allConsume = 0;

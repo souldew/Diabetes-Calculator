@@ -13,6 +13,7 @@ import { Box } from "@chakra-ui/react";
 import { DEFAULT_RESULT } from "./constants/Constants";
 import { RootState } from "./store/store";
 import { useSelector } from "react-redux";
+import { useMedicineCalculated } from "./hooks/useMedicationQuantity";
 
 const pageTitle = "薬計算ツール";
 const detailTitle = "詳細必要数";
@@ -32,72 +33,8 @@ export default function Page() {
   const [nextVisitDay, setNextVisitDay] = useState<Date>(
     addDays(today, Number(nextVisit))
   );
-
-  const [calculateSettings, setCalculateSettings] = useState<CalculateSettings>(
-    {
-      consume: {
-        fastActingInsulin: {
-          morning: "0",
-          noon: "0",
-          night: "0",
-        },
-        longActingInsulin: {
-          morning: "0",
-          noon: "0",
-          night: "0",
-        },
-        dustInsulin: "1",
-        alcohol: "4",
-        glucoseNeedle: "4",
-        LFS: "4",
-        insulinNeedle: "4",
-      },
-      recieveMinimunUnit: {
-        alcohol: "10",
-        glucoseNeedle: "30",
-        LFS: "30",
-        insulinNeedle: "14",
-        fastActingInsulin: "300",
-        longActingInsulin: "450",
-      },
-      rest: {
-        alcohol: "0",
-        glucoseNeedle: "0",
-        LFS: "0",
-        insulinNeedle: "0",
-        fastActingInsulin: "0",
-        longActingInsulin: "0",
-        libre: "0",
-      },
-    }
-  );
-  const [result, setResult] = useState<Result>(
-    JSON.parse(JSON.stringify(DEFAULT_RESULT))
-  );
-
-  // 設定項目の読み込み
-  useEffect(() => {
-    const store = localStorage.getItem("calculateSettings");
-    const nextPeriod = localStorage.getItem("nextVisit");
-
-    if (store) {
-      const today = new Date();
-      let nextVisitDay = new Date();
-      if (nextPeriod) {
-        nextVisitDay = new Date(
-          today.getTime() + Number(nextPeriod) * 24 * 60 * 60 * 1000
-        );
-      }
-      const input = JSON.parse(store);
-      setCalculateSettings({
-        ...JSON.parse(store),
-        date: {
-          today: today,
-          nextVisitDay: nextVisitDay,
-        },
-      });
-    }
-  }, []);
+  const [medicineCalculated, updateMedicineCalculated] =
+    useMedicineCalculated();
 
   return (
     <>
@@ -112,21 +49,20 @@ export default function Page() {
       />
       <Box my="1em"></Box>
       <CalcButton
-        calculateSettings={calculateSettings} // 引数
-        resultState={{ result: result, setResult: setResult }} // 結果格納をする変数
+        updateMedicineCalculated={updateMedicineCalculated}
         today={today}
         nextVisitDay={nextVisitDay}
       />
       <ResultTable
         title={detailTitle}
         columns={detailColumns}
-        resultState={{ result: result, setResult: setResult }}
+        resultState={medicineCalculated}
       />
       <Box my="3em"></Box>
       <ResultTable
         title={recievedTitle}
         columns={recievedColumns}
-        resultState={{ result: result, setResult: setResult }}
+        resultState={medicineCalculated}
       />
       <Box my="20em"></Box>
     </>

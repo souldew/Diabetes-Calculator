@@ -17,6 +17,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { InsulinType, PrescriptionType, Result } from "../types/types";
 import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
+import { MedicineCalculated } from "../hooks/useMedicationQuantity";
 
 type Props = {
   title: string;
@@ -24,10 +25,7 @@ type Props = {
     readonly en: keyof Result;
     readonly jp: string;
   }[];
-  resultState: {
-    result: Result;
-    setResult: Dispatch<SetStateAction<Result>>;
-  };
+  resultState: MedicineCalculated;
 };
 
 export default function ResultTable({ title, columns, resultState }: Props) {
@@ -61,12 +59,8 @@ export default function ResultTable({ title, columns, resultState }: Props) {
                   <Tr>
                     <Td>{item.jp}</Td>
 
-                    <Td isNumeric>
-                      {resultState.result[columns[0]["en"]][en]}
-                    </Td>
-                    <Td isNumeric>
-                      {resultState.result[columns[1]["en"]][en]}
-                    </Td>
+                    <Td isNumeric>{resultState[columns[0]["en"]][en]}</Td>
+                    <Td isNumeric>{resultState[columns[1]["en"]][en]}</Td>
                   </Tr>
                 </React.Fragment>
               );
@@ -79,10 +73,10 @@ export default function ResultTable({ title, columns, resultState }: Props) {
                     <Td>{item.jp}</Td>
 
                     <Td isNumeric>
-                      {/* {resultState.result[columns[0]["en"]][en].toFixed(2)} */}
+                      {resultState[columns[0]["en"]][en].toFixed(2)}
                     </Td>
                     <Td isNumeric>
-                      {/* {resultState.result[columns[1]["en"]][en].toFixed(2)} */}
+                      {resultState[columns[1]["en"]][en].toFixed(2)}
                     </Td>
                   </Tr>
                 </React.Fragment>
@@ -92,8 +86,8 @@ export default function ResultTable({ title, columns, resultState }: Props) {
               <Tr>
                 <Td>{LIBRE[0].jp}</Td>
 
-                <Td isNumeric>{resultState.result[columns[0]["en"]].libre}</Td>
-                <Td isNumeric>{resultState.result[columns[1]["en"]].libre}</Td>
+                <Td isNumeric>{resultState[columns[0]["en"]].libre}</Td>
+                <Td isNumeric>{resultState[columns[1]["en"]].libre}</Td>
               </Tr>
             )}
           </Tbody>

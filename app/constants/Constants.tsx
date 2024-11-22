@@ -2,6 +2,16 @@ import { TimeOfDay } from "../store/insulinSlice";
 import { MedicineState } from "../store/medicineSlice";
 import { InsulinType, Result } from "../types/types";
 
+export const initialMedicineState = {
+  alcohol: "0",
+  glucoseNeedle: "0",
+  LFS: "0",
+  insulinNeedle: "0",
+  fastActingInsulin: "0",
+  longActingInsulin: "0",
+  libre: "0",
+} as const;
+
 export type Property = {
   en: keyof MedicineState;
   jp: string;

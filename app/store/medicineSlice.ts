@@ -9,7 +9,7 @@ export type MedicineState = {
   insulinNeedle: string | undefined;
   fastActingInsulin: string | undefined;
   longActingInsulin: string | undefined;
-  libre?: string | undefined;
+  libre: string | undefined;
 };
 
 const initialState: MedicineState = {
