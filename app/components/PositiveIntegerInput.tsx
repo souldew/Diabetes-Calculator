@@ -1,5 +1,5 @@
 import { NumberInput, NumberInputField } from "@chakra-ui/react";
-import { CalculateSettings } from "../types/types";
+import { CalculateSettings, PrescriptionType, TimePried } from "../types/types";
 import { Dispatch, SetStateAction } from "react";
 import {
   INSULIN_UNITS,
@@ -8,23 +8,16 @@ import {
 } from "../constants/Constants";
 
 type Props = {
-  calculateStateSettings: {
-    calculateSettings: CalculateSettings;
-    setCalculateSettings: Dispatch<SetStateAction<CalculateSettings>>;
-  };
-  name: string;
+  key: string;
 };
 
-export default function PositiveIntegerInput({
-  calculateStateSettings,
-  name,
-}: Props) {
+export default function PositiveIntegerInput({ key }: Props) {
   return (
     <>
-      <NumberInput
+      {/* <NumberInput
         p={"10px"}
         min={0}
-        name={name}
+        name={key}
         value={getSettingsValue(calculateStateSettings.calculateSettings, name)}
         isValidCharacter={(v) => {
           return /^[0-9]*$/.test(v);
@@ -39,7 +32,7 @@ export default function PositiveIntegerInput({
         }
       >
         <NumberInputField></NumberInputField>
-      </NumberInput>
+      </NumberInput> */}
     </>
   );
 }
@@ -58,7 +51,8 @@ function handleInputChange(
         case "fastActingInsulin":
         case "longActingInsulin":
           if (isTimePeriodType(path[2])) {
-            state[path[0]][path[1]][path[2]] = input;
+            const time = path[2] as keyof TimePried;
+            state[path[0]][path[1]][time] = input;
           }
           break;
         case "dustInsulin":
@@ -66,7 +60,8 @@ function handleInputChange(
           break;
         default:
           if (isPrescriptionType(path[1])) {
-            state[path[0]][path[1]] = input;
+            const prescription = path[1] as PrescriptionType;
+            state[path[0]][prescription] = input;
           }
           break;
       }
@@ -74,21 +69,19 @@ function handleInputChange(
     // 最小受け取り単位
     case "recieveMinimunUnit":
       if (isRecieveUnitType(path[1])) {
-        state[path[0]][path[1]] = input;
+        const prescription = path[1] as PrescriptionType;
+        state[path[0]][prescription] = input;
       }
       break;
     // 残数
     case "rest":
       if (isRecieveUnitType(path[1])) {
-        state[path[0]][path[1]] = input;
+        const prescription = path[1] as PrescriptionType;
+        state[path[0]][prescription] = input;
       } else {
         // Libre
         state[path[0]].libre = input;
       }
-      break;
-    // 予備日数
-    case "reserveDays":
-      state[path[0]] = input;
       break;
   }
   setState({ ...state });
@@ -107,14 +100,16 @@ function getSettingsValue(
         case "fastActingInsulin":
         case "longActingInsulin":
           if (isTimePeriodType(path[2])) {
-            return state[path[0]][path[1]][path[2]];
+            const time = path[2] as keyof TimePried;
+            return state[path[0]][path[1]][time];
           }
           break;
         case "dustInsulin":
           return state[path[0]][path[1]];
         default:
           if (isPrescriptionType(path[1])) {
-            return state[path[0]][path[1]];
+            const prescription = path[1] as PrescriptionType;
+            return state[path[0]][prescription];
           }
           break;
       }
@@ -122,21 +117,19 @@ function getSettingsValue(
     // 最小受け取り単位
     case "recieveMinimunUnit":
       if (isRecieveUnitType(path[1])) {
-        return state[path[0]][path[1]];
+        const prescription = path[1] as PrescriptionType;
+        return state[path[0]][prescription];
       }
       break;
     // 残数
     case "rest":
       if (isRecieveUnitType(path[1])) {
-        return state[path[0]][path[1]];
+        const prescription = path[1] as PrescriptionType;
+        return state[path[0]][prescription];
       } else {
         // Libre
         return state[path[0]].libre;
       }
-      break;
-    // 予備日数
-    case "reserveDays":
-      return state[path[0]];
   }
 }
 
