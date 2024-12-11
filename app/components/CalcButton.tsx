@@ -1,29 +1,14 @@
 import { Button, useToast } from "@chakra-ui/react";
-import { Dispatch, SetStateAction } from "react";
-import {
-  CalculateSettings,
-  InsulinType,
-  PrescriptionType,
-  Result,
-  TimePried,
-} from "../types/types";
-import {
-  INSULIN_UNITS,
-  PRESCRIPTION_ITEMS,
-  LIBRE,
-  TIME_PERIODS,
-  DEFAULT_RESULT,
-  initialMedicineState,
-} from "../constants/Constants";
+import { InsulinType } from "../types/types";
+import { INSULIN_UNITS, Prescriptions, LIBRE } from "../constants/Constants";
 import { differenceInDays } from "date-fns";
 import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
-import { MedicineState } from "../store/medicineSlice";
 import {
   InitialMedicineCalculated,
   MedicineCalculated,
   UpdateMedicineCalculated,
-} from "../hooks/useMedicationQuantity";
+} from "../hooks/useMedicineCalculated";
 
 type Props = {
   updateMedicineCalculated: UpdateMedicineCalculated;
@@ -31,16 +16,15 @@ type Props = {
   nextVisitDay: Date;
 };
 
-export default function CalcButton({
+const CalcButton = ({
   updateMedicineCalculated,
   today,
   nextVisitDay,
-}: Props) {
+}: Props) => {
   const reserveDays = useSelector((state: RootState) =>
     Number(state.config.reserveDays)
   );
   const toast = useToast();
-  const { isLibre } = useSelector((state: RootState) => state.config);
   const consumeMedicine = useSelector(
     (state: RootState) => state.consumeMedicine
   );
@@ -55,10 +39,9 @@ export default function CalcButton({
     try {
       // 日付関連の算出
       let diffDays = differenceInDays(nextVisitDay, today);
-      console.log(reserveDays);
 
       // インスリン以外の用品の計算
-      PRESCRIPTION_ITEMS.map((item) => {
+      Prescriptions.map((item) => {
         const en = item.en;
         const consume = Number(consumeMedicine[en]);
         const unit = Number(minUnitMedicine[en]);
@@ -99,14 +82,6 @@ export default function CalcButton({
       INSULIN_UNITS.map((insulin) => {
         const insulinEn = insulin.en as InsulinType;
         let allConsume = Number(consumeMedicine[insulinEn]);
-        // TIME_PERIODS.map((period) => {
-        //   const periodEn = period.en as keyof TimePried;
-        //   const consume = Number(consumeMedicine[insulinEn][periodEn]);
-        //   if (consume != 0) {
-        //     const dust = Number(consumeMedicine.dustInsulin);
-        //     allConsume += consume + dust;
-        //   }
-        // });
         const unit = Number(minUnitMedicine[insulinEn]);
         const rest = Number(restMedicine[insulinEn]);
 
@@ -156,4 +131,6 @@ export default function CalcButton({
       </Button>
     </>
   );
-}
+};
+
+export default CalcButton;

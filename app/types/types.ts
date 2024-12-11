@@ -1,80 +1,10 @@
-export type TimePried = {
-  morning: string;
-  noon: string;
-  night: string;
-};
+import { INSULIN_TYPES, DAY_PARTS } from "../constants/Constants";
+import { MedicineState } from "../store/medicineSlice";
 
-export const insulinTypes = ["fastActingInsulin", "longActingInsulin"] as const;
+export type InsulinType = (typeof INSULIN_TYPES)[number];
 
-export type InsulinType = (typeof insulinTypes)[number];
-export type PrescriptionType =
-  | "alcohol"
-  | "glucoseNeedle"
-  | "LFS"
-  | "insulinNeedle";
+export type PrescriptionType = Exclude<keyof MedicineState, InsulinType>;
 
-export type CalculateSettings = {
-  // 1日消費量
-  consume: {
-    fastActingInsulin: TimePried;
-    longActingInsulin: {
-      morning: string;
-      noon: string;
-      night: string;
-    };
-    dustInsulin: string;
-    alcohol: string;
-    glucoseNeedle: string;
-    LFS: string;
-    insulinNeedle: string;
-  };
-  // 最小受け取り単位
-  recieveMinimunUnit: {
-    alcohol: string;
-    glucoseNeedle: string;
-    LFS: string;
-    insulinNeedle: string;
-    fastActingInsulin: string;
-    longActingInsulin: string;
-  };
-  // 残数
-  rest: {
-    alcohol: string;
-    glucoseNeedle: string;
-    LFS: string;
-    insulinNeedle: string;
-    fastActingInsulin: string;
-    longActingInsulin: string;
-    libre: string;
-  };
-};
+export type TimeOfDay = (typeof DAY_PARTS)[number];
 
-export type Result = {
-  required: {
-    alcohol: number;
-    glucoseNeedle: number;
-    LFS: number;
-    insulinNeedle: number;
-    fastActingInsulin: number;
-    longActingInsulin: number;
-    libre: number;
-  };
-  plusSpared: {
-    alcohol: number;
-    glucoseNeedle: number;
-    LFS: number;
-    insulinNeedle: number;
-    fastActingInsulin: number;
-    longActingInsulin: number;
-    libre: number;
-  };
-  recieved: {
-    alcohol: number;
-    glucoseNeedle: number;
-    LFS: number;
-    insulinNeedle: number;
-    fastActingInsulin: number;
-    longActingInsulin: number;
-    libre: number;
-  };
-};
+export type ResultAttr = "required" | "plusSpared" | "recieved";

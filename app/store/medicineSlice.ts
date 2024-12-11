@@ -1,6 +1,6 @@
 "use client";
 
-import { CaseReducer, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type MedicineState = {
   alcohol: string | undefined;
@@ -23,24 +23,6 @@ const initialState: MedicineState = {
 };
 
 const sliceSuffix = "medicine-slice";
-
-// const createInitializeMedicneReducer = (localstorageKey: string) => {
-//   const initializeMedicine: CaseReducer<MedicineState> = (state) => {
-//     const store = localStorage.getItem(`${localstorageKey}-${sliceSuffix}`);
-//     if (store) {
-//       //todo Object.assignとは
-//       Object.assign(state, JSON.parse(store));
-//     }
-//   };
-//   return initializeMedicine;
-// };
-
-// const initializeMedicine: CaseReducer<MedicineState> = (state) => {
-//   const store = localStorage.getItem(`${name}-${sliceSuffix}`);
-//   if (store) {
-//     state = JSON.parse(store);
-//   }
-// };
 
 const createMedicineSlice = (name: string) => {
   return createSlice({
@@ -68,7 +50,6 @@ const createMedicineSlice = (name: string) => {
       initializeMedicine: (state) => {
         const store = localStorage.getItem(`${name}-${sliceSuffix}`);
         if (store) {
-          //todo Object.assignとは
           Object.assign(state, JSON.parse(store));
         }
       },
