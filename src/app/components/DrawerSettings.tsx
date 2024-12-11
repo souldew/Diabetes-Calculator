@@ -27,18 +27,18 @@ import {
   TIME_PERIODS,
   INSULIN_TYPES,
   DAY_PARTS,
-} from "../constants/Constants";
-import SectionDivider from "./SectionDivider";
+} from "@/constants/Constants";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { setIsLibre, setNextVist } from "../store/configSlice";
-import { verifyPositiveNumericStr } from "../util/util";
+import { RootState } from "@/store/store";
+import { setIsLibre, setNextVist } from "@/store/configSlice";
+import { verifyPositiveNumericStr } from "@/util/util";
 import {
   updateConsumeMedicine,
   updateMinUnitMedicine,
   MedicineState,
-} from "../store/medicineSlice";
-import { updateInsulin } from "../store/insulinSlice";
+} from "@/store/medicineSlice";
+import { updateInsulin } from "@/store/insulinSlice";
+import SectionDivider from "./SectionDivider";
 
 export default function DrawerSettings() {
   const { isOpen, onOpen, onClose } = useDisclosure();

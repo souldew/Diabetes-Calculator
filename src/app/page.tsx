@@ -8,10 +8,10 @@ import ResultTable from "./components/ResultTable";
 import { useState } from "react";
 import { addDays } from "date-fns";
 import { Box } from "@chakra-ui/react";
-import { RootState } from "./store/store";
+import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
-import { useMedicineCalculated } from "./hooks/useMedicineCalculated";
-import { ResultAttr } from "./types/types";
+import { ResultAttr } from "@/types/types";
+import { useMedicineCalculated } from "@/hooks/useMedicineCalculated";
 
 const pageTitle = "薬計算ツール";
 const detailTitle = "詳細必要数";

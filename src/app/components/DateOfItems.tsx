@@ -3,10 +3,10 @@ import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { setReserveDays } from "../store/configSlice";
+import { RootState } from "@/store/store";
+import { setReserveDays } from "@/store/configSlice";
 import { differenceInDays, format, isValid } from "date-fns";
-import { verifyPositiveNumericStr } from "../util/util";
+import { verifyPositiveNumericStr } from "@/util/util";
 
 type Props = {
   today: Date;

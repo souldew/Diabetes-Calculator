@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { MedicineState } from "../store/medicineSlice";
-import { initialMedicineState } from "../constants/Constants";
+import { MedicineState } from "@/store/medicineSlice";
+import { initialMedicineState } from "@/constants/Constants";
 
 type MedicineCalculatedState = {
   [key in keyof MedicineState]: number;

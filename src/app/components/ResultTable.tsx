@@ -1,5 +1,5 @@
 import { Center, Heading } from "@chakra-ui/react";
-import { INSULIN_NUMS, LIBRE, Prescriptions } from "../constants/Constants";
+import { INSULIN_NUMS, LIBRE, Prescriptions } from "@/constants/Constants";
 import {
   Table,
   Thead,
@@ -9,10 +9,10 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
-import { InsulinType, PrescriptionType } from "../types/types";
-import { RootState } from "../store/store";
+import { InsulinType, PrescriptionType } from "@/types/types";
+import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
-import { MedicineCalculated } from "../hooks/useMedicineCalculated";
+import { MedicineCalculated } from "@/hooks/useMedicineCalculated";
 import React from "react";
 
 type Props = {

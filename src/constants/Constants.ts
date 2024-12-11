@@ -1,5 +1,5 @@
-import { MedicineState } from "../store/medicineSlice";
-import { InsulinType, TimeOfDay } from "../types/types";
+import { MedicineState } from "@/store/medicineSlice";
+import { InsulinType, TimeOfDay } from "@/types/types";
 
 export const INSULIN_TYPES = [
   "fastActingInsulin",

@@ -2,7 +2,7 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { set } from "lodash";
-import { TimeOfDay } from "../types/types";
+import { TimeOfDay } from "@/types/types";
 
 type InsulinState = {
   fastActingInsulin: Record<TimeOfDay, string>;

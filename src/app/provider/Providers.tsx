@@ -3,7 +3,7 @@
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
-import { store } from "../store/store";
+import { store } from "@/store/store";
 import { ReduxInitProvider } from "./ReduxInitProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {

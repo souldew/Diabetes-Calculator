@@ -11,12 +11,12 @@ import {
   Prescriptions,
   LIBRE,
   Property,
-} from "../constants/Constants";
+} from "@/constants/Constants";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { updateRestMedicine, MedicineState } from "../store/medicineSlice";
-import { verifyPositiveNumericStr } from "../util/util";
+import { RootState } from "@/store/store";
+import { updateRestMedicine, MedicineState } from "@/store/medicineSlice";
+import { verifyPositiveNumericStr } from "@/util/util";
 import { useDispatch } from "react-redux";
 
 export default function RestOfItems() {
