@@ -22,11 +22,12 @@ import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import {
-  PRESCRIPTION_ITEMS,
+  Prescriptions,
   INSULIN_UNITS,
   TIME_PERIODS,
+  INSULIN_TYPES,
+  DAY_PARTS,
 } from "../constants/Constants";
-import { insulinTypes } from "../types/types";
 import SectionDivider from "./SectionDivider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
@@ -37,7 +38,7 @@ import {
   updateMinUnitMedicine,
   MedicineState,
 } from "../store/medicineSlice";
-import { updateInsulin, timeOfDay } from "../store/insulinSlice";
+import { updateInsulin } from "../store/insulinSlice";
 
 export default function DrawerSettings() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -88,11 +89,10 @@ export default function DrawerSettings() {
   };
 
   // function
-  // 朝昼夜のインスリンが変更されたタイミングでMedicineStateのインスリン項目も更新する
   const calcAndDispatchConsume = useCallback(() => {
-    for (const insulinType of insulinTypes) {
+    for (const insulinType of INSULIN_TYPES) {
       let allConsume = 0;
-      for (const time of timeOfDay) {
+      for (const time of DAY_PARTS) {
         const consume = Number(insulin[insulinType][time]);
         if (consume !== 0) {
           allConsume += consume + Number(insulin["dust"]);
@@ -181,7 +181,7 @@ export default function DrawerSettings() {
               1日使用量
             </Heading>
             <SimpleGrid columns={2}>
-              {PRESCRIPTION_ITEMS.map((item) => {
+              {Prescriptions.map((item) => {
                 return (
                   <React.Fragment key={item.en}>
                     <Text
@@ -221,7 +221,7 @@ export default function DrawerSettings() {
               最小受け取り単位
             </Heading>
             <SimpleGrid columns={2}>
-              {[...PRESCRIPTION_ITEMS, ...INSULIN_UNITS].map((item) => {
+              {[...Prescriptions, ...INSULIN_UNITS].map((item) => {
                 return (
                   <React.Fragment key={item.en}>
                     <Text

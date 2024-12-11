@@ -2,11 +2,9 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { set } from "lodash";
+import { TimeOfDay } from "../types/types";
 
-export const timeOfDay = ["morning", "noon", "night"] as const;
-export type TimeOfDay = (typeof timeOfDay)[number];
-
-export type InsulinState = {
+type InsulinState = {
   fastActingInsulin: Record<TimeOfDay, string>;
   longActingInsulin: Record<TimeOfDay, string>;
   dust: string;

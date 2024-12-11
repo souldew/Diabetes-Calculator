@@ -5,24 +5,22 @@ import DateOfItems from "./components/DateOfItems";
 import Header from "./components/Header";
 import RestOfItems from "./components/RestOfItems";
 import ResultTable from "./components/ResultTable";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addDays } from "date-fns";
-
-import { CalculateSettings, Result } from "./types/types";
 import { Box } from "@chakra-ui/react";
-import { DEFAULT_RESULT } from "./constants/Constants";
 import { RootState } from "./store/store";
 import { useSelector } from "react-redux";
-import { useMedicineCalculated } from "./hooks/useMedicationQuantity";
+import { useMedicineCalculated } from "./hooks/useMedicineCalculated";
+import { ResultAttr } from "./types/types";
 
 const pageTitle = "薬計算ツール";
 const detailTitle = "詳細必要数";
-const detailColumns: { readonly en: keyof Result; readonly jp: string }[] = [
+const detailColumns: { readonly en: ResultAttr; readonly jp: string }[] = [
   { en: "required", jp: "必要数" },
   { en: "plusSpared", jp: "必要数+予備" },
 ];
 const recievedTitle = "もらう量";
-const recievedColumns: { readonly en: keyof Result; readonly jp: string }[] = [
+const recievedColumns: { readonly en: ResultAttr; readonly jp: string }[] = [
   { en: "plusSpared", jp: "正確量" },
   { en: "recieved", jp: "概量" },
 ];

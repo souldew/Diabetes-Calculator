@@ -8,12 +8,11 @@ import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import {
   INSULIN_NUMS,
-  PRESCRIPTION_ITEMS,
+  Prescriptions,
   LIBRE,
   Property,
 } from "../constants/Constants";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { CalculateSettings } from "../types/types";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { updateRestMedicine, MedicineState } from "../store/medicineSlice";
@@ -25,15 +24,15 @@ export default function RestOfItems() {
   const restMedicine = useSelector((state: RootState) => state.restMedicine);
   const dispatch = useDispatch();
   const [prescriptionLst, setPrescriptionLst] = useState<Property[]>([
-    ...PRESCRIPTION_ITEMS,
+    ...Prescriptions,
     ...INSULIN_NUMS,
   ]);
 
   useEffect(() => {
     if (isLibre) {
-      setPrescriptionLst([...PRESCRIPTION_ITEMS, ...INSULIN_NUMS, ...LIBRE]);
+      setPrescriptionLst([...Prescriptions, ...INSULIN_NUMS, ...LIBRE]);
     } else {
-      setPrescriptionLst([...PRESCRIPTION_ITEMS, ...INSULIN_NUMS]);
+      setPrescriptionLst([...Prescriptions, ...INSULIN_NUMS]);
     }
   }, [isLibre]);
 

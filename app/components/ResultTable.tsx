@@ -1,9 +1,5 @@
-import { Center, Heading, useCheckbox } from "@chakra-ui/react";
-import {
-  INSULIN_NUMS,
-  LIBRE,
-  PRESCRIPTION_ITEMS,
-} from "../constants/Constants";
+import { Center, Heading } from "@chakra-ui/react";
+import { INSULIN_NUMS, LIBRE, Prescriptions } from "../constants/Constants";
 import {
   Table,
   Thead,
@@ -13,16 +9,16 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction } from "react";
-import { InsulinType, PrescriptionType, Result } from "../types/types";
+import { InsulinType, PrescriptionType } from "../types/types";
 import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
-import { MedicineCalculated } from "../hooks/useMedicationQuantity";
+import { MedicineCalculated } from "../hooks/useMedicineCalculated";
+import React from "react";
 
 type Props = {
   title: string;
   columns: {
-    readonly en: keyof Result;
+    readonly en: keyof MedicineCalculated;
     readonly jp: string;
   }[];
   resultState: MedicineCalculated;
@@ -52,7 +48,7 @@ export default function ResultTable({ title, columns, resultState }: Props) {
             </Tr>
           </Thead>
           <Tbody>
-            {[...PRESCRIPTION_ITEMS].map((item) => {
+            {[...Prescriptions].map((item) => {
               const en = item.en as PrescriptionType;
               return (
                 <React.Fragment key={en}>
