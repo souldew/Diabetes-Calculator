@@ -1,5 +1,5 @@
-import { INSULIN_TYPES, DAY_PARTS } from "../constants/Constants";
-import { MedicineState } from "../store/medicineSlice";
+import { INSULIN_TYPES, DAY_PARTS } from "@/constants/Constants";
+import { MedicineState } from "@/store/medicineSlice";
 
 export type InsulinType = (typeof INSULIN_TYPES)[number];
 

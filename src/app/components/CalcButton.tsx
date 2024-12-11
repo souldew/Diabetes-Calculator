@@ -1,14 +1,14 @@
 import { Button, useToast } from "@chakra-ui/react";
-import { InsulinType } from "../types/types";
-import { INSULIN_UNITS, Prescriptions, LIBRE } from "../constants/Constants";
+import { InsulinType } from "@/types/types";
+import { INSULIN_UNITS, Prescriptions, LIBRE } from "@/constants/Constants";
 import { differenceInDays } from "date-fns";
-import { RootState } from "../store/store";
+import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import {
   InitialMedicineCalculated,
   MedicineCalculated,
   UpdateMedicineCalculated,
-} from "../hooks/useMedicineCalculated";
+} from "@/hooks/useMedicineCalculated";
 
 type Props = {
   updateMedicineCalculated: UpdateMedicineCalculated;
