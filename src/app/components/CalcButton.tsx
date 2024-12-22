@@ -9,6 +9,8 @@ import {
   MedicineCalculated,
   UpdateMedicineCalculated,
 } from "@/hooks/useMedicineCalculated";
+import { validateNumber } from "@/util/util";
+import _ from "lodash";
 
 type Props = {
   updateMedicineCalculated: UpdateMedicineCalculated;
@@ -33,7 +35,9 @@ const CalcButton = ({
   );
   const restMedicine = useSelector((state: RootState) => state.restMedicine);
 
-  const ansMedicine: MedicineCalculated = InitialMedicineCalculated;
+  const ansMedicine: MedicineCalculated = _.cloneDeep(
+    InitialMedicineCalculated
+  );
 
   const handleCalcButton = () => {
     try {
@@ -94,6 +98,14 @@ const CalcButton = ({
         // 概量
         const recievedNum = Math.ceil(plusSparedNum);
         ansMedicine.recieved[insulinEn] = recievedNum;
+
+        // NaN、infinityチェック
+        Object.values(ansMedicine).forEach((conditionValues) => {
+          Object.values(conditionValues).forEach((v) => {
+            console.log(v);
+            validateNumber(v);
+          });
+        });
       });
     } catch (e) {
       toast({
