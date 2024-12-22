@@ -21,7 +21,7 @@ const initialState: InsulinState = {
     noon: "0",
     night: "0",
   },
-  dust: "0",
+  dust: "1",
 };
 
 const name = "insulin-slice";

@@ -12,19 +12,9 @@ export type MedicineState = {
   libre: string | undefined;
 };
 
-const initialState: MedicineState = {
-  alcohol: "0",
-  glucoseNeedle: "0",
-  LFS: "0",
-  insulinNeedle: "0",
-  fastActingInsulin: "0",
-  longActingInsulin: "0",
-  libre: "0",
-};
-
 const sliceSuffix = "medicine-slice";
 
-const createMedicineSlice = (name: string) => {
+const createMedicineSlice = (name: string, initialState: MedicineState) => {
   return createSlice({
     name: `${name}-${sliceSuffix}`,
     initialState: initialState,
@@ -57,9 +47,33 @@ const createMedicineSlice = (name: string) => {
   });
 };
 
-export const consumeMedicineSlice = createMedicineSlice("consume");
-export const minUnitMedicineSlice = createMedicineSlice("minUnit");
-export const restMedicineSlice = createMedicineSlice("rest");
+export const consumeMedicineSlice = createMedicineSlice("consume", {
+  alcohol: "4",
+  glucoseNeedle: "4",
+  LFS: "4",
+  insulinNeedle: "4",
+  fastActingInsulin: "0",
+  longActingInsulin: "0",
+  libre: "1",
+});
+export const minUnitMedicineSlice = createMedicineSlice("minUnit", {
+  alcohol: "10",
+  glucoseNeedle: "30",
+  LFS: "30",
+  insulinNeedle: "14",
+  fastActingInsulin: "300",
+  longActingInsulin: "450",
+  libre: "1",
+});
+export const restMedicineSlice = createMedicineSlice("rest", {
+  alcohol: "0",
+  glucoseNeedle: "0",
+  LFS: "0",
+  insulinNeedle: "0",
+  fastActingInsulin: "0",
+  longActingInsulin: "0",
+  libre: "0",
+});
 
 export const {
   updateMedicine: updateConsumeMedicine,
