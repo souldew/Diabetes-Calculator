@@ -23,20 +23,13 @@ export default function DateOfItems({
 }: Props) {
   const { reserveDays } = useSelector((state: RootState) => state.config);
   const dispatch = useDispatch();
-  const [diffDays, setDiffDays] = useState<String>();
+  const [diffDays, setDiffDays] = useState<string>();
 
   const handleReserveDays = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (verifyPositiveNumericStr(event.target.value)) {
       dispatch(setReserveDays(event.target.value));
     }
   };
-
-  // const handleReserveDays = (event: string) => {
-  //   console.log(event);
-  //   if (verifyPositiveNumericStr(event)) {
-  //     dispatch(setReserveDays(event));
-  //   }
-  // };
 
   const handleToday = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = new Date(event.target.value);

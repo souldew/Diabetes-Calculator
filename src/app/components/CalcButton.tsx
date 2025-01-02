@@ -42,7 +42,7 @@ const CalcButton = ({
   const handleCalcButton = () => {
     try {
       // 日付関連の算出
-      let diffDays = differenceInDays(nextVisitDay, today);
+      const diffDays = differenceInDays(nextVisitDay, today);
 
       // インスリン以外の用品の計算
       Prescriptions.map((item) => {
@@ -85,7 +85,7 @@ const CalcButton = ({
       // インスリンの計算
       INSULIN_UNITS.map((insulin) => {
         const insulinEn = insulin.en as InsulinType;
-        let allConsume = Number(consumeMedicine[insulinEn]);
+        const allConsume = Number(consumeMedicine[insulinEn]);
         const unit = Number(minUnitMedicine[insulinEn]);
         const rest = Number(restMedicine[insulinEn]);
 
@@ -102,12 +102,13 @@ const CalcButton = ({
         // NaN、infinityチェック
         Object.values(ansMedicine).forEach((conditionValues) => {
           Object.values(conditionValues).forEach((v) => {
-            console.log(v);
-            validateNumber(v);
+            if (typeof v === "number") {
+              validateNumber(v);
+            }
           });
         });
       });
-    } catch (e) {
+    } catch (_e) {
       toast({
         title: "計算失敗",
         status: "error",
