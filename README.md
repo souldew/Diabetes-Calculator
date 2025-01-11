@@ -105,3 +105,16 @@ Libre を使用している人で計算に含めたい場合はチェックを O
 
 - Local Storage を使って人によってほぼ固定値になる値を自動入力できるようにした点
 - Libre のように人によって使用しない項目はオプションとして表示の ON/OFF を設定できるようにした点
+- 変数に合わせて props、redux を使い分けた点
+
+# 苦労した点
+
+- redux で localStorage を使う実装 (hydration 対応)
+- ユーザによる入力データのデータ構造 (複数 slice への分割)
+
+# 今後の展望
+
+- 飲み薬の入力オプションの追加
+- GitHub Actions による CI の導入
+- Firebase Authentication によるログイン機能の追加
+- redux + localStorage 周りを redux-localstorage-simple を使った実装に書き直す
