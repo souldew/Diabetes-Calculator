@@ -15,14 +15,14 @@ import { useMedicineCalculated } from "@/hooks/useMedicineCalculated";
 
 const pageTitle = "薬計算ツール";
 const detailTitle = "詳細必要数";
-const detailColumns: { readonly en: ResultAttr; readonly jp: string }[] = [
-  { en: "required", jp: "必要数" },
-  { en: "plusSpared", jp: "必要数+予備" },
+const detailColumns: { readonly en: ResultAttr; readonly ja: string }[] = [
+  { en: "required", ja: "必要数" },
+  { en: "plusSpared", ja: "必要数+予備" },
 ];
 const recievedTitle = "もらう量";
-const recievedColumns: { readonly en: ResultAttr; readonly jp: string }[] = [
-  { en: "plusSpared", jp: "正確量" },
-  { en: "recieved", jp: "概量" },
+const recievedColumns: { readonly en: ResultAttr; readonly ja: string }[] = [
+  { en: "plusSpared", ja: "正確量" },
+  { en: "recieved", ja: "概量" },
 ];
 
 export default function Page() {
@@ -40,8 +40,8 @@ export default function Page() {
       <RestOfItems />
       <Box my="2em"></Box>
       <DateOfItems
-        today={today}
-        nextVisitDay={nextVisitDay}
+        today
+        nextVisitDay
         setToday={setToday}
         setNextVisitDay={setNextVisitDay}
       />

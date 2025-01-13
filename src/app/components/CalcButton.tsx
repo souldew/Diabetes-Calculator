@@ -1,6 +1,6 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { InsulinType } from "@/types/types";
-import { INSULIN_UNITS, Prescriptions, LIBRE } from "@/constants/Constants";
+import { INSULIN_UNITS, PRESCRIPTIONS, LIBRE } from "@/constants/Constants";
 import { differenceInDays } from "date-fns";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
@@ -45,7 +45,7 @@ const CalcButton = ({
       const diffDays = differenceInDays(nextVisitDay, today);
 
       // インスリン以外の用品の計算
-      Prescriptions.map((item) => {
+      PRESCRIPTIONS.map((item) => {
         const en = item.en;
         const consume = Number(consumeMedicine[en]);
         const unit = Number(minUnitMedicine[en]);

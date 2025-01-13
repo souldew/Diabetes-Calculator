@@ -8,7 +8,7 @@ import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import {
   INSULIN_NUMS,
-  Prescriptions,
+  PRESCRIPTIONS,
   LIBRE,
   Property,
 } from "@/constants/Constants";
@@ -23,16 +23,16 @@ export default function RestOfItems() {
   const isLibre = useSelector((state: RootState) => state.config.isLibre);
   const restMedicine = useSelector((state: RootState) => state.restMedicine);
   const dispatch = useDispatch();
-  const [prescriptionLst, setPrescriptionLst] = useState<Property[]>([
-    ...Prescriptions,
+  const [prescriptionList, setPrescriptionList] = useState<Property[]>([
+    ...PRESCRIPTIONS,
     ...INSULIN_NUMS,
   ]);
 
   useEffect(() => {
     if (isLibre) {
-      setPrescriptionLst([...Prescriptions, ...INSULIN_NUMS, ...LIBRE]);
+      setPrescriptionList([...PRESCRIPTIONS, ...INSULIN_NUMS, ...LIBRE]);
     } else {
-      setPrescriptionLst([...Prescriptions, ...INSULIN_NUMS]);
+      setPrescriptionList([...PRESCRIPTIONS, ...INSULIN_NUMS]);
     }
   }, [isLibre]);
 
@@ -52,12 +52,12 @@ export default function RestOfItems() {
         </Heading>
       </Center>
       <SimpleGrid columns={2}>
-        {prescriptionLst.map(
-          (item: { en: keyof MedicineState; jp: string }) => {
+        {prescriptionList.map(
+          (item: { en: keyof MedicineState; ja: string }) => {
             return (
               <React.Fragment key={item.en}>
                 <Text padding={"10px"} display={"flex"} alignItems={"center"}>
-                  {item.jp}
+                  {item.ja}
                 </Text>
                 <NumberInput
                   p={"10px"}
