@@ -109,26 +109,31 @@ const CalcButton = ({
         });
       });
     } catch (_e) {
-      toast({
-        title: "計算失敗",
-        status: "error",
-        description: "入力値を確認してください",
-        duration: 1000,
-        position: "top",
-        isClosable: true,
-      });
+      if (!toast.isActive("toast-error")) {
+        toast({
+          id: "toast-error",
+          title: "計算失敗",
+          status: "error",
+          description: "入力値を確認してください",
+          duration: 1000,
+          position: "top",
+          isClosable: true,
+        });
+      }
       // 初期値を代入する
       updateMedicineCalculated(InitialMedicineCalculated);
       return;
     }
-
-    toast({
-      title: "計算完了",
-      status: "success",
-      duration: 1000,
-      position: "top",
-      isClosable: true,
-    });
+    if (!toast.isActive("toast-success")) {
+      toast({
+        id: "toast-success",
+        title: "計算完了",
+        status: "success",
+        duration: 1000,
+        position: "top",
+        isClosable: true,
+      });
+    }
     updateMedicineCalculated(ansMedicine);
   };
 
