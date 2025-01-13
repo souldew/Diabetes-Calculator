@@ -22,7 +22,7 @@ import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import {
-  Prescriptions,
+  PRESCRIPTIONS,
   INSULIN_UNITS,
   TIME_PERIODS,
   INSULIN_TYPES,
@@ -132,13 +132,13 @@ export default function DrawerSettings() {
             {INSULIN_UNITS.map((item) => {
               return (
                 <React.Fragment key={item.en}>
-                  <Heading fontSize={"lg"}>{item.jp}</Heading>
+                  <Heading fontSize={"lg"}>{item.ja}</Heading>
                   <SimpleGrid columns={3}>
                     {TIME_PERIODS.map((time) => {
                       return (
                         <Box key={time.en}>
                           <Text key={time.en} textAlign={"center"} mt={"10px"}>
-                            {time.jp}
+                            {time.ja}
                           </Text>
                           <NumberInput
                             p={"10px"}
@@ -181,7 +181,7 @@ export default function DrawerSettings() {
               1日使用量
             </Heading>
             <SimpleGrid columns={2}>
-              {Prescriptions.map((item) => {
+              {PRESCRIPTIONS.map((item) => {
                 return (
                   <React.Fragment key={item.en}>
                     <Text
@@ -189,7 +189,7 @@ export default function DrawerSettings() {
                       display={"flex"}
                       alignItems={"center"}
                     >
-                      {item.jp}
+                      {item.ja}
                     </Text>
                     <NumberInput
                       p={"10px"}
@@ -207,7 +207,7 @@ export default function DrawerSettings() {
               {INSULIN_UNITS.map((item) => {
                 return (
                   <React.Fragment key={item.en}>
-                    <Text padding={"10px"}>{item.jp}</Text>
+                    <Text padding={"10px"}>{item.ja}</Text>
                     <Text padding={"10px"} ml={"1em"}>
                       {/* {calcDayUseInsulin(item.en as InsulinType)} */}
                       {consumeMedicine[item.en]}
@@ -221,7 +221,7 @@ export default function DrawerSettings() {
               最小受け取り単位
             </Heading>
             <SimpleGrid columns={2}>
-              {[...Prescriptions, ...INSULIN_UNITS].map((item) => {
+              {[...PRESCRIPTIONS, ...INSULIN_UNITS].map((item) => {
                 return (
                   <React.Fragment key={item.en}>
                     <Text
@@ -229,7 +229,7 @@ export default function DrawerSettings() {
                       display={"flex"}
                       alignItems={"center"}
                     >
-                      {item.jp}
+                      {item.ja}
                     </Text>
                     <NumberInput
                       p={"10px"}
