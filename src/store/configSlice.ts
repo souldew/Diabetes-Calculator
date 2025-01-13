@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type ConfigState = {
   isLibre: boolean | undefined;
+  isOralMedicine: boolean | undefined;
   reserveDays: string | undefined; // 予備日数
   nextVisit: string | undefined; // 次回までの基本日数
 };
 
 const initialConfigState: ConfigState = {
   isLibre: undefined,
+  isOralMedicine: undefined,
   reserveDays: undefined,
   nextVisit: undefined,
 };
@@ -21,6 +23,10 @@ export const configSlice = createSlice({
       state.isLibre = action.payload;
       localStorage.setItem("isLibre", JSON.stringify(action.payload));
     },
+    setIsOralMedicine: (state, action: PayloadAction<boolean>) => {
+      state.isOralMedicine = action.payload;
+      localStorage.setItem("isOralMedicine", JSON.stringify(action.payload));
+    },
     setReserveDays: (state, action: PayloadAction<string>) => {
       state.reserveDays = action.payload;
       localStorage.setItem("reserveDays", action.payload);
@@ -30,6 +36,8 @@ export const configSlice = createSlice({
       localStorage.setItem("nextVisit", action.payload);
     },
     initializeConfig: (state) => {
+      const isOralMedicine = localStorage.getItem("isOralMedicine");
+      state.isOralMedicine = isOralMedicine === "true";
       const isLibre = localStorage.getItem("isLibre");
       state.isLibre = isLibre === "true";
       const reserveDays = localStorage.getItem("reserveDays");
@@ -40,5 +48,10 @@ export const configSlice = createSlice({
   },
 });
 
-export const { setIsLibre, setNextVist, setReserveDays, initializeConfig } =
-  configSlice.actions;
+export const {
+  setIsLibre,
+  setIsOralMedicine,
+  setNextVist,
+  setReserveDays,
+  initializeConfig,
+} = configSlice.actions;

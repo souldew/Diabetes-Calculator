@@ -14,6 +14,10 @@ export const initialMedicineState = {
   insulinNeedle: "0",
   fastActingInsulin: "0",
   longActingInsulin: "0",
+  oralMedicineForxiga: "0",
+  oralMedicineJanuvia: "0",
+  oralMedicineMetGluco: "0",
+  oralMedicineAtorvastatin: "0",
   libre: "0",
 } as const;
 
@@ -30,6 +34,13 @@ export const PRESCRIPTIONS: Property[] = [
 ] as const;
 
 export const LIBRE: Property[] = [{ en: "libre", ja: "Libre" }] as const;
+
+export const ORAL_MEDICINE: Property[] = [
+  { en: "oralMedicineForxiga", ja: "フォシーガ錠" },
+  { en: "oralMedicineJanuvia", ja: "ジャヌビア錠" },
+  { en: "oralMedicineMetGluco", ja: "メトグルコ錠" },
+  { en: "oralMedicineAtorvastatin", ja: "アトルバスタチン錠" },
+];
 
 export const INSULIN_NUMS: { en: InsulinType; ja: string }[] = [
   { en: "fastActingInsulin", ja: "即効インスリン (本)" },

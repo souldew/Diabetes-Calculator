@@ -9,7 +9,11 @@ export type MedicineState = {
   insulinNeedle: string | undefined;
   fastActingInsulin: string | undefined;
   longActingInsulin: string | undefined;
-  libre: string | undefined;
+  oralMedicineForxiga?: string | undefined;
+  oralMedicineJanuvia?: string | undefined;
+  oralMedicineMetGluco?: string | undefined;
+  oralMedicineAtorvastatin?: string | undefined;
+  libre?: string | undefined;
 };
 
 const sliceSuffix = "medicine-slice";
@@ -54,6 +58,10 @@ export const consumeMedicineSlice = createMedicineSlice("consume", {
   insulinNeedle: "4",
   fastActingInsulin: "0",
   longActingInsulin: "0",
+  oralMedicineForxiga: "1",
+  oralMedicineJanuvia: "1",
+  oralMedicineMetGluco: "1",
+  oralMedicineAtorvastatin: "1",
   libre: "1",
 });
 export const minUnitMedicineSlice = createMedicineSlice("minUnit", {
@@ -63,6 +71,10 @@ export const minUnitMedicineSlice = createMedicineSlice("minUnit", {
   insulinNeedle: "14",
   fastActingInsulin: "300",
   longActingInsulin: "450",
+  oralMedicineForxiga: "1",
+  oralMedicineJanuvia: "1",
+  oralMedicineMetGluco: "1",
+  oralMedicineAtorvastatin: "1",
   libre: "1",
 });
 export const restMedicineSlice = createMedicineSlice("rest", {
@@ -72,6 +84,10 @@ export const restMedicineSlice = createMedicineSlice("rest", {
   insulinNeedle: "0",
   fastActingInsulin: "0",
   longActingInsulin: "0",
+  oralMedicineForxiga: "0",
+  oralMedicineJanuvia: "0",
+  oralMedicineMetGluco: "0",
+  oralMedicineAtorvastatin: "0",
   libre: "0",
 });
 
