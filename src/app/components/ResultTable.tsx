@@ -1,5 +1,5 @@
 import { Center, Heading } from "@chakra-ui/react";
-import { INSULIN_NUMS, LIBRE, Prescriptions } from "@/constants/Constants";
+import { INSULIN_NUMS, LIBRE, PRESCRIPTIONS } from "@/constants/Constants";
 import {
   Table,
   Thead,
@@ -19,7 +19,7 @@ type Props = {
   title: string;
   columns: {
     readonly en: keyof MedicineCalculated;
-    readonly jp: string;
+    readonly ja: string;
   }[];
   resultState: MedicineCalculated;
 };
@@ -41,19 +41,19 @@ export default function ResultTable({ title, columns, resultState }: Props) {
               {columns.map((item) => {
                 return (
                   <Th key={item.en} isNumeric>
-                    {item.jp}
+                    {item.ja}
                   </Th>
                 );
               })}
             </Tr>
           </Thead>
           <Tbody>
-            {[...Prescriptions].map((item) => {
+            {[...PRESCRIPTIONS].map((item) => {
               const en = item.en as PrescriptionType;
               return (
                 <React.Fragment key={en}>
                   <Tr>
-                    <Td>{item.jp}</Td>
+                    <Td>{item.ja}</Td>
 
                     <Td isNumeric>{resultState[columns[0]["en"]][en]}</Td>
                     <Td isNumeric>{resultState[columns[1]["en"]][en]}</Td>
@@ -66,7 +66,7 @@ export default function ResultTable({ title, columns, resultState }: Props) {
               return (
                 <React.Fragment key={item.en}>
                   <Tr>
-                    <Td>{item.jp}</Td>
+                    <Td>{item.ja}</Td>
 
                     <Td isNumeric>
                       {resultState[columns[0]["en"]][en].toFixed(2)}
@@ -80,7 +80,7 @@ export default function ResultTable({ title, columns, resultState }: Props) {
             })}
             {isLibre && (
               <Tr>
-                <Td>{LIBRE[0].jp}</Td>
+                <Td>{LIBRE[0].ja}</Td>
 
                 <Td isNumeric>{resultState[columns[0]["en"]].libre}</Td>
                 <Td isNumeric>{resultState[columns[1]["en"]].libre}</Td>
