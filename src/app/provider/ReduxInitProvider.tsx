@@ -12,7 +12,9 @@ import { initializeInsulin } from "@/store/insulinSlice";
 export function ReduxInitProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
 
-  const isLibre = useSelector((state: RootState) => state.config.isLibre);
+  const { isLibre, isOralMedicine } = useSelector(
+    (state: RootState) => state.config
+  );
   useEffect(() => {
     dispatch(initializeConfig());
     dispatch(initializeConsumeMedicine());
@@ -22,7 +24,7 @@ export function ReduxInitProvider({ children }: { children: React.ReactNode }) {
   }, [dispatch]);
 
   // 遅延読み込み
-  if (isLibre === undefined) return;
+  if (isLibre === undefined || isOralMedicine === undefined) return;
 
   return <>{children}</>;
 }

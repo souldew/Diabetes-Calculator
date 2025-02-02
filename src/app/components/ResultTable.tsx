@@ -1,5 +1,10 @@
 import { Center, Heading } from "@chakra-ui/react";
-import { INSULIN_NUMS, LIBRE, PRESCRIPTIONS } from "@/constants/Constants";
+import {
+  INSULIN_NUMS,
+  LIBRE,
+  ORAL_MEDICINE,
+  PRESCRIPTIONS,
+} from "@/constants/Constants";
 import {
   Table,
   Thead,
@@ -25,7 +30,9 @@ type Props = {
 };
 
 export default function ResultTable({ title, columns, resultState }: Props) {
-  const isLibre = useSelector((state: RootState) => state.config.isLibre);
+  const { isLibre, isOralMedicine } = useSelector(
+    (state: RootState) => state.config
+  );
   return (
     <>
       <Center>
@@ -78,6 +85,22 @@ export default function ResultTable({ title, columns, resultState }: Props) {
                 </React.Fragment>
               );
             })}
+            {isOralMedicine &&
+              ORAL_MEDICINE.map((item) => {
+                return (
+                  <React.Fragment key={item.en}>
+                    <Tr>
+                      <Td>{item.ja}</Td>
+                      <Td isNumeric>
+                        {resultState[columns[0]["en"]][item.en]}
+                      </Td>
+                      <Td isNumeric>
+                        {resultState[columns[1]["en"]][item.en]}
+                      </Td>
+                    </Tr>
+                  </React.Fragment>
+                );
+              })}
             {isLibre && (
               <Tr>
                 <Td>{LIBRE[0].ja}</Td>
