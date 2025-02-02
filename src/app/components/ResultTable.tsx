@@ -88,11 +88,17 @@ export default function ResultTable({ title, columns, resultState }: Props) {
             {isOralMedicine &&
               ORAL_MEDICINE.map((item) => {
                 return (
-                  <Tr>
-                    <Td>{item.ja}</Td>
-                    <Td isNumeric>{resultState[columns[0]["en"]][item.en]}</Td>
-                    <Td isNumeric>{resultState[columns[1]["en"]][item.en]}</Td>
-                  </Tr>
+                  <React.Fragment key={item.en}>
+                    <Tr>
+                      <Td>{item.ja}</Td>
+                      <Td isNumeric>
+                        {resultState[columns[0]["en"]][item.en]}
+                      </Td>
+                      <Td isNumeric>
+                        {resultState[columns[1]["en"]][item.en]}
+                      </Td>
+                    </Tr>
+                  </React.Fragment>
                 );
               })}
             {isLibre && (
