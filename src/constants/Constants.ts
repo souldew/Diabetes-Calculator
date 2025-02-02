@@ -14,40 +14,51 @@ export const initialMedicineState = {
   insulinNeedle: "0",
   fastActingInsulin: "0",
   longActingInsulin: "0",
+  oralMedicineForxiga: "0",
+  oralMedicineJanuvia: "0",
+  oralMedicineMetGluco: "0",
+  oralMedicineAtorvastatin: "0",
   libre: "0",
 } as const;
 
 export type Property = {
   en: keyof MedicineState;
-  jp: string;
+  ja: string;
 };
 
-export const Prescriptions: Property[] = [
-  { en: "alcohol", jp: "アルコール" },
-  { en: "glucoseNeedle", jp: "血糖針" },
-  { en: "LFS", jp: "LFSセンサー" },
-  { en: "insulinNeedle", jp: "インスリン用針" },
+export const PRESCRIPTIONS: Property[] = [
+  { en: "alcohol", ja: "アルコール" },
+  { en: "glucoseNeedle", ja: "血糖針" },
+  { en: "LFS", ja: "LFSセンサー" },
+  { en: "insulinNeedle", ja: "インスリン用針" },
 ] as const;
 
-export const LIBRE: Property[] = [{ en: "libre", jp: "Libre" }] as const;
+export const LIBRE: Property[] = [{ en: "libre", ja: "Libre" }] as const;
 
-export const INSULIN_NUMS: { en: InsulinType; jp: string }[] = [
-  { en: "fastActingInsulin", jp: "即効インスリン (本)" },
-  { en: "longActingInsulin", jp: "持続インスリン (本)" },
+export const ORAL_MEDICINE: Property[] = [
+  { en: "oralMedicineForxiga", ja: "フォシーガ錠" },
+  { en: "oralMedicineJanuvia", ja: "ジャヌビア錠" },
+  { en: "oralMedicineMetGluco", ja: "メトグルコ錠" },
+  { en: "oralMedicineAtorvastatin", ja: "アトルバスタチン錠" },
+];
+
+export const INSULIN_NUMS: { en: InsulinType; ja: string }[] = [
+  { en: "fastActingInsulin", ja: "即効インスリン (本)" },
+  { en: "longActingInsulin", ja: "持続インスリン (本)" },
 ] as const;
 
-export const INSULIN_UNITS: { en: InsulinType; jp: string }[] = [
-  { en: "fastActingInsulin", jp: "即効インスリン (単位)" },
-  { en: "longActingInsulin", jp: "持続インスリン (単位)" },
+export const INSULIN_UNITS: { en: InsulinType; ja: string }[] = [
+  { en: "fastActingInsulin", ja: "即効インスリン (単位)" },
+  { en: "longActingInsulin", ja: "持続インスリン (単位)" },
 ] as const;
 
-export const TIME_PERIODS: { en: TimeOfDay; jp: string }[] = [
-  { en: "morning", jp: "朝" },
-  { en: "noon", jp: "昼" },
-  { en: "night", jp: "夜" },
+export const TIME_PERIODS: { en: TimeOfDay; ja: string }[] = [
+  { en: "morning", ja: "朝" },
+  { en: "noon", ja: "昼" },
+  { en: "night", ja: "夜" },
 ];
 
 export const DATE_PROPERTIES = [
-  { en: "today", jp: "通院日 (当日)" },
-  { en: "nextVisitDay", jp: "次回通院日" },
+  { en: "today", ja: "通院日 (当日)" },
+  { en: "nextVisitDay", ja: "次回通院日" },
 ] as const;

@@ -55,7 +55,7 @@ export default function DateOfItems({
         <Box>
           <Text textAlign={"center"}>通院日 (当日)</Text>
           <Input
-            m={"10px"}
+            name={"today"}
             type="date"
             value={format(today, "yyyy-MM-dd")}
             onChange={handleToday}
@@ -64,7 +64,7 @@ export default function DateOfItems({
         <Box>
           <Text textAlign={"center"}>次回通院日</Text>
           <Input
-            m={"10px"}
+            name={"next-visit"}
             type="date"
             value={format(nextVisitDay, "yyyy-MM-dd")}
             onChange={handleNextVisitDay}

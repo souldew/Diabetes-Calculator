@@ -22,15 +22,20 @@ import { Button } from "@chakra-ui/react";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import {
-  Prescriptions,
+  PRESCRIPTIONS,
   INSULIN_UNITS,
   TIME_PERIODS,
   INSULIN_TYPES,
   DAY_PARTS,
+  ORAL_MEDICINE,
 } from "@/constants/Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { setIsLibre, setNextVist } from "@/store/configSlice";
+import {
+  setIsLibre,
+  setIsOralMedicine,
+  setNextVist,
+} from "@/store/configSlice";
 import { verifyPositiveNumericStr } from "@/util/util";
 import {
   updateConsumeMedicine,
@@ -43,7 +48,7 @@ import SectionDivider from "./SectionDivider";
 export default function DrawerSettings() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // Redux
-  const { isLibre, nextVisit } = useSelector(
+  const { isLibre, isOralMedicine, nextVisit } = useSelector(
     (state: RootState) => state.config
   );
   const consumeMedicine = useSelector(
@@ -58,6 +63,9 @@ export default function DrawerSettings() {
   // handling
   const handleIsLibre = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setIsLibre(event.target.checked));
+  };
+  const handleIsOralMedicine = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setIsOralMedicine(event.target.checked));
   };
 
   const handleNextVist = (str: string) => {
@@ -132,13 +140,13 @@ export default function DrawerSettings() {
             {INSULIN_UNITS.map((item) => {
               return (
                 <React.Fragment key={item.en}>
-                  <Heading fontSize={"lg"}>{item.jp}</Heading>
+                  <Heading fontSize={"lg"}>{item.ja}</Heading>
                   <SimpleGrid columns={3}>
                     {TIME_PERIODS.map((time) => {
                       return (
                         <Box key={time.en}>
                           <Text key={time.en} textAlign={"center"} mt={"10px"}>
-                            {time.jp}
+                            {time.ja}
                           </Text>
                           <NumberInput
                             p={"10px"}
@@ -181,7 +189,7 @@ export default function DrawerSettings() {
               1日使用量
             </Heading>
             <SimpleGrid columns={2}>
-              {Prescriptions.map((item) => {
+              {PRESCRIPTIONS.map((item) => {
                 return (
                   <React.Fragment key={item.en}>
                     <Text
@@ -189,7 +197,7 @@ export default function DrawerSettings() {
                       display={"flex"}
                       alignItems={"center"}
                     >
-                      {item.jp}
+                      {item.ja}
                     </Text>
                     <NumberInput
                       p={"10px"}
@@ -204,10 +212,34 @@ export default function DrawerSettings() {
                   </React.Fragment>
                 );
               })}
+              {isOralMedicine &&
+                ORAL_MEDICINE.map((item) => {
+                  return (
+                    <React.Fragment key={item.en}>
+                      <Text
+                        padding={"10px"}
+                        display={"flex"}
+                        alignItems={"center"}
+                      >
+                        {item.ja}
+                      </Text>
+                      <NumberInput
+                        p={"10px"}
+                        min={0}
+                        value={consumeMedicine[item.en]}
+                        name={item.en}
+                      >
+                        <NumberInputField
+                          onChange={handleConsume}
+                        ></NumberInputField>
+                      </NumberInput>
+                    </React.Fragment>
+                  );
+                })}
               {INSULIN_UNITS.map((item) => {
                 return (
                   <React.Fragment key={item.en}>
-                    <Text padding={"10px"}>{item.jp}</Text>
+                    <Text padding={"10px"}>{item.ja}</Text>
                     <Text padding={"10px"} ml={"1em"}>
                       {/* {calcDayUseInsulin(item.en as InsulinType)} */}
                       {consumeMedicine[item.en]}
@@ -221,7 +253,10 @@ export default function DrawerSettings() {
               最小受け取り単位
             </Heading>
             <SimpleGrid columns={2}>
-              {[...Prescriptions, ...INSULIN_UNITS].map((item) => {
+              {(isOralMedicine
+                ? [...PRESCRIPTIONS, ...ORAL_MEDICINE, ...INSULIN_UNITS]
+                : [...PRESCRIPTIONS, ...INSULIN_UNITS]
+              ).map((item) => {
                 return (
                   <React.Fragment key={item.en}>
                     <Text
@@ -229,7 +264,7 @@ export default function DrawerSettings() {
                       display={"flex"}
                       alignItems={"center"}
                     >
-                      {item.jp}
+                      {item.ja}
                     </Text>
                     <NumberInput
                       p={"10px"}
@@ -265,9 +300,23 @@ export default function DrawerSettings() {
                 <NumberInputField></NumberInputField>
               </NumberInput>
             </SimpleGrid>
-            <Checkbox isChecked={isLibre} onChange={handleIsLibre} ml={"0.5em"}>
-              Libreを項目に追加する
-            </Checkbox>
+            <SimpleGrid gap={"20px"}>
+              <Checkbox
+                isChecked={isOralMedicine}
+                onChange={handleIsOralMedicine}
+                ml={"0.5em"}
+              >
+                飲み薬を項目に追加する
+              </Checkbox>
+              <Checkbox
+                isChecked={isLibre}
+                onChange={handleIsLibre}
+                ml={"0.5em"}
+              >
+                Libreを項目に追加する
+              </Checkbox>
+            </SimpleGrid>
+            <Box my={"5em"} />
           </DrawerBody>
 
           <DrawerFooter>

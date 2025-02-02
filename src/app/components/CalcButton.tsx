@@ -1,6 +1,11 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { InsulinType } from "@/types/types";
-import { INSULIN_UNITS, Prescriptions, LIBRE } from "@/constants/Constants";
+import {
+  INSULIN_UNITS,
+  PRESCRIPTIONS,
+  LIBRE,
+  ORAL_MEDICINE,
+} from "@/constants/Constants";
 import { differenceInDays } from "date-fns";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
@@ -44,8 +49,8 @@ const CalcButton = ({
       // 日付関連の算出
       const diffDays = differenceInDays(nextVisitDay, today);
 
-      // インスリン以外の用品の計算
-      Prescriptions.map((item) => {
+      // インスリン・Libre以外の用品の計算
+      [...PRESCRIPTIONS, ...ORAL_MEDICINE].map((item) => {
         const en = item.en;
         const consume = Number(consumeMedicine[en]);
         const unit = Number(minUnitMedicine[en]);
@@ -109,26 +114,31 @@ const CalcButton = ({
         });
       });
     } catch (_e) {
-      toast({
-        title: "計算失敗",
-        status: "error",
-        description: "入力値を確認してください",
-        duration: 1000,
-        position: "top",
-        isClosable: true,
-      });
+      if (!toast.isActive("toast-error")) {
+        toast({
+          id: "toast-error",
+          title: "計算失敗",
+          status: "error",
+          description: "入力値を確認してください",
+          duration: 1000,
+          position: "top",
+          isClosable: true,
+        });
+      }
       // 初期値を代入する
       updateMedicineCalculated(InitialMedicineCalculated);
       return;
     }
-
-    toast({
-      title: "計算完了",
-      status: "success",
-      duration: 1000,
-      position: "top",
-      isClosable: true,
-    });
+    if (!toast.isActive("toast-success")) {
+      toast({
+        id: "toast-success",
+        title: "計算完了",
+        status: "success",
+        duration: 1000,
+        position: "top",
+        isClosable: true,
+      });
+    }
     updateMedicineCalculated(ansMedicine);
   };
 
