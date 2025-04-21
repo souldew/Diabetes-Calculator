@@ -8,7 +8,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={fonts.rubik.variable}>
+    <html lang="ja" className={fonts.rubik.variable}>
+      <header>
+        <title>Diabetes-Calculator</title>
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      </header>
       <body>
         <Providers>{children}</Providers>
       </body>
