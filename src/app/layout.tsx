@@ -9,10 +9,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" className={fonts.rubik.variable}>
-      <header>
+      <head>
         <title>Diabetes-Calculator</title>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-      </header>
+      </head>
       <body>
         <Providers>{children}</Providers>
       </body>
